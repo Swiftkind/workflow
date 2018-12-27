@@ -79,6 +79,8 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'users.User'
 
+AUTH_TOKEN_EXPIRY_TIME = 30 # days
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
