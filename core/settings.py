@@ -81,6 +81,14 @@ AUTH_USER_MODEL = 'users.User'
 
 AUTH_TOKEN_EXPIRY_TIME = 30 # days
 
+CORS_ORIGIN_WHITELIST = ()
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
