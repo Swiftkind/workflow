@@ -59,3 +59,26 @@ class AuthTokenSerializer(serializers.Serializer):
             token = Token.objects.create(user=self.user)
 
         return token
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """ user serializer
+    """
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'birthdate',
+            'image',
+            'position',
+            'position_type',
+            'date_started',
+        )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        return super(UserSerializer, self).__init__(*args, **kwargs)
+

@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
-from .serializers import AuthTokenSerializer
+from utils.mixins import Query
+
+from .serializers import AuthTokenSerializer, UserSerializer
 
 
 class Login(APIView):
@@ -31,3 +33,17 @@ class Login(APIView):
             'token': serializer.get_token().key,
             'user_id': serializer.user.id
         }, status=200)
+
+
+class User(ViewSet):
+    """ user endpoint
+    """
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, *args, **kwargs):
+        serializer = self.serializer_class(
+            instance=self.request.user,
+            request=self.request
+        )
+        return Response(serializer.data, status=200)

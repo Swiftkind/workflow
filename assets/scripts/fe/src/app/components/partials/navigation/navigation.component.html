@@ -1,0 +1,32 @@
+<nav class="navbar">
+  <div class="container d-flex align-items-center justify-content-between py-1">
+    <a class="navbar-brand" uiSref="dashboard">Workflow</a>
+
+    <form class="navbar-search">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text" id="btnGroupAddon">@</div>
+        </div>
+        <input type="text" class="form-control" placeholder="Search...">
+      </div>
+    </form>
+
+    <ul class="nav navbar-nav">
+      <li><a uiSref="dashboard"><i class="far fa-home"></i>Home</a></li>
+      <li><a uiSref="projects"><i class="far fa-project-diagram"></i>Projects</a></li>
+      <li><a uiSref="payroll"><i class="far fa-cash-register"></i>Payroll</a></li>
+    </ul>
+
+    <div class="navbar-user" ngbDropdown>
+      <button ngbDropdownToggle>
+        <div class="image" [ngStyle]="{'background-image': 'url('+ auth.user.image +')'}"></div>
+        <span>{{ auth.user.first_name }}</span>
+      </button>
+      <div ngbDropdownMenu>
+        <a class="dropdown-item" uiSref="account-settings">Account Settings</a>
+        <a class="dropdown-item" uiSref="messages">Messages</a>
+        <a class="dropdown-item" uiSref="logout">Log out</a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,7 +1,10 @@
 from django.urls import path, re_path
-from .views import Login
+from .views import Login, User
 
 
 urlpatterns = [
+    path('auth/', User.as_view({
+        'get': 'get',
+    }), name="user_details"),
     path('auth/login/', Login.as_view(), name="login"),
 ]
