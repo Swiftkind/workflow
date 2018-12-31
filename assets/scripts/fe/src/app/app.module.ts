@@ -9,6 +9,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PartialsModule } from './components/partials/partials.module';
 import { PublicModule } from './components/public/public.module';
 import { UsersModule } from './components/users/users.module';
+import { ProjectsModule } from './components/projects/projects.module';
+import { PayrollModule } from './components/payroll/payroll.module';
 
 import { TokenService } from './commons/services/interceptors/token.service';
 import { APP_STATES } from './commons/utils/app.states';
@@ -24,9 +26,11 @@ import { AppComponent } from './app.component';
     UIRouterModule.forRoot(APP_STATES),
     NgbModule.forRoot(),
 
+    PartialsModule,
     PublicModule,
     UsersModule,
-    PartialsModule
+    ProjectsModule,
+    PayrollModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenService, multi: true }
