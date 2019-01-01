@@ -1,3 +1,5 @@
-<p>
-  payroll-list works!
-</p>
+<ul>
+  <li *ngFor="let p of payrollservice.plist">
+    <a uiSref="payroll-detail" [uiParams]="{id:p.id}" uiSrefActive="active">{{ p.id }}</a>
+  </li>
+</ul>

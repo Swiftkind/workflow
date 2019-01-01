@@ -51,3 +51,20 @@
 .right {
   width: 30%;
 }
+
+/* line 1, ../sass/pages/_payroll.scss */
+.payroll {
+  display: flex;
+}
+/* line 4, ../sass/pages/_payroll.scss */
+.payroll-list {
+  width: 30%;
+}
+/* line 9, ../sass/pages/_payroll.scss */
+.payroll-list ul li a.active {
+  background-color: #ccc;
+}
+/* line 17, ../sass/pages/_payroll.scss */
+.payroll-detail {
+  width: 70%;
+}

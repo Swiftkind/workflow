@@ -5,6 +5,6 @@ from .views import Login, User
 urlpatterns = [
     path('auth/', User.as_view({
         'get': 'get',
-    }), name="user_details"),
+    }), name="user_detail"),
     path('auth/login/', Login.as_view(), name="login"),
 ]

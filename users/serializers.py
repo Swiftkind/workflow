@@ -64,6 +64,9 @@ class AuthTokenSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     """ user serializer
     """
+    deductions = serializers.SerializerMethodField()
+    plans = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = (
@@ -76,9 +79,35 @@ class UserSerializer(serializers.ModelSerializer):
             'position',
             'position_type',
             'date_started',
+            'deductions',
+            'plans'
         )
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         return super(UserSerializer, self).__init__(*args, **kwargs)
 
+    def get_deductions(self, instance):
+        """ get the list of deduction from
+            the payroll app.
+        """
+        # imported implicitly as it will raise a circular import
+        # error when imported globally. `uses.serializers` is imported
+        # in the payroll.serializers.
+        from payroll.serializers import DeductionSerializer
+
+        return DeductionSerializer(instance.deductions.all(), many=True).data
+
+    def get_plans(self, instance):
+        """ get the list of plans from the
+            payroll app.
+        """
+        # imported implicitly as it will raise a circular import
+        # error when imported globally. `uses.serializers` is imported
+        # in the payroll.serializers.
+        from payroll.serializers import PlanSerializer
+
+        return PlanSerializer(
+            PlanSerializer.Meta.model.objects.filter(user=instance),
+            many=True,
+        ).data

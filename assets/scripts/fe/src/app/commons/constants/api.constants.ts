@@ -9,3 +9,8 @@ export const USERS = '/api/users/';
  */
 export const AUTH_USER = urlsafe(USERS, 'auth');
 export const AUTH_LOGIN = urlsafe(AUTH_USER, 'login');
+
+
+/* PAYROLL ENDPOINTS
+ */
+export const PAYROLL = '/api/payroll/';

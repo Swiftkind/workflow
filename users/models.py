@@ -8,6 +8,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from rest_framework.authtoken.models import Token
+from payroll.models import Deduction
 
 from .managers import UserManager
 from .utils import user_media_path
@@ -39,6 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     position = models.CharField(max_length=50, null=True, blank=True)
     position_type = models.CharField(max_length=2, choices=POSITION_TYPE, default=TRAINEE)
     date_started = models.DateField(null=True, blank=True)
+
+    deductions = models.ManyToManyField(Deduction, blank=True)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)

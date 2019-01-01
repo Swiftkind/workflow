@@ -7,6 +7,11 @@ import { PayrollComponent } from './payroll/payroll.component';
 export const PAYROLL_STATES : Object[] = [
   {
     name    : 'payroll',
+    url     : '/payroll/',
+    onEnter : LoginRequired
+  },
+  {
+    name    : 'payroll-detail',
     url     : '/payroll/:id/',
     views   : NavContent(PayrollComponent),
     onEnter : LoginRequired

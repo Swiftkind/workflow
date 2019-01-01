@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext, gettext_lazy as _
 
+from payroll.admin import PlanInline
+
 from .models import User
 
 
@@ -11,12 +13,14 @@ class UserAdmin(UserAdmin):
     model = User
     readonly_fields = ('date_joined',)
     ordering = ('email',)
+    filter_horizontal = ('deductions', 'groups', 'user_permissions')
     list_display = ('email', 'first_name', 'last_name', 'position', 'date_started')
+    inlines = (PlanInline,)
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'birthdate',
-            'image', 'position', 'position_type', 'date_started')}),
+            'image', 'position', 'position_type', 'date_started', 'deductions')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
             'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}), 
