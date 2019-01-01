@@ -18,10 +18,7 @@ export class PayrollListComponent implements OnInit {
     private state          : StateService,
     private auth           : AuthService,
     private payrollservice : PayrollService
-  ) {
-    console.log(state.params.id);
-    console.log(this.auth.user);
-  }
+  ) {}
 
   ngOnInit() {
     // get the list of payrolls for the

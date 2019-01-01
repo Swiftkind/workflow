@@ -24,11 +24,11 @@ export class PayrollService {
   /* Payroll list
    */
   list(params={}) {
-    return this.http.get(PAYROLL + queryparams(params))
-      .subscribe(resp=>{ this.plist = resp; });
+    return this.http.get(PAYROLL + queryparams(params));
   }
 
   getList() {
-    this.list();
+    this.list()
+      .subscribe(resp=>{ this.plist = resp; });
   }
 }
