@@ -43,7 +43,15 @@ class User(ViewSet):
 
     def get(self, *args, **kwargs):
         serializer = self.serializer_class(
-            instance=self.request.user,
-            request=self.request
-        )
+            instance=self.request.user)
+
+        return Response(serializer.data, status=200)
+
+    def update(self, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=self.request.data, instance=self.request.user)
+        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
         return Response(serializer.data, status=200)

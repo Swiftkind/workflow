@@ -64,8 +64,9 @@ class AuthTokenSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     """ user serializer
     """
-    deductions = serializers.SerializerMethodField()
-    plans = serializers.SerializerMethodField()
+    deductions = serializers.SerializerMethodField(read_only=True)
+    plans = serializers.SerializerMethodField(read_only=True)
+    position_type = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
@@ -84,7 +85,6 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
         return super(UserSerializer, self).__init__(*args, **kwargs)
 
     def get_deductions(self, instance):

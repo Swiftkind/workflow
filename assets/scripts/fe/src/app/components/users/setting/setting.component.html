@@ -1,0 +1,42 @@
+<div class="container pt-5">
+  <form [formGroup]="form.form" (ngSubmit)="onSubmit(form.form)">
+    
+    <div>
+      <label>First Name:</label>
+      <input type="text" formControlName="first_name">
+      <span [hidden]="form.valid('first_name')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>Last Name:</label>
+      <input type="text" formControlName="last_name">
+      <span [hidden]="form.valid('last_name')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>Email:</label>
+      <input type="text" formControlName="email">
+      <span [hidden]="form.valid('email')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>Birthdate:</label>
+      <input type="date" formControlName="birthdate">
+      <span [hidden]="form.valid('birthdate')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>Position:</label>
+      <input type="text" formControlName="position">
+      <span [hidden]="form.valid('position')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>Date Started:</label>
+      <input type="date" formControlName="date_started">
+      <span [hidden]="form.valid('date_started')">This field is required.</span>
+    </div>
+
+    <button type="submit">Save Changes</button>
+  </form>
+</div>

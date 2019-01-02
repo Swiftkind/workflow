@@ -67,7 +67,8 @@ export class AuthService {
   setuser() {
     // save the user's instance
     return this.http.get(AUTH_USER)
-      .subscribe(resp => { this.user=new User(resp); })
+      .toPromise()
+      .then(resp => { this.user=new User(resp); })
     ;
   }
 
