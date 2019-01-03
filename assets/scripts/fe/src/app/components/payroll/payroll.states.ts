@@ -8,6 +8,7 @@ export const PAYROLL_STATES : Object[] = [
   {
     name    : 'payroll',
     url     : '/payroll/',
+    views   : NavContent(PayrollComponent),
     onEnter : PayrollRedirect
   },
   {

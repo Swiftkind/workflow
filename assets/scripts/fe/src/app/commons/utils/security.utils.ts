@@ -50,5 +50,7 @@ export async function PayrollRedirect(t) {
       .then(resp=>{ payroll.plist = resp; return resp; });
   }
 
-  return state.target('payroll-detail', {id: payroll.plist[0].id});
+  if(payroll.plist.length !== 0) {
+    return state.target('payroll-detail', {id: payroll.plist[0].id});
+  }
 }

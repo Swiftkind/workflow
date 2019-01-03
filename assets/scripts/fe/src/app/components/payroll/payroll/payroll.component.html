@@ -4,7 +4,7 @@
     <app-payroll-list></app-payroll-list>
   </section>
 
-  <section class="payroll-detail">
+  <section class="payroll-detail" *ngIf="state.params.id">
     <p>Name : {{ payroll.user.first_name }} {{ payroll.user.last_name }}</p>
     <p>Email: {{ payroll.user.email }}</p>
     <p>Job : {{ payroll.user.position }}</p>
@@ -46,5 +46,8 @@
       </tbody>
     </table>
   </section>
+  <div class="payroll-detail" [hidden]="state.params.id">
+    No payroll atm..
+  </div>
 
 </div>

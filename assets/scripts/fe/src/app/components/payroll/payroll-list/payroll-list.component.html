@@ -1,5 +1,7 @@
-<ul>
+<ul *ngIf="payrollservice.plist.length > 0">
   <li *ngFor="let p of payrollservice.plist">
     <a uiSref="payroll-detail" [uiParams]="{id:p.id}" uiSrefActive="active">{{ p.id }}</a>
   </li>
 </ul>
+
+<p [hidden]="payrollservice.plist.length > 0">No payroll list</p>

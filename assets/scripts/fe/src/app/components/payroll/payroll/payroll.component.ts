@@ -18,9 +18,11 @@ export class PayrollComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // get payroll details from the backend
-    this.payrollservice.detail(this.state.params.id)
-      .subscribe(resp=>{ this.payroll = new Payroll(resp); }); 
+    if(this.state.params.id) {
+      // get payroll details from the backend
+      this.payrollservice.detail(this.state.params.id)
+        .subscribe(resp=>{ this.payroll = new Payroll(resp); }); 
+    }
   }
 
 }
