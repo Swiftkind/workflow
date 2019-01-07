@@ -51,6 +51,7 @@ class Slack(object):
         user, created = User.objects.get_or_create(email=kwargs['email'])
         # save user slack id
         user.slack_id = user.slack_id or kwargs.get('id')
+        user.is_active = True
         user.save()
 
         return user
