@@ -74,7 +74,7 @@ export class AuthService {
 
   getuser() {
     // fetch the user instance
-    if (_.isEmpty(this.user) || _.some(this.user, _.isEmpty)) {
+    if (this.user.id == null) {
       // sends a request from the backend to
       // get the data.
       this.setuser();

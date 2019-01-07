@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { Component, OnInit } from '@angular/core';
 import { StateService } from '@uirouter/angular';
 
@@ -21,18 +23,18 @@ export class SettingComponent implements OnInit {
     private userservice : UserService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // initialize the form.
     this.form = new UserForm(new User);
 
-    // TODO: improve this part by removing the setTimeout hack.
-    // this is working but in efficient as i set 30millisecond
-    // to wait for the user data to load. (will not work on slow
-    // speed internet connection). Use async/await method and
-    // find the right/more accurate timing.
-    setTimeout(() => { 
-      this.form.defaultValue(this.auth.user);
-    }, 60);
+    // assign values on the user form.
+    // this uses `await` which will wait
+    // for the request response before proceeding
+    if (this.auth.user.id == null) {
+      // get user information from the backend. (sync)
+      await this.auth.setuser();
+    }
+    this.form.defaultValue(this.auth.user);
   }
 
   onSubmit({ value, valid }: { value: User, valid: boolean }) {
