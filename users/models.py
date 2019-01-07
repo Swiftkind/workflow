@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -6,6 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
 from payroll.models import Deduction
@@ -32,14 +34,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     email = models.EmailField(max_length=500, unique=True)
-    first_name = models.CharField(max_length=80)
-    last_name = models.CharField(max_length=80)
+    first_name = models.CharField(max_length=80, null=True, blank=True)
+    last_name = models.CharField(max_length=80, null=True, blank=True)
     birthdate = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to=user_media_path, null=True, blank=True)
 
     position = models.CharField(max_length=50, null=True, blank=True)
     position_type = models.CharField(max_length=2, choices=POSITION_TYPE, default=TRAINEE)
     date_started = models.DateField(null=True, blank=True)
+    slack_id = models.CharField(max_length=50, null=True, blank=True)
 
     deductions = models.ManyToManyField(Deduction, blank=True)
 
@@ -64,6 +67,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         os.remove(image.path if os.path.exists(image.path) else None)
         return
 
+    def get_token(self):
+        """ get or generate a user token that is valid for
+            `settings.AUTH_TOKEN_EXPIRY_TIME`
+        """
+        token, created = Token.objects.get_or_create(user=self)
+        expiry_date = token.created + datetime.timedelta(days=settings.AUTH_TOKEN_EXPIRY_TIME)
+
+        if not created and expiry_date < timezone.now():
+            # delete token
+            token.delete()
+            # generate a new one
+            token = Token.objects.create(user=self)
+
+        return token
+
 
 @receiver(pre_save, sender=User)
 def auto_remove_imagefile(sender, instance=None, **kwargs):
@@ -74,3 +92,13 @@ def auto_remove_imagefile(sender, instance=None, **kwargs):
 
     if user and user.image and instance.image != user.image:
         instance.delete_image(user.image)
+
+
+class SlackToken(models.Model):
+    """ slack access token
+    """
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    token = models.CharField(max_length=80)
+
+    def __str__(self):
+        return f"({self.user}) {self.token}"

@@ -4,7 +4,9 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 from payroll.admin import PlanInline
 
-from .models import User
+from .models import User, SlackToken
+
+from rest_framework.authtoken.models import Token
 
 
 class UserAdmin(UserAdmin):
@@ -22,7 +24,7 @@ class UserAdmin(UserAdmin):
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'birthdate',
             'image', 'position', 'position_type', 'date_started', 'deductions')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-            'groups', 'user_permissions')}),
+            'groups', 'user_permissions', 'slack_id')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}), 
     )
 
@@ -35,3 +37,4 @@ class UserAdmin(UserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+admin.site.register(SlackToken)

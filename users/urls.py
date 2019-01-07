@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import Login, User
+from .views import Login, User, SlackAuth
 
 
 urlpatterns = [
@@ -7,6 +7,18 @@ urlpatterns = [
         'get': 'get',
         'post': 'update',
     }), name="user_detail"),
+
+    path('auth/slack/', SlackAuth.as_view({
+        'get': 'get',
+    }), name="slackauth"),
+
+    path('auth/slack/config/', SlackAuth.as_view({
+        'get': 'config',
+    }), name="slackauth_config"),
+
+    path('auth/slack/token/<str:token>/', SlackAuth.as_view({
+        'get': 'get_usertoken',
+    }), name="slackauth_token"),
 
     path('auth/login/', Login.as_view(), name="login"),
 ]

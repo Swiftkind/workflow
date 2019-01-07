@@ -8,7 +8,8 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import User
+from .models import User, SlackToken
+from .slack import Slack
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -111,3 +112,48 @@ class UserSerializer(serializers.ModelSerializer):
             PlanSerializer.Meta.model.objects.filter(user=instance),
             many=True,
         ).data
+
+
+class SlackAuthSerializer(Slack, serializers.Serializer):
+    """ slack auth serializer
+    """
+    token = None
+    code = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = SlackToken
+
+    def validate(self, data):
+        """ check if the code is valid and if the
+            user is a valid member of the swiftkind
+            team.
+        """
+        resp = self.auth_access(data.get('code'))
+        data = self.parsedata(resp.read())
+
+        # check if the request is successful. raise an
+        # error message if the request is invalid
+        if not data['ok']:
+            raise serializers.ValidationError(_(data['error']), code="authorization")
+
+        # check if the user is part of the team. Deny access to
+        # users who are not part of the team.
+        if data['team']['id'] != settings.SLACK_TEAM_ID:
+            raise serializers.ValidationError(_("Invalid user credentials."), code="authorization")
+
+        # check if the user is an existing user. if new, create a new user,
+        # else, allow access.
+        user = self.get_or_create_user(**data['user'])
+        # set access token
+        self.token = self.get_or_create_token(access_token=data['access_token'], user=user)
+
+        return data
+
+    def get_redirect_url(self):
+        """ return the redirect url based on the 
+            generated access_token from the slack server
+        """
+        return f"{settings.SLACK_AUTH_LOGIN_REDIRECT}{self.token.token}/"
+
+
+

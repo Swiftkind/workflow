@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 
 import { AuthService } from '../services/auth/auth.service';
+import { SlackService } from '../services/auth/slack.service';
 import { PayrollService } from '../services/payroll/payroll.service';
 
 
@@ -54,3 +55,32 @@ export async function PayrollRedirect(t) {
     return state.target('payroll-detail', {id: payroll.plist[0].id});
   }
 }
+
+
+/* SLACK LOGIN REDIRECT
+ * @desc : callback receiver for requests coming from
+ *         slack server.
+ */
+export async function SlackAuthRedirect(t, $state) {
+  let auth = t.injector().get(AuthService),
+      slack = t.injector().get(SlackService),
+      state = t.router.stateService,
+      token = t._targetState._params.token;
+
+  if (token) {
+    // validate if the access token is valid. retrieve
+    // the user token from the backend and redirect
+    // the user to the dashboard.
+    await slack.getUserToken(token);
+    // token is invalid or other error.
+    //if(!auth.authenticated()) return state.target('login');
+
+    return state.target('dashboard');
+  }
+
+  return state.target('login');
+}
+
+
+
+
