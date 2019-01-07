@@ -38,6 +38,8 @@ export class SettingComponent implements OnInit {
   }
 
   onSubmit({ value, valid }: { value: User, valid: boolean }) {
+    // initiate submission of form.
+    this.form.submitted = true;
     // send the form data to the backend if the value
     // format are valid.
     if (valid) {

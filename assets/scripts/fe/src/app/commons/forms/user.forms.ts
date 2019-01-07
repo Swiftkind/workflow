@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 export class UserForm {
   public form: FormGroup;
+  public submitted: Boolean = false;
 
   constructor (data) {
     /* Initialize the form builder
@@ -20,13 +21,13 @@ export class UserForm {
   /* Check if form field is valid
    */
   valid (f) {
-    return !(!this.form.get(f).valid && this.form.get(f).touched);
+    return !(!this.form.get(f).valid && (this.form.get(f).touched || this.submitted));
   }
 
   /* Check if the form field has an error
    */
   hasError (f, e) {
-    return this.form.get(f).hasError(e) && this.form.get(f).touched;
+    return this.form.get(f).hasError(e) && (this.form.get(f).touched || this.submitted);
   }
 
   /* DEFAULT VALUE
