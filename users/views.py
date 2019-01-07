@@ -42,7 +42,6 @@ class Login(APIView):
         }, status=200)
 
 
-
 class SlackAuth(Query, Slack, ViewSet):
     """ slack authentication endpoint
     """

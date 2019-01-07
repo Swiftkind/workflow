@@ -143,9 +143,18 @@ class SlackAuthSerializer(Slack, serializers.Serializer):
 
         # check if the user is an existing user. if new, create a new user,
         # else, allow access.
+        imgurl = data['user'].pop('image_192', None)
+
         user = self.get_or_create_user(**data['user'])
+        # check if the user has no avatar yet.
+        # add an avatar using the slack avatar.
+        if not user.image:
+            user.download_img(imgurl)
+            user.save()
+
         # set access token
-        self.token = self.get_or_create_token(access_token=data['access_token'], user=user)
+        self.token = self.get_or_create_token(
+            access_token=data['access_token'], user=user)
 
         return data
 

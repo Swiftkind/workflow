@@ -12,11 +12,13 @@ from django.utils import timezone
 from rest_framework.authtoken.models import Token
 from payroll.models import Deduction
 
+from utils.mixins import ImageDownload
+
 from .managers import UserManager
 from .utils import user_media_path
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(ImageDownload, AbstractBaseUser, PermissionsMixin):
     """ account user information
     """
     MANAGEMENT = '0'
@@ -81,6 +83,14 @@ class User(AbstractBaseUser, PermissionsMixin):
             token = Token.objects.create(user=self)
 
         return token
+
+    def download_img(self, imgurl):
+        #try:
+        self.download(imgurl)
+        #except Exception as e:
+            # silently pass this exception since it only
+            # means that the image source is not accessible.
+            #pass
 
 
 @receiver(pre_save, sender=User)
