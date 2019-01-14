@@ -20,6 +20,9 @@ class Project(models.Model):
     description = models.TextField(null=True, blank=True)
     date_started = models.DateField(null=True, blank=True)
     invoice_code = models.CharField(max_length=4, null=True, blank=True)
+    
+    channel_name = models.CharField(max_length=100, null=True, blank=True)
+    channel_id = models.CharField(max_length=100, null=True, blank=True)
 
     duration = models.PositiveIntegerField(default=0)
     on_going = models.BooleanField(default=False)

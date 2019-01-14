@@ -122,8 +122,10 @@ SLACK_CLIENT_ID = '25093591382.518820445494'
 SLACK_CLIENT_SECRET = 'cf2e143900e8a787842bffa480874a11'
 SLACK_TEAM_ID = 'T0R2RHDB8'
 SLACK_SCOPE = 'identity.email,identity.basic,identity.avatar'
+
 SLACK_AUTH_CALLBACK_URL = 'http://workflow.swiftkind.com/api/users/auth/slack/'
 SLACK_AUTH_LOGIN_REDIRECT = 'http://workflow.swiftkind.com/auth/slack/redirect/'
+SLACK_API_GROUPS_INFO = 'https://slack.com/api/groups.info?'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

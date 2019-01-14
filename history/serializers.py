@@ -1,0 +1,94 @@
+from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
+from rest_framework import serializers
+
+from users.models import User
+from .mixins import DailyStandup
+from .models import Standup, Done, Todo, Blocker
+
+
+class StandupSerializer(DailyStandup, serializers.Serializer):
+    """ standup serializer
+    """
+    team_id = serializers.CharField()
+    channel_id = serializers.CharField()
+    channel_name = serializers.CharField()
+    user_id = serializers.CharField()
+    text = serializers.CharField()
+
+    user, done, todo, blocker = (None, None, None, None)
+
+    class Meta:
+        model = Standup
+
+    def validate_team_id(self, team_id):
+        """ validate if the team source of the
+            request came from the right team. (swiftkind)
+            if not, deny access.
+        """
+        if team_id != settings.SLACK_TEAM_ID:
+            raise serializers.ValidationError(
+                _('[Invalid Request] Wrong workspace.'),
+                code="invalid_request",
+            )
+
+        return team_id
+
+    def validate_user_id(self, user_id):
+        """ validate if the user is a valid member
+            of the workspace.
+        """
+        self.user = User.objects.filter(slack_id=user_id).first()
+        if not self.user:
+            raise serializers.ValidationError(
+                _('[Invalid Request] Requestor is not a registered user.'),
+                code="invalid_request",
+            )
+        return user_id
+
+    def validate_text(self, text):
+        """ validate if text is in the correct format
+        """
+        try:
+            self.done, self.todo, self.blocker = self.splitreport(text)
+            return text
+
+        except ValueError as e:
+            raise serializers.ValidationError(
+                _("[Format Error] Invalid report format."),
+                code="invalid_format",
+            )
+
+    def create(self, data):
+        """ save the request data as standup report
+        """
+        # create a new standup instance. set the user
+        # based on the user_slack_id.
+        standup = self.Meta.model(
+            raw=self.to_json(self.initial_data),
+            user=self.user,
+            project=self.get_project(
+                data['channel_id'],
+                data['channel_name'],
+                self.get_user_token(self.user).token
+            )
+        )
+        standup.save()
+
+        # set #1 (what i have worked on).
+        for report in self.done:
+            standup.add_done(**report)
+        # set #2 (what i am planning to do).
+        for report in self.todo:
+            standup.add_todo(**report)
+        # set #3 (Issues/blockers).
+        for report in self.blocker:
+            standup.add_blocker(**report)
+
+        return data
+
+
+
+
+
+

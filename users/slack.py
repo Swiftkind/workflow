@@ -60,7 +60,7 @@ class Slack(object):
         """ get or create access token
         """
         token, created = SlackToken.objects.get_or_create(user=user)
-        if created:
+        if created or token.token != access_token:
             token.token = access_token
             token.save()
 

@@ -11,10 +11,17 @@ class DoneAdmin(admin.TabularInline):
     model = Done
     extra = 0
     list_display = ('content', 'date_created', 'date_updated')
+    readonly_fields = ('content', 'reference', 'hours', 'date_updated')
 
     formfield_overrides = {
         JSONField: {'widget': Textarea(attrs={'rows':3, 'cols':90})},
     }
+
+    # def get_reference(self, obj):
+    #     return f'<a href="{obj.reference}">{obj.reference}</a>'
+
+    # get_reference.short_description = "Ticket URL"
+    # get_reference.allow_tags = True
 
 
 class TodoAdmin(admin.TabularInline):
@@ -23,6 +30,7 @@ class TodoAdmin(admin.TabularInline):
     model = Todo
     extra = 0
     list_display = ('content', 'date_created', 'date_updated')
+    readonly_fields = ('content', 'reference', 'date_updated')
 
     formfield_overrides = {
         JSONField: {'widget': Textarea(attrs={'rows':3, 'cols':90})},
@@ -35,6 +43,7 @@ class BlockerAdmin(admin.TabularInline):
     model = Blocker
     extra = 0
     list_display = ('content', 'date_created', 'date_updated')
+    readonly_fields = ('content', 'reference', 'date_updated')
 
     formfield_overrides = {
         JSONField: {'widget': Textarea(attrs={'rows':3, 'cols':90})},

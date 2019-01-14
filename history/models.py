@@ -2,28 +2,19 @@ from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 
 from django.db import models
-
 from accounting.models import Project
 
-
-class Standup(models.Model):
-    """ daily report
-    """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
-    project = models.ForeignKey(Project, null=True, on_delete=models.SET_NULL)
-
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"({self.user} {self.project}) {self.date_updated}"
+from history.mixins import DailyStandup
 
 
 class Done(models.Model):
     """ task that have been worked on (#1)
     """
-    standup = models.ForeignKey('Standup', null=True, on_delete=models.SET_NULL)
-    content = JSONField(default=dict, null=True, blank=True)
+    standup = models.ForeignKey('Standup', null=True, on_delete=models.CASCADE)
+    content = models.TextField(null=True, blank=True)
+
+    reference = models.TextField(null=True, blank=True)
+    hours = models.DecimalField(max_digits=99, decimal_places=2, default=0.00)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -39,8 +30,10 @@ class Done(models.Model):
 class Todo(models.Model):
     """ task to be worked on (#2)
     """
-    standup = models.ForeignKey('Standup', null=True, on_delete=models.SET_NULL)
-    content = JSONField(default=dict, null=True, blank=True)
+    standup = models.ForeignKey('Standup', null=True, on_delete=models.CASCADE)
+    content = models.TextField(null=True, blank=True)
+
+    reference = models.TextField(null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -56,8 +49,10 @@ class Todo(models.Model):
 class Blocker(models.Model):
     """ task blockers. (#3)
     """
-    standup = models.ForeignKey('Standup', null=True, on_delete=models.SET_NULL)
-    content = JSONField(default=dict, null=True, blank=True)
+    standup = models.ForeignKey('Standup', null=True, on_delete=models.CASCADE)
+    content = models.TextField(null=True, blank=True)
+
+    reference = models.TextField(null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -68,3 +63,35 @@ class Blocker(models.Model):
 
     def __str__(self):
         return f"{self.standup}"
+
+
+class Standup(DailyStandup, models.Model):
+    """ daily report
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
+    project = models.ForeignKey(Project, null=True, on_delete=models.SET_NULL)
+    raw = JSONField(default=dict, null=True, blank=True)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"({self.user} {self.project}) {self.date_updated}"
+
+    def add_done(self, **params):
+        """ add content on the done model
+        """
+        return Done.objects.create(standup=self, **params)
+
+    def add_todo(self, **params):
+        """ add content on the todo model
+        """
+        return Todo.objects.create(standup=self, **params)
+
+    def add_blocker(self, **params):
+        """ add content to the blocker model
+        """
+        return Blocker.objects.create(standup=self, **params)
+
+
+
