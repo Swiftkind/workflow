@@ -1,5 +1,8 @@
+import datetime
+
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from rest_framework import serializers
 
 from users.models import User
@@ -44,6 +47,22 @@ class StandupSerializer(DailyStandup, serializers.Serializer):
                 _('[Invalid Request] Requestor is not a registered user.'),
                 code="invalid_request",
             )
+
+        # check if the user has already sent the report
+        # for the specified channel.
+        today_min = datetime.datetime.combine(timezone.now().date(), datetime.time.min)
+        today_max = datetime.datetime.combine(timezone.now().date(), datetime.time.max)
+
+        channel_id = self.initial_data.get('channel_id')
+        standup = self.Meta.model.objects.filter(
+            user=self.user,
+            project__channel_id=channel_id,
+            date_created__range=(today_min, today_max)
+        )
+        if standup.exists():
+            raise serializers.ValidationError(
+                _("You have posted a report already today."))
+        
         return user_id
 
     def validate_text(self, text):

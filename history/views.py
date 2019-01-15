@@ -19,3 +19,8 @@ class Standup(ViewSet):
         serializer.save()
 
         return Response(serializer.data, status=200)
+
+        # return Response({
+        #     "response_type": "in_channel",
+        #     "text": ", ".join([i[1][0].__str__() for i in serializer.errors.items()]),
+        # }, status=200)

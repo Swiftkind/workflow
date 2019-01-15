@@ -138,16 +138,26 @@ class SlackAuthSerializer(Slack, serializers.Serializer):
 
         # check if the user is part of the team. Deny access to
         # users who are not part of the team.
-        if data['team']['id'] != settings.SLACK_TEAM_ID:
+        if data['team_id'] != settings.SLACK_TEAM_ID:
             raise serializers.ValidationError(_("Invalid user credentials."), code="authorization")
 
         # check if the user is an existing user. if new, create a new user,
         # else, allow access.
-        imgurl = data['user'].pop('image_192', None)
+        resp = self.get_userinfo(data['user_id'], data['access_token'])
+        userdata = self.parsedata(resp.read())
 
-        user = self.get_or_create_user(**data['user'])
+        if not userdata['ok']:
+            raise serializers.ValidationError(_('User not found.'))
+
+        user = self.get_or_create_user(
+            email=userdata['user']['profile']['email'],
+            first_name=userdata['user']['profile']['first_name'],
+            last_name=userdata['user']['profile']['last_name'],
+            id=data['user_id'],
+        )
         # check if the user has no avatar yet.
         # add an avatar using the slack avatar.
+        imgurl = userdata['user']['profile']['image_192']
         if not user.image:
             user.download_img(imgurl)
             user.save()

@@ -82,6 +82,7 @@ class DailyStandup(SlackAPI):
 
         # retrieve the private channel data (specifically the channel_name)
         resp = self.get_groupinfo(group_id=channel_id, user_token=token)
+
         # get channel based on the retrieved channel name
         return self._create_project(channel_id, resp['group']['name'])
 
@@ -103,7 +104,6 @@ class DailyStandup(SlackAPI):
             set#3 : issues/blockers
         """
         workedon, todo, blockers = self._clean_list(re.split(r'\[\w+\]', text))
-
         return (
             self._construct_report(workedon),
             self._construct_report(todo),
@@ -123,7 +123,8 @@ class DailyStandup(SlackAPI):
     def _clean_text(self, text, separator='```'):
         """ clean raw text from slack api
         """
-        return self._clean_list(text.replace("\r\n", "").split(separator))
+        return self._clean_list(
+            text.replace("\r\n", "").replace("\n", "").split(separator))
 
     def _get_report_keys(self, text, key_format=r'\:\w+\:'):
         """ identify and get the key from the report text
@@ -149,7 +150,6 @@ class DailyStandup(SlackAPI):
             report data.
         """
         result = []
-
         reports = self._clean_text(text)
 
         for report in reports:

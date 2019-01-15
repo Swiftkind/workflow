@@ -13,6 +13,7 @@ class Slack(object):
     """
     SLACK_AUTHORIZE = 'https://slack.com/oauth/authorize?'
     SLACK_AUTH_ACCESS = 'https://slack.com/api/oauth.access?'
+    SLACK_USERINFO = 'https://slack.com/api/users.info?'
 
     def __init__(self, *args, **kwargs):
         return super(Slack, self).__init__(*args, **kwargs)
@@ -40,6 +41,16 @@ class Slack(object):
         ))
         return urlopen(f"{self.SLACK_AUTH_ACCESS}{params}")
 
+    def get_userinfo(self, user_id, user_token):
+        """ return the user information from the slack api
+        """
+        params = urlencode(dict(
+            token=user_token,
+            user=user_id,
+        ))
+        return urlopen(f"{self.SLACK_USERINFO}{params}")
+
+
     def parsedata(self, data):
         """ parse json data to dictionary
         """
@@ -51,8 +62,11 @@ class Slack(object):
         user, created = User.objects.get_or_create(email=kwargs['email'])
         # save user slack id
         user.slack_id = user.slack_id or kwargs.get('id')
-        user.is_active = True
-        user.save()
+        if created:
+            user.first_name = kwargs.get('first_name')
+            user.last_name = kwargs.get('last_name')
+            user.is_active = True
+            user.save()
 
         return user
 
