@@ -56,7 +56,24 @@ class StandupAdmin(admin.ModelAdmin):
     model = Standup
     inlines = (DoneAdmin, TodoAdmin, BlockerAdmin)
 
-    list_display = ('date_created', 'date_updated', 'user', 'project')
+    list_display = ('date_created', 'date_updated', 'user', 'project', 'get_total_hours')
+    search_fields = ('user__email', 'user__first_name', 'user__last_name', 'project__name')
+    list_filter = ('user__first_name', 'project__name')
+
+    def get_total_hours(self, obj):
+        done = Done.objects.filter(standup=obj).values_list('hours', flat=True)
+        return f"{sum(done)}"
+
+    get_total_hours.short_description = "Total Hours"
 
 
 admin.site.register(Standup, StandupAdmin)
+
+
+
+
+
+
+
+
+
