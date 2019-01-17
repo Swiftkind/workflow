@@ -151,8 +151,8 @@ class SlackAuthSerializer(Slack, serializers.Serializer):
 
         user = self.get_or_create_user(
             email=userdata['user']['profile']['email'],
-            first_name=userdata['user']['profile']['first_name'],
-            last_name=userdata['user']['profile']['last_name'],
+            first_name=userdata['user']['profile'].get('first_name'),
+            last_name=userdata['user']['profile'].get('last_name'),
             id=data['user_id'],
         )
         # check if the user has no avatar yet.
