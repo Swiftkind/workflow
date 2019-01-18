@@ -75,7 +75,10 @@ class Standup(DailyStandup, models.Model):
     raw = JSONField(default="{}", null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
+    date_created.editable=True
+    
     date_updated = models.DateTimeField(auto_now=True)
+    date_updated.editable=True
 
     def __str__(self):
         return f"({self.user} {self.project}) {self.date_updated}"
