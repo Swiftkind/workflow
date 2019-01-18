@@ -85,12 +85,12 @@ class User(ImageDownload, AbstractBaseUser, PermissionsMixin):
         return token
 
     def download_img(self, imgurl):
-        #try:
-        self.download(imgurl)
-        #except Exception as e:
+        try:
+            self.download(imgurl)
+        except Exception as e:
             # silently pass this exception since it only
             # means that the image source is not accessible.
-            #pass
+            pass
 
 
 @receiver(pre_save, sender=User)
@@ -102,6 +102,21 @@ def auto_remove_imagefile(sender, instance=None, **kwargs):
 
     if user and user.image and instance.image != user.image:
         instance.delete_image(user.image)
+
+
+class SalaryLog(models.Model):
+    """ salary logs
+    """
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    amount = models.DecimalField(max_digits=99, decimal_places=2, default=0.00)
+    date_implemented = models.DateField(null=True, blank=True)
+    is_primary = models.BooleanField(default=False)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user}"
 
 
 class SlackToken(models.Model):

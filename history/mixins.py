@@ -10,6 +10,8 @@ from django.shortcuts import get_object_or_404
 from accounting.models import Project
 from users.models import SlackToken
 
+from utils.mixins import JSONParser
+
 
 class Curl(object):
     """ contains method that allow to send
@@ -47,21 +49,11 @@ class SlackAPI(Curl):
         ))
 
 
-class DailyStandup(SlackAPI):
+class DailyStandup(JSONParser, SlackAPI):
     """ daily standup mixin
     """
     def __init__(self, *args, **kwargs):
         return super(DailyStandup, self).__init__(*args, **kwargs)
-
-    def to_json(self, data):
-        """ converts querydict to json
-        """
-        return json.dumps(data)
-
-    def to_dict(self, data):
-        """ converts querydict to dict
-        """
-        return json.loads(json.dumps(data))
 
     def get_user_token(self, user):
         """ get user slack token
@@ -109,53 +101,6 @@ class DailyStandup(SlackAPI):
             self._construct_report(todo),
             self._construct_report(blockers),
         )
-
-    def _clean_list(self, items):
-        """ remove empty items on string
-        """
-        itemlist = list(filter(None, items))
-        if len(itemlist) < 3:
-            itemlist.append("")
-            return itemlist
-
-        return itemlist
-
-    def _clean_text(self, text, separator='```'):
-        """ clean raw text from slack api
-        """
-        return self._clean_list(
-            text.replace("\r\n", "").replace("\n", "").split(separator))
-
-    def _get_report_keys(self, text, key_format=r'\:\w+\:'):
-        """ identify and get the key from the report text
-        """
-        return [i.replace(":", "") for i in re.findall(r'\:\w+\:', text)]
-
-    def _report_to_dict(self, report, key_format=r'\:\w+\:'):
-        """ convert raw text to key value
-        """
-        result = dict()
-
-        data = self._clean_list(re.split(key_format, report))
-        # get the keys of the report
-        keys = self._get_report_keys(report, key_format)
-
-        for index, key in enumerate(keys):
-            result.update({key: data[index]})
-
-        return result
-
-    def _construct_report(self, text):
-        """ returns a list of dictionaries containing the
-            report data.
-        """
-        result = []
-        reports = self._clean_text(text)
-
-        for report in reports:
-            result.append(self._report_to_dict(report))
-
-        return result
             
 
 
