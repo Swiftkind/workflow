@@ -117,6 +117,7 @@ class Burn(models.Model):
     remarks = models.TextField(null=True, blank=True)
     burn_type = models.CharField(max_length=20, choices=BURN_TYPE, default=RECCUR_BILL)
 
+    date_billed = models.DateField(null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 

@@ -62,6 +62,7 @@ class BlockerAdmin(admin.TabularInline):
     model = Blocker
     extra = 0
     list_display = ('content', 'date_created', 'date_updated')
+    fields = ('content', 'reference', 'is_fixed')
 
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows':8, 'cols':70})},
@@ -98,7 +99,7 @@ class StandupAdmin(JSONParser, admin.ModelAdmin):
     def get_issues(self, obj):
         """ check if there are issues or none
         """
-        if Blocker.objects.filter(standup=obj).exists():
+        if Blocker.objects.filter(standup=obj, is_fixed=False).exists():
             return True
         return False
 

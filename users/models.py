@@ -92,6 +92,11 @@ class User(ImageDownload, AbstractBaseUser, PermissionsMixin):
             # means that the image source is not accessible.
             pass
 
+    def generate_payroll(self):
+        """
+        """
+        pass
+
 
 @receiver(pre_save, sender=User)
 def auto_remove_imagefile(sender, instance=None, **kwargs):

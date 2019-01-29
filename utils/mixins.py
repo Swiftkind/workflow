@@ -127,7 +127,8 @@ class JSONParser(object):
         reports = self._clean_text(text)
 
         for report in reports:
-            result.append(self._report_to_dict(report))
+            _dict = self._report_to_dict(report)
+            if _dict: result.append(_dict)
 
         return result
 

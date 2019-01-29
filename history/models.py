@@ -55,6 +55,7 @@ class Blocker(models.Model):
     content = models.TextField(null=True, blank=True)
 
     reference = models.TextField(null=True, blank=True)
+    is_fixed = models.BooleanField(default=False)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -75,10 +76,10 @@ class Standup(DailyStandup, models.Model):
     raw = JSONField(default="{}", null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
-    date_created.editable=True
+    date_created.editable = True
     
     date_updated = models.DateTimeField(auto_now=True)
-    date_updated.editable=True
+    date_updated.editable = True
 
     def __str__(self):
         return f"({self.user} {self.project}) {self.date_updated}"

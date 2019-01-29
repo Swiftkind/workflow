@@ -2,11 +2,25 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext, gettext_lazy as _
 
-from payroll.admin import PlanInline
-
-from .models import User, SlackToken
-
 from rest_framework.authtoken.models import Token
+from payroll.admin import PlanInline
+from .models import User, SalaryLog, SlackToken
+
+
+
+class SalaryLogAdmin(admin.ModelAdmin):
+    """ salary log
+    """
+    model = SalaryLog
+    list_display = ('user', 'amount', 'date_implemented', 'is_primary')
+
+
+class SalaryLogInline(admin.TabularInline):
+    """ salary log inline
+    """
+    model = SalaryLog
+    extra = 0
+    readonly_fields = ('user', 'amount', 'date_implemented', 'is_primary')
 
 
 class UserAdmin(UserAdmin):
@@ -17,7 +31,7 @@ class UserAdmin(UserAdmin):
     ordering = ('email',)
     filter_horizontal = ('deductions', 'groups', 'user_permissions')
     list_display = ('email', 'first_name', 'last_name', 'position', 'date_started')
-    inlines = (PlanInline,)
+    inlines = (SalaryLogInline, PlanInline,)
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -37,4 +51,5 @@ class UserAdmin(UserAdmin):
 
 
 admin.site.register(User, UserAdmin)
+admin.site.register(SalaryLog, SalaryLogAdmin)
 admin.site.register(SlackToken)

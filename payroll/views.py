@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
 from utils.mixins import Query
-
 from .serializers import PayrollSerializer
 
 
