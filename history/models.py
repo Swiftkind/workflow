@@ -81,6 +81,11 @@ class Standup(DailyStandup, models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     date_updated.editable = True
 
+    @property
+    def total_hours(self):
+        hours = Done.objects.filter(standup=self).values_list('hours', flat=True)
+        return sum(hours)
+
     def __str__(self):
         return f"({self.user} {self.project}) {self.date_updated}"
 

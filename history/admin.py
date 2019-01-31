@@ -11,6 +11,7 @@ from django.contrib.postgres.fields import JSONField
 from django.forms import Textarea
 from django.utils.safestring import mark_safe
 
+from daterange_filter.filter import DateRangeFilter
 from utils.mixins import JSONParser
 
 from .models import Standup, Done, Todo, Blocker
@@ -85,14 +86,13 @@ class StandupAdmin(JSONParser, admin.ModelAdmin):
 
     list_display = ('date_created', 'date_updated', 'user', 'project', 'get_total_hours', 'get_issues', 'get_needs_checking')
     search_fields = ('user__email', 'user__first_name', 'user__last_name', 'project__name')
-    list_filter = ('user__first_name', 'project__name')
+    list_filter = ('user__first_name', 'project__name', ('date_updated', DateRangeFilter),)
     editable_fields = ('date_created', 'date_updated')
     readonly_fields = ('raw_data',)
     exclude = ('raw',)
 
     def get_total_hours(self, obj):
-        done = Done.objects.filter(standup=obj).values_list('hours', flat=True)
-        return f"{sum(done)}"
+        return f"{obj.total_hours}"
 
     get_total_hours.short_description = "Total Hours"
 
