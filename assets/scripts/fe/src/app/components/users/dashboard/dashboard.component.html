@@ -1,42 +1,409 @@
-<div class="container mt-3">
-  <div class="row">
-
-    <section class="left">
-      <div class="feed">
-        <h5>Recent news</h5>
-
-        <div class="item">
-          item 1
+<div class="center-section feed-container">
+  <section class="feed-section">
+    <!-- FEED CARDS -->
+    <div class="feed-card card closeModal">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex">
+          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+          </div>
+          <div class="profile-info">
+            <div class="d-flex align-items-center">
+              <a href="" class="mr-2">Restie Antiquin</a>
+              <span class="timestamp">Jan 23, 6:37 PM</span>
+            </div>
+            <span class="">No Issues</span>
+          </div>
         </div>
-
-        <div class="item">
-          item 1
+        <div class="d-flex align-items-start">
+          <div class="feed-summary">
+            <a href="">#cl-Designs</a>
+            <p>8.7 hours</p>
+          </div>
+          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
         </div>
-
-        <div class="item">
-          item 1
-        </div>
-
-        <div class="item">
-          item 1
-        </div>
-
-        <div class="item">
-          item 1
-        </div>
-
       </div>
-    </section>
-
-    <section class="right">
-      <div class="calendar">
-        <h5>Calendar</h5>
+    </div>
+    <div class="feed-card card announcement-card">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="card-title mb-0">Weekly Meeting</h5>
+        <button class="btn btn-cta-primary">
+          <i class="far fa-calendar mr-1"></i>
+          Add to Calendar
+        </button>
       </div>
-
-      <div class="stats">
-        <h5>Statistics</h5>
+      <p>
+        Your company weekly is about to start in 3 hours, please be advised That your attendance is required. You’ll have to notify in advance if you won’t be able to be present.
+      </p>
+      <div class="d-flex">
+        <div class="mr-4">
+          <label class="mb-0">
+            <small class="text-muted">Mentions:</small>
+          </label>
+          <p class="text-strong">Everyone</p>
+        </div>
+        <div class="mr-4">
+          <label class="mb-0">
+            <small class="text-muted">Schedule:</small>
+          </label>
+          <p class="text-strong">Mon, Dec 13th | 10:00 AM - 11:00 AM</p>
+        </div>
+        <div class="mr-4">
+          <label class="mb-0">
+            <small class="text-muted">Posted by:</small>
+          </label>
+          <div class="avatar-xs" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3"></div>
+        </div>
       </div>
-    </section>
-
-  </div>
+    </div>
+    <div class="feed-card card">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex">
+          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+          </div>
+          <div class="profile-info">
+            <div class="d-flex align-items-center">
+              <a href="" class="mr-2">Restie Antiquin</a>
+              <span class="timestamp">Jan 23, 6:37 PM</span>
+            </div>
+            <span class="">No Issues</span>
+          </div>
+        </div>
+        <div class="d-flex align-items-start">
+          <div class="feed-summary">
+            <a href="">#cl-Designs</a>
+            <p>8.7 hours</p>
+          </div>
+          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
+        </div>
+      </div>
+      <div class="details pt-4">
+        <div class="d-flex justify-content-between">
+          <small><strong>Blockers</strong></small>
+          
+        </div>
+        <ol class="pl-3 details-list">
+          <li class="issue-details resolved">
+            
+            <p>
+              Finding out why the updated server always returns 404 (the aws lambda won't execute the function run specifically the app.run.)
+            </p>
+            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
+          </li>
+          <li class="issue-details unresolved">
+            
+            <p>
+              Aws documentation didn't specify that I had to include the issuer and the username to produce the QR code.
+            </p>
+            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="feed-card card closeModal">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex">
+          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+          </div>
+          <div class="profile-info">
+            <div class="d-flex align-items-center">
+              <a href="" class="mr-2">Restie Antiquin</a>
+              <span class="timestamp">Jan 23, 6:37 PM</span>
+            </div>
+            <span class="">No Issues</span>
+          </div>
+        </div>
+        <div class="d-flex align-items-start">
+          <div class="feed-summary">
+            <a href="">#cl-Designs</a>
+            <p>8.7 hours</p>
+          </div>
+          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="feed-card card announcement-card">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="card-title mb-0">Weekly Meeting</h5>
+        <button class="btn btn-cta-primary">
+          <i class="far fa-calendar mr-1"></i>
+          Add to Calendar
+        </button>
+      </div>
+      <p>
+        Your company weekly is about to start in 3 hours, please be advised That your attendance is required. You’ll have to notify in advance if you won’t be able to be present.
+      </p>
+      <div class="d-flex">
+        <div class="mr-4">
+          <label class="mb-0">
+            <small class="text-muted">Mentions:</small>
+          </label>
+          <p class="text-strong">Everyone</p>
+        </div>
+        <div class="mr-4">
+          <label class="mb-0">
+            <small class="text-muted">Schedule:</small>
+          </label>
+          <p class="text-strong">Mon, Dec 13th | 10:00 AM - 11:00 AM</p>
+        </div>
+        <div class="mr-4">
+          <label class="mb-0">
+            <small class="text-muted">Posted by:</small>
+          </label>
+          <div class="avatar-xs" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="feed-card card">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex">
+          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+          </div>
+          <div class="profile-info">
+            <div class="d-flex align-items-center">
+              <a href="" class="mr-2">Restie Antiquin</a>
+              <span class="timestamp">Jan 23, 6:37 PM</span>
+            </div>
+            <span class="">No Issues</span>
+          </div>
+        </div>
+        <div class="d-flex align-items-start">
+          <div class="feed-summary">
+            <a href="">#cl-Designs</a>
+            <p>8.7 hours</p>
+          </div>
+          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
+        </div>
+      </div>
+      <div class="details pt-4">
+        <div class="d-flex justify-content-between">
+          <small><strong>Blockers</strong></small>
+          
+        </div>
+        <ol class="pl-3 details-list">
+          <li class="issue-details resolved">
+            
+            <p>
+              Finding out why the updated server always returns 404 (the aws lambda won't execute the function run specifically the app.run.)
+            </p>
+            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
+          </li>
+          <li class="issue-details unresolved">
+            
+            <p>
+              Aws documentation didn't specify that I had to include the issuer and the username to produce the QR code.
+            </p>
+            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <!-- FEED CARDS -->
+  </section>
+  <aside class="stat-pane">
+    <div class="calendar">
+      <div class="event-container">
+        <div class="d-flex align-items-center">
+          <span class="date">02</span>
+          <div>
+            <div class="d-flex">
+              <div class="month">Jan</div>
+              <div class="year">2019</div>
+            </div>
+            <div class="day">Monday</div>
+          </div>
+          
+        </div>
+        <div class="notifications">
+          <div class="d-flex align-items-center justify-content-between w-100">
+            <div>
+              <!-- <p class="mb-0 text-muted">
+                <i class="fas fa-bolt"></i>
+                Hooray! no notifications for today!
+              </p> -->
+            </div>
+            <a href="">
+              <i class="fal fa-plus"></i>
+            </a>
+          </div>
+          <div class="stat-pane-item">
+            <div class="stat-section-title">
+              <a href="">
+                <i class="far fa-bell"></i>
+                <span>Weekly Meeting</span>
+              </a>
+              <small class="text-muted">TODAY, 3:00 PM</small>
+            </div>
+            <div class="stat-section-details">
+              <p>
+                Your team’s weekly meeting is about to start in 3 hours.
+              </p>
+            </div>
+          </div>
+          <div class="stat-pane-item">
+            <div class="stat-section-title">
+              <a href="">
+                <i class="far fa-times-hexagon"></i>
+                <span>You have 3 pending issues</span>
+              </a>
+              <small class="text-muted">3 days ago</small>
+            </div>
+            <div class="stat-section-details">
+              <div  class="mb-2">
+                <a href="">#cl-Helpdesk</a>
+              </div>
+              <p>
+                1. Finding out why the updated server always running and consuming server resources and spaces budget and details
+              </p>
+              <p>2. Aws documentation didn’t specify that I had …</p>
+              <p>3. Slow internet connection, I can’t access the staging</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="monthly-calendar">
+        <h6 class="mb-2">Calendar</h6>
+        <div class="calendar-header">
+          <span>S</span>
+          <span>M</span>
+          <span>T</span>
+          <span>W</span>
+          <span>T</span>
+          <span>F</span>
+          <span>S</span>
+        </div>
+        <div class="currentMonth" id="datesAccordion">
+          <div class="weekview" id="currentWeek">
+            <span>1</span>
+            <span class="today">2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>7</span>
+          </div>
+          <div class="wholeMonth collapse" id="wholeMonth" aria-lablledby="currentWeek" data-parent="#datesAccordion">
+            <div class="weekview">
+              <span>8</span>
+              <span>9</span>
+              <span>10</span>
+              <span>11</span>
+              <span>12</span>
+              <span>13</span>
+              <span>14</span>
+            </div>
+            <div class="weekview">
+              <span>15</span>
+              <span>16</span>
+              <span>17</span>
+              <span>18</span>
+              <span>19</span>
+              <span>20</span>
+              <span>21</span>
+            </div>
+            <div class="weekview">
+              <span>22</span>
+              <span>23</span>
+              <span>24</span>
+              <span>25</span>
+              <span>26</span>
+              <span>27</span>
+              <span>28</span>
+            </div>
+            <div class="weekview">
+              <span>29</span>
+              <span>30</span>
+              <span>31</span>
+              <span class="idleDay">1</span>
+              <span class="idleDay">2</span>
+              <span class="idleDay">3</span>
+              <span class="idleDay">4</span>
+            </div>
+          </div>
+          <a href="" class="calendar-expander" data-toggle="collapse" data-target="#wholeMonth" aria-expanded="true" aria-controls="wholeMonth"><i class="fal fa-angle-double-down"></i></a>
+        </div>
+      </div>
+      <div class="statistics">
+        <h6 class="mb-4">Weekly hours</h6>
+        <div class="graph">
+          <div class="scale">
+            <div class="value">8</div>
+            <div class="value">6</div>
+            <div class="value">4</div>
+            <div class="value">2</div>
+            <div class="value">0</div>
+          </div>
+          <div class="bars">
+            <div class="bar" style="height:0%"></div>
+            <div class="bar short" style="height:10%"></div>
+            <div class="bar" style="height:100%"></div>
+            <div class="bar" style="height:80%"></div>
+            <div class="bar" style="height:100%"></div>
+            <div class="bar" style="height:100%"></div>
+            <div class="bar" style="height:0%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="statistics pt-0">
+        <div class="d-flex justify-content-between mb-2">
+          <h6>Login History</h6>
+          <div class="legend">
+            <div class="am">AM</div>
+            <div class="pm">PM</div>
+          </div>
+        </div>
+        <div class="graph">
+          <div class="log-data">
+            <div class="date-label">
+              <span>Sun</span>
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+            </div>
+            <div class="time-in time-data">
+               <span class="time">- -</span>
+               <span class="time">9:00 <i class="am"></i></span>
+               <span class="time">9:00 <i class="am"></i></span>
+               <span class="time">- - <i class="am"></i></span>
+               <span class="time">9:00 <i class="am"></i></span>
+               <span class="time">9:00 <i class="am"></i></span>
+               <span class="time">- -</span>
+            </div>
+            <div class="time-out time-data">
+               <span class="time">- -</span>
+               <span class="time">9:00 <i class="pm"></i></span>
+               <span class="time">9:00 <i class="pm"></i></span>
+               <span class="time">9:00 <i class="pm"></i></span>
+               <span class="time">9:00 <i class="pm"></i></span>
+               <span class="time">9:00 <i class="pm"></i></span>
+               <span class="time">- -</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="other-sections">
+        <div class="stat-section-title">
+          <a href="">
+            <i class="far fa-anchor"></i>
+            <span>You have 2 on going projects</span>
+          </a>
+          
+        </div>
+        <div class="stat-pane-item d-flex justify-content-between align-items-center">
+          <div class="stat-section-details mb-2">
+            <a href="" class="">#cl-Helpdesk</a>
+          </div>
+          <small class="text-muted">456 hours total</small>
+        </div>
+        <div class="stat-pane-item d-flex justify-content-between align-items-center">
+          <div class="stat-section-details mb-2">
+            <a href="" class="">#cl-Design</a>
+          </div>
+          <small class="text-muted">45 hours total</small>
+        </div>
+      </div>
+    </div>
+  </aside>
 </div>

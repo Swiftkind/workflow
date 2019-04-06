@@ -1,0 +1,103 @@
+html,
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font: normal normal 100%/120% $Text-Regular, sans-serif;
+    background: $white;
+    color: $primary-text;
+    height: 100%;
+    letter-spacing: -0.24px;
+    overflow-y: hidden;
+    * {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        &:focus {
+            box-shadow: none !important;
+
+        }
+    }
+}
+
+//typography
+h1,
+.h1 {
+    font-size: $h1;
+    font-weight: normal;
+}
+
+h2,
+.h2 {
+    font-size: $h2;
+    font-weight: normal;
+}
+
+h3,
+.h3 {
+    font-size: $h3;
+}
+
+h4,
+.h4 {
+    font-size: $h4;
+    font-weight: normal;
+}
+
+h5,
+.h5 {
+    font-size: $h5;
+    font-weight: normal;
+}
+
+h6,
+.h6 {
+    font-size: $h6;
+    font-weight: normal;
+}
+
+p,
+.paragraph {
+
+    font-size: $paragraph;
+    letter-spacing: 0.003rem;
+    line-height: 1.43;
+    letter-spacing: -0.24px;
+}
+
+
+label {
+    font-size: $paragraph;
+}
+
+small {
+    font-size: $small;
+}
+.xsmall {
+    font-size: $xsmall;
+}
+
+a {
+    text-decoration: none;
+    color: $primary;
+    font-size: $paragraph;
+    &:hover {
+        text-decoration: none;
+        color: $primary;
+    }
+
+    &.link-icon {
+        img {
+            width: 35px;
+        }
+    }
+}
+.text-strong{
+    color: $charcoal;
+    font-family: $Text-Medium;
+}
+.text-muted{
+    color: $muted !important;
+}
+.circle {
+    border-radius: 50%;
+}

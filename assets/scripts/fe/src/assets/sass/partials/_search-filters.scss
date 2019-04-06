@@ -1,0 +1,16 @@
+
+.search-filter{
+    position: absolute;
+    height: 100%;
+    width: torem(280);
+    background: $white;
+   left:-100%;
+   opacity: 0;
+	padding: torem(25) torem(30);
+	@include transition(all cubic-bezier(0.93, -0.06, 1, 1) 0.5s);
+	&.show-filter{
+		left:0;
+		opacity: 1;
+		@include transition(all ease 0.3s);
+	}
+}

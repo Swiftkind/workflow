@@ -1,0 +1,238 @@
+// -webkit-font-smoothing: antialiased;
+//     moz-osx-font-smoothing: grayscale;
+//     font: normal normal 16px/150% 'Lato-Regular', 'Helvetica', sans-serif;
+
+
+
+@font-face {
+  font-family: 'SF-Pro-Text-Regular';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-Regular.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-MediumItalic';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-MediumItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-LightItalic';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-LightItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-HeavyItalic';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-HeavyItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-BoldItalic';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-BoldItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-Medium';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-Medium.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-Light';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-Light.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-Semibold';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-Semibold.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-RegularItalic';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-RegularItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-Bold';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-Bold.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Text-SemiboldItalic';
+  src: url(/static/fonts/SF_Pro_Text/SF-Pro-Text-SemiboldItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+
+@font-face {
+  font-family: 'SF-Pro-Display-ThinItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-ThinItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Semibold';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Semibold.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Ultralight';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Ultralight.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Thin';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Thin.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Regular';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Regular.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Black';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Black.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-RegularItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-RegularItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-HeavyItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-HeavyItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Light';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Light.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-UltralightItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-UltralightItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-LightItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-LightItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-MediumItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-MediumItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Heavy';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Heavy.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-BlackItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-BlackItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Medium';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Medium.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-BoldItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-BoldItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-Bold';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-Bold.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}
+
+@font-face {
+  font-family: 'SF-Pro-Display-SemiboldItalic';
+  src: url(/static/fonts/SF_Pro_Display/SF-Pro-Display-SemiboldItalic.otf);
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  moz-osx-font-smoothing: grayscale
+}

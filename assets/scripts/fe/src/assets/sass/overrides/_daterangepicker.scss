@@ -1,0 +1,95 @@
+.date-range-picker {
+    height: torem(44);
+    border-radius: 4px;
+    border: solid 1px $light-border;
+    background-color: $white;
+    position: relative;
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(space-between);
+
+    span {
+        font-family: $Text-Regular;
+        font-size: $paragraph;
+        color: $black;
+    }
+
+    &:after {
+        content: "\f133";
+        font-family: "Font Awesome 5 Pro";
+        font-weight: normal;
+        border: none;
+        display: inline-block;
+        position: absolute;
+        right: 1rem;
+        font-size: $paragraph;
+    }
+}
+
+.daterangepicker {
+    box-shadow: 0 6px 20px 0 rgba(159, 159, 185, 0.3);
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 1rem 1rem 0;
+    &:after{
+    	border-color:$white;
+    }
+    .ranges{
+    	ul{
+    		li{
+    			font-family: $Text-Medium;
+    			color: $black;
+    			font-size: $small;
+    			letter-spacing: -.24px;
+    			padding: 0.65rem 0 0.65rem 2rem;
+    			&.active{
+    				background-color: $primary;
+    				font-family: $Text-Semibold;
+    			}
+    		}
+    	}
+    }
+    .drp-calendar{
+    	.calendar-table{
+    		table{
+    			thead{
+    				tr{
+    					th{
+    						font-family: $Text-Semibold;
+    						color: $black;
+    					}
+    				}
+    			}
+    			tbody{
+    				tr{
+    					td{
+    						font-family: $Text-Regular;
+    						width: torem(32);
+    						height: torem(32);
+    						&.in-range{
+    							background-color: rgba($primary, 0.05);
+    							font-family: $Text-Medium;
+    							color: $black;
+    						}
+    						&.active{
+    							background-color: $primary;
+    							color: $white;
+    							font-family: $Text-Semibold;
+    						}
+    					}
+    				}
+    			}
+    		}
+    	}
+    	&.left{
+    		border:none !important;
+    		padding-left:1rem;
+    	}
+
+    }
+    .drp-buttons{
+    	padding-top:1rem;
+    		border:none !important;
+    	}
+}
+

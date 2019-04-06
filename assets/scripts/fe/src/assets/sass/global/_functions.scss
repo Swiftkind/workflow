@@ -1,0 +1,5 @@
+//converts px values to rem
+
+@function torem($value){
+	@return #{$value/$basefont}rem;
+}

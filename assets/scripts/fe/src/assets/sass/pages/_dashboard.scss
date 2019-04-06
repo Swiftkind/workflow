@@ -1,7 +1,511 @@
-.left {
-  width: 70%;
+.side-menu {
+    padding: torem(50) torem(30);
+    width: torem(254);
+    position: relative;
+    height: 100vh;
+    bottom: 0;
+    top: 0;
+    border-right: solid 1px #f0f0f0;
+
+
+    ul {
+        margin-top: torem(44);
+
+        li {
+            margin-bottom: torem(40);
+
+            @include flex-align-center();
+            @include justify-content(space-between);
+
+            a {
+                font-family: $Display-Regular;
+                font-size: $h6;
+                color: $primary-text;
+                @include flex-align-center();
+                letter-spacing: -.20px;
+
+                i {
+                    font-size: $h6;
+                    margin-right: 10px;
+                    font-size: 120%;
+                }
+
+                &.active {
+                    color: $black;
+
+                    font-family: $Display-Semibold;
+                }
+            }
+
+            .count {
+                width: 20px;
+                height: 20px;
+                background-color: $primary;
+                color: $white;
+                @include justify-align-center();
+                @extend .circle;
+                font-size: $xsmall;
+            }
+        }
+    }
 }
 
-.right {
-  width: 30%;
+//center section
+.center-nav {
+    @include flex-align-center();
+    @include justify-content(space-between);
+    @include transition(all ease 0.3s);
+    padding-left: torem(60);
+
+    h2 {
+        margin-bottom: 0;
+    }
+
+    &.sticky {
+        position: fixed;
+        width: 100%;
+        max-width: torem(670);
+        margin-left: -18px;
+        z-index: 1;
+        background-color: $white;
+        padding: 2rem;
+        top: 0;
+        @include transition(all ease 0.3s);
+
+        .section-title {
+            display: none;
+            @include transition(all ease 0.3s);
+        }
+
+        .search-input {
+            max-width: torem(629);
+            height: 44px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: $paragraph;
+
+            input {
+                width: 100%;
+                max-width: torem(450);
+                @include transition(all ease 0.3s);
+
+            }
+        }
+
+    }
+
+    .searchToggle {
+        font-size: $h4;
+        color: $blue-grey;
+    }
+
+    .search-input {
+        max-width: torem(330);
+        background: $white;
+        border-radius: 50px;
+        @include align-items(center);
+        @include justify-content(space-between);
+     
+        margin-right: torem(40);
+
+        input {
+            width: auto;
+            max-width: torem(250);
+            border: none;
+            margin-right: auto;
+            margin-left: 1px;
+            font-size: $paragraph;
+            letter-spacing: -0.3px;
+            font-family: $Text-Regular;
+
+            @include placeholder {
+                color: $muted;
+
+            }
+        }
+
+        .input-group {
+            &-text {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+
+            }
+
+            &-prepend {
+                .filter-toggle {
+                    color: $primary;
+                    font-family: $Text-Medium;
+                    font-size: $paragraph;
+                    letter-spacing: -0.3px;
+                }
+
+                &:after {
+                    content: "";
+                    width: 1px;
+                    height: 22px;
+                    display: block;
+                    background-color: $muted;
+                    margin-left: torem(10);
+                }
+            }
+
+        }
+
+        .filter-toggle {
+            color: $light-grey;
+        }
+
+
+    }
 }
+
+.center-section {
+    width: 100%;
+
+    position: relative;
+    padding: 0 torem(10) torem(50);
+
+    @include flexbox();
+
+    &.feed-container {
+        overflow-y: auto;
+
+        @include scrollbar(0rem, $muted, $muted, 0px, 0);
+        background-color: transparent;
+
+        .feed-section {
+            padding: 0 torem(50);
+            max-height: calc(100vh - 5.625rem);
+            overflow-y: scroll;
+            position: relative;
+            @include scrollbar(0.5rem, $pale-grey, $secondary, 10px, 1);
+        }
+    }
+
+
+
+
+
+
+
+
+}
+
+//right side bar
+.stat-pane {
+    max-width: torem(430);
+    width: 100%;
+    background-color: $white;
+    right: 0;
+    top: 0;
+    max-height: calc(100vh - 5.625rem);
+    overflow-y: scroll;
+    position: relative;
+    @include scrollbar(0.5rem, $pale-grey, $secondary, 10px, 1);
+    border-left: solid 1px #f0f0f0;
+    padding-bottom: 2rem;
+
+    .stat-pane-item {
+        padding-top: torem(20);
+        border-bottom: solid 1px $light-border;
+
+
+    }
+
+    h6 {
+        color: $black;
+        font-family: $Text-Bold;
+    }
+
+
+
+    .stat-section-title {
+        @include flex-align-center();
+        @include justify-content(space-between);
+
+        a {
+            letter-spacing: -0.4px;
+            color: $black;
+            font-family: $Text-Semibold;
+            font-family: $h6;
+            color: $black;
+
+            i {
+                margin-right: torem(8);
+            }
+        }
+    }
+
+    .stat-section-details {
+        margin-top: torem(10);
+
+        a {
+            color: $black;
+            font-family: $Text-Medium;
+        }
+    }
+
+
+    .calendar {
+        .event-container {
+            padding: 0 torem(40);
+
+            .month,
+            .year {
+                font-size: $small;
+                font-family: $Text-Light;
+                margin-right: 10px;
+                color: $light-grey;
+            }
+
+
+
+
+            .date {
+                font-size: torem(40);
+                color: $black;
+                margin-right: 5px;
+                font-family: $Text-Light;
+            }
+
+            .notifications {
+                padding: torem(20) 0;
+
+                &.no-notification {
+                    border-bottom: solid 1px $light-border;
+                    margin-bottom: torem(10);
+                }
+
+            }
+        }
+
+        .monthly-calendar {
+            padding: torem(0) torem(40);
+
+            .calendar-header {
+
+                @include flexbox();
+                @include justify-content(space-between);
+
+
+                margin: 0 auto;
+
+                span {
+                    color: $muted;
+                    font-size: $small;
+                    font-family: $Display-Bold;
+                    text-align: center;
+                    width: 28px;
+                    height: 28px;
+                    @include justify-align-center();
+                }
+
+            }
+
+            .currentMonth {
+                margin-top: torem(-5);
+
+
+                .weekview {
+                    @include flex-align-center();
+                    @include justify-content(space-between);
+                    color: $blue-grey;
+                    text-align: center;
+
+                    height: torem(50);
+
+                    span {
+                        text-align: center;
+                        width: 28px;
+                        height: 28px;
+                        @include justify-align-center();
+                        font-family: $Text-Light;
+                        color: $primary-text;
+                        font-size: $paragraph;
+                    }
+
+                    .today {
+
+                        background-image: linear-gradient(117deg, #5979e3, #374add);
+                        font-size: $paragraph;
+                        color: $white;
+                        font-family: $Text-Medium;
+                        @extend .circle;
+                        line-height: 0;
+                        margin-top: -4px;
+                    }
+
+                    .idleDay {
+                        color: $Text-Regular;
+                    }
+                }
+
+                .calendar-expander {
+                    color: $blue-grey;
+                    display: block;
+                    text-align: center;
+                }
+            }
+        }
+
+        .statistics {
+            padding: 21px torem(57) 0 torem(41);
+
+
+            .legend {
+                @include flex-align-center();
+
+                div {
+                    width: max-content;
+                    border-radius: 50%;
+                    font-size: 10px;
+                    font-family: $Text-Bold;
+                    color: $white;
+                    width: 28px;
+                    height: 15px;
+                    border-radius: 10px;
+                    @include justify-align-center();
+                    margin: 0 0.5rem;
+                }
+            }
+
+            .am {
+                background-color: #a697fa;
+            }
+
+            .pm {
+                background-color: #52e2dc;
+            }
+
+            .graph {
+                position: relative;
+                @include flexbox();
+                @include align-items(baseline);
+                margin-bottom: torem(42);
+
+                .scale {
+                    position: absolute;
+                    width: 100%;
+                    z-index: 0;
+                    bottom: 0;
+
+                    .value {
+                        @include flexbox();
+                        @include align-items(flex-end);
+                        font-size: $xsmall;
+                        color: $muted;
+                        height: 30px;
+                        line-height: 0;
+
+                        &:after {
+                            content: "";
+                            display: block;
+                            border-bottom: solid 1px #f0f0f0;
+                            width: 100%;
+                            height: 0;
+                            margin-left: 12px;
+                        }
+                    }
+                }
+
+                .bars {
+                    position: relative;
+                    z-index: 1;
+                    height: torem(120);
+                    width: calc(100% - 16px);
+                    margin-left: 16px;
+                    @include flexbox();
+                    @include justify-content(space-between);
+                    @include align-items(baseline);
+
+                    .bar {
+                        position: relative;
+                        width: 8px;
+                        max-height: 120%;
+                        display: inline-block;
+                        background-image: linear-gradient(to bottom, #d9419f, #3d1bd0);
+
+                        &.short {
+                            background: $danger;
+                        }
+                    }
+                }
+
+                .log-data {
+                    width: 100%;
+
+                    .date-label {
+                        @include flexbox();
+                        @include justify-content(space-between);
+                        padding-left: torem(20);
+
+                        span {
+                            text-align: center;
+                            width: 45px;
+                            max-width: 45px;
+                            font-size: $xsmall;
+                            color: $muted;
+                        }
+                    }
+
+                    .time-data {
+                        @include flexbox();
+                        @include justify-content(space-between);
+                        padding-bottom: 1rem;
+
+                        &:before {
+                            font-size: $xsmall;
+                            color: $muted;
+                            text-align: right;
+                            margin-right: 12px;
+                            margin-left: -12px;
+                            width: 20px;
+                        }
+
+                        .time {
+                            width: 45px;
+                            max-width: 45px;
+                            font-family: $Text-Light;
+                            color: $primary-text;
+                            position: relative;
+                            text-align: center;
+                            font-size: $small;
+
+                            i {
+
+                                border-radius: 50%;
+                                display: block;
+                                position: absolute;
+                                top: 4px;
+                                right: 0;
+                                width: 4px;
+                                height: 4px;
+                            }
+                        }
+
+                        &.time-in {
+                            &:before {
+                                content: "In";
+                            }
+
+
+                        }
+
+                        &.time-out {
+                            &:before {
+                                content: "Out";
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    .other-sections {
+        padding: 0 torem(40);
+    }
+}
+

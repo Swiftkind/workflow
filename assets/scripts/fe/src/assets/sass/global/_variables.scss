@@ -1,0 +1,85 @@
+//typography variables
+
+
+
+$Display-Ultralight: 'SF-Pro-Display-Ultralight';
+$Display-UltralightItalic: 'SF-Pro-Display-UltralightItalic';
+$Display-Thin: 'SF-Pro-Display-Thin';
+$Display-ThinItalic: 'SF-Pro-Display-ThinItalic';
+$Display-Light: 'SF-Pro-Display-Light';
+$Display-LightItalic: 'SF-Pro-Display-LightItalic';
+$Display-RegularItalic: 'SF-Pro-Display-RegularItalic';
+$Display-Regular: 'SF-Pro-Display-Regular';
+$Display-Semibold: 'SF-Pro-Display-Semibold';
+$Display-SemiboldItalic: 'SF-Pro-Display-SemiboldItalic';
+$Display-Medium: 'SF-Pro-Display-Medium';
+$Display-MediumItalic: 'SF-Pro-Display-MediumItalic';
+$Display-Bold: 'SF-Pro-Display-Bold';
+$Display-BoldItalic: 'SF-Pro-Display-BoldItalic';
+$Display-BlackItalic: 'SF-Pro-Display-BlackItalic';
+$Display-Black: 'SF-Pro-Display-Black';
+$Display-Heavy: 'SF-Pro-Display-Heavy';
+$Display-HeavyItalic: 'SF-Pro-Display-HeavyItalic';
+
+$Text-Light: 'SF-Pro-Text-Light';
+$Text-LightItalic: 'SF-Pro-Text-LightItalic';
+$Text-Regular: 'SF-Pro-Text-Regular';
+$Text-RegularItalic: 'SF-Pro-Text-RegularItalic';
+$Text-Semibold: 'SF-Pro-Text-Semibold';
+$Text-SemiboldItalic: 'SF-Pro-Text-SemiboldItalic';
+$Text-Medium: 'SF-Pro-Text-Medium';
+$Text-MediumItalic: 'SF-Pro-Text-MediumItalic';
+$Text-Bold: 'SF-Pro-Text-Bold';
+$Text-BoldItalic: 'SF-Pro-Text-BoldItalic';
+$Text-Heavy: 'SF-Pro-Text-Heavy';
+$Text-HeavyItalic: 'SF-Pro-Text-HeavyItalic';
+
+//Primary colors
+// $primary:#e81a75;
+$primary:#5270e2;
+$primary-text: #5E6A84;
+// Mood Colors
+
+ $success: #42ceb3;
+ $danger: #fa5568;
+// $warning: #ffde52;
+// $info: #4a73fa;
+$muted: #afb5c1;
+$smoke:#F7F7F8;
+
+
+//secondary colors
+$secondary: #4f58a3;
+$charcoal: #42516E;
+$brownish-grey: #777777;
+$blue-grey:#c4c7d3;
+$pale-grey: #f2f5ff;
+$light-grey:#818C9F; //muted text, border color
+$black: #172b4d;
+$pink: #ffa0ff;
+$orange: #ea704c;
+
+
+
+
+$border-color:#EBEBEB;
+$light-border: #f0f0f0;
+
+
+
+//font-sizes:
+$basefont: 16;
+$h1: #{36 / $basefont}rem;
+$h2: #{30 / $basefont}rem;
+$h3: #{24 / $basefont}rem;
+$h4: #{20 / $basefont}rem;
+$h5: #{18 / $basefont}rem;
+$h6: #{16 / $basefont}rem;
+$paragraph: #{14 / $basefont}rem;
+$small: #{12 / $basefont}rem;
+$xsmall: #{10 / $basefont}rem;
+
+
+//to call wildcards at once
+
+$avatar:  '[class*="avatar-"]';

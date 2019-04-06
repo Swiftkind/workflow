@@ -1,0 +1,54 @@
+.bootstrap-select {
+    * {
+        &:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    &.show {
+        .dropdown-toggle {
+            background: $smoke !important;
+            border-color: $light-border !important;
+        }
+    }
+
+    .dropdown-toggle {
+        @include btn();
+        border: solid 1px $light-border;
+        background: $white;
+        font-family: $Text-Regular;
+        font-size: $paragraph;
+        outline: none !important;
+        box-shadow: none !important;
+
+        &:hover {
+            background: $white;
+            border-color: $light-border !important;
+        }
+
+        &:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: $light-border !important;
+        }
+
+        &:after {
+            content: "\f107";
+            font-family: "Font Awesome 5 Pro";
+            font-weight: normal;
+            border: none;
+        }
+    }
+
+    .dropdown-menu {
+        .selected {
+            .check-mark {
+                &:after {
+                    border-width: 0 2px 2px 0;
+                    border-color: $primary;
+                }
+            }
+        }
+    }
+}

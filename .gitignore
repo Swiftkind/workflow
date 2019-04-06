@@ -1,6 +1,10 @@
 *.pyc
 *.sqlite3
+*.DS_Store
 *local_settings.py
 
 media/
 static/
+
+assets/fonts
+assets/images

@@ -1,0 +1,11 @@
+//overriding bootstrap theme colors
+$theme-colors: (
+  "primary": #5270e2,
+  "danger": #fa5568,
+  "success": #42ceb3,
+  "muted": #afb5c1,
+);
+
+//disabling default bootstrap box shadows 
+
+$enable-shadows: false;

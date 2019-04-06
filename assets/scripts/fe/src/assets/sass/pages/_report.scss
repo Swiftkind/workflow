@@ -1,0 +1,188 @@
+.report-feed {
+    padding:0 0 torem(50);
+
+    .report-table {
+        table {
+            margin-bottom: torem(50);
+
+            thead {
+
+                th {
+                    font-size: $small;
+                    color: $black;
+                    font-family: $Text-Bold;
+
+                    min-width: 2rem;
+
+                    &:nth-child(1n +2) {
+                        padding-right: 0;
+
+                        text-align: center;
+                    }
+                }
+            }
+
+            tbody {
+
+                tr {
+                    border-bottom: solid 1px rgba($muted, 0.2);
+
+                    td {
+                        padding-top: 1rem;
+                        vertical-align: baseline;
+
+                        .report-name {
+                            color: $charcoal;
+                            position: relative;
+                            max-width: torem(380);
+                            font-size: $paragraph;
+
+                            a {
+                                color: $primary;
+                            }
+
+                        }
+
+                        &:nth-child(1n +2) {
+                            padding-right: 0;
+                            text-align: center;
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+        }
+    }
+
+}
+
+.month-label {
+    position: relative;
+    @include justify-align-center ();
+    margin: torem(26) 0;
+
+    &:before {
+        content: "";
+        height: 1px;
+        width: 100%;
+        border-bottom: solid 1px $pale-grey;
+        position: absolute;
+        z-index: 0;
+    }
+
+    span {
+        color: $secondary;
+        font-size: $small;
+        background: $pale-grey;
+        padding: 3px 10px;
+        border-radius: 1rem;
+        z-index: 1;
+        position: absolute;
+    }
+
+}
+
+
+.report-stream {
+
+    .report-stream-item {
+        position: relative;
+        padding: 1rem 1.25rem 1rem;
+        cursor: pointer;
+
+        &:hover {
+            background: $smoke;
+            @include transition(background 0.3s ease);
+        }
+
+        .report-stream-date {
+            p {
+                font-family: $Text-Medium;
+            }
+        }
+
+
+        .report-table {
+            padding-left: torem(65);
+
+        }
+
+        &:before {
+            content: "";
+            border-left: dashed 1px $border-color;
+            width: 1px;
+            height: 1.2rem;
+            position: absolute;
+            top: 10px;
+            left: 4rem;
+
+        }
+
+        &:after {
+            content: "";
+            border-left: dashed 1px $border-color;
+            width: 1px;
+            height: calc(100% - 1.875rem);
+            position: absolute;
+            top: torem(45);
+            left: torem(64);
+        }
+
+        &.item-collapse {
+            &:hover {
+                background: none;
+            }
+            .date-indicator {
+                &:before{
+                    background: $primary;
+                }
+            }
+        }
+
+        &:last-child {
+            &:after {
+                content: none;
+            }
+        }
+        &:first-child{
+            &:before{
+                content: none;
+            }
+        }
+    }
+
+}
+
+.reportItemToggle {
+    cursor: pointer;
+}
+
+.date-indicator {
+    position: relative;
+    width: torem(14);
+    height: torem(14);
+    margin: 0 torem(14);
+    @extend .circle;
+    display: block;
+    border: solid 2px rgba($primary, 0.2);
+    @include justify-align-center();
+
+    &:before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: $white;
+        display: block;
+        @extend .circle;
+
+
+    }
+
+
+
+    &.item-collapse {}
+}

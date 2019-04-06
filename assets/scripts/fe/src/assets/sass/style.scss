@@ -1,3 +1,48 @@
-@import 'components/navigation';
+//overrides
+
+
+
+//global
+@import 'global/typography';
+@import 'global/variables';
+@import 'global/mixins';
+@import 'global/functions';
+
+/* import the necessary Bootstrap files */
+// @import "../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+//overrides
+@import 'overrides/bootstrap';
+
+
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+@import 'overrides/bootstrap-select';
+@import 'overrides/daterangepicker';
+@import 'global/utils';
+
+
+//components
+@import 'components/forms';
+@import 'components/layout';
+@import 'components/sections';
+@import 'components/feed';
+@import 'components/images';
+@import 'components/profile';
+@import 'components/modals';
+@import 'components/list';
+
+// partials
+@import 'partials/navbar'; 
+@import 'partials/search-filters'; 
+	
+// pages
+
 @import 'pages/dashboard';
+@import 'pages/report';
+@import 'pages/projects';
 @import 'pages/payroll';
+@import 'pages/user-auth';

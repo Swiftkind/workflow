@@ -1,0 +1,13 @@
+.main-container {
+    position: relative;
+    max-width: 1440px;
+    @include flexbox();
+    &.container-extended{
+    	.stat-pane, .profile-dropdown{
+    		border:none;
+    	}
+    }
+    .content-wrapper{
+    	width: 100%;
+    }
+}

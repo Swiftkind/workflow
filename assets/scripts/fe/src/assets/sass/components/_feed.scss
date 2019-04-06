@@ -1,0 +1,219 @@
+.feed-section {
+    .feed-card {
+        margin-top: torem(25);
+        margin-bottom: torem(25);
+
+        .profile-info {
+            text-align: left;
+            margin-left: torem(15);
+
+            a {
+                font-size: $h6;
+                font-family: $Text-Semibold;
+                margin-bottom: 0.2rem;
+            }
+
+            .timestamp {
+                @extend .xsmall;
+            }
+
+            span {
+                margin-right: 10px;
+                color: $muted;
+                line-height: 1.4;
+
+                i {
+                    font-size: 4px;
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .details {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .feed-summary {
+            text-align: right;
+
+            a {
+                font-family: $Text-Semibold;
+                letter-spacing: -0.4px;
+                color: $black;
+                font-size: $h6;
+                display: block;
+            }
+
+            p {
+                color: $primary-text;
+                margin-bottom: 0;
+                font-family: $Text-Medium;
+            }
+        }
+
+        .expand-card {
+            font-size: $small;
+            color: $primary-text;
+        }
+
+
+        &.announcement-card {
+            position: relative;
+            margin-top: 3.5rem;
+
+            &:before {
+                content: "ANNOUCEMENT";
+                color: $primary;
+                letter-spacing: 1.2px;
+                font-size: $small;
+                font-family: $Display-Bold;
+                position: absolute;
+                top: -28px;
+                left: 0;
+
+            }
+        }
+    }
+
+    .feed-limited {
+        max-height: calc(100vh - 300px);
+        overflow-y: auto;
+         @include scrollbar(4px, $blue-grey, $muted, 2px, 0);
+        margin-top: 2rem;
+        padding-right: 0.5rem;
+    }
+
+}
+
+.card {
+    padding: torem(20);
+    background: #fafafa;
+    border-radius: 2px;
+    border: none;
+    background-color: #fafafa;
+}
+
+.card-title {
+    color: $black;
+    font-family: $Text-Medium;
+}
+
+.issue-details,
+.issue-status-mark {
+    margin-left: torem(35);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+
+    p {
+        margin-bottom: 0.5rem;
+    }
+
+    &:before {
+        content: "";
+        width: 20px;
+        height: 20px;
+        border-radius: 16px;
+        color: $white;
+        font-size: 10px;
+        font-family: "Font Awesome 5 Pro";
+        font-weight: 900;
+        position: absolute;
+        left: -50px;
+        top: 3px;
+        @include justify-align-center();
+    }
+
+    &.resolved {
+
+
+        &:before {
+
+            content: "\f00c";
+            background: $success;
+        }
+    }
+
+    &.unresolved {
+
+
+        &:before {
+
+            content: "\f00d";
+            background: $danger;
+        }
+    }
+}
+
+.issue-status-mark {
+    margin: 0;
+    display: block;
+
+    &:before {
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 0;
+    }
+}
+
+
+.feed-actions {
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(space-between);
+
+    .date-selector {
+        @include flexbox();
+        @include align-items(center);
+        @include justify-content(space-between);
+        max-width: torem(387);
+
+        .arrow {
+            background: $white;
+            width: torem(44);
+            height: torem(44);
+            @extend .circle;
+            @include justify-align-center();
+            font-size: $h4;
+            border: solid 1px $light-border;
+            margin-bottom: 0;
+        }
+
+        .date-selected {
+            border: solid 1px $light-border;
+            color: $primary-text;
+            letter-spacing: -0.3px;
+            border-radius: 50px;
+            font-size: $paragraph;
+            background: $white;
+            padding: torem(13) torem(24);
+            @include justify-align-center();
+            margin: 0 1rem;
+        }
+    }
+
+
+}
+
+.feed-data-options {
+    @include flexbox();
+
+    button {
+        font-size: $paragraph;
+        color: $black;
+        @include justify-align-center();
+        border-radius: 6px;
+        background: $white;
+        width: torem(44);
+        height: torem(44);
+        border: solid 1px $light-border;
+
+        &.btn-sm {
+            width: torem(30);
+            height: torem(30);
+            font-size: torem(11);
+        }
+    }
+}

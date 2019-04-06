@@ -1,32 +1,40 @@
-<nav class="navbar">
-  <div class="container d-flex align-items-center justify-content-between py-1">
-    <a class="navbar-brand" uiSref="dashboard">Workflow</a>
-
-    <form class="navbar-search">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text" id="btnGroupAddon">@</div>
-        </div>
-        <input type="text" class="form-control" placeholder="Search...">
+<nav class="center-nav">
+  <div class="d-flex justify-content-between w-100">
+    <h2 class="section-title">Dashboard</h2>
+    <div class="search-input input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text filter-toggle">Show Filters</span>
       </div>
-    </form>
-
-    <ul class="nav navbar-nav">
-      <li><a uiSref="dashboard"><i class="far fa-home"></i>Home</a></li>
-      <li><a uiSref="projects"><i class="far fa-project-diagram"></i>Projects</a></li>
-      <li><a uiSref="payroll"><i class="far fa-cash-register"></i>Payroll</a></li>
-    </ul>
-
-    <div class="navbar-user" ngbDropdown>
-      <button ngbDropdownToggle>
-        <div class="image" [ngStyle]="{'background-image': 'url('+ auth.user.image +')'}"></div>
-        <span>{{ auth.user.first_name }}</span>
-      </button>
-      <div ngbDropdownMenu>
-        <a class="dropdown-item" uiSref="user-settings">Account Settings</a>
-        <a class="dropdown-item" uiSref="messages">Messages</a>
-        <a class="dropdown-item" uiSref="logout">Log out</a>
+      <input type="text" name="" class="form-control" placeholder="Search anything">
+      <div class="input-group-append">
+        <span class="input-group-text">
+          <a href="" class="filter-toggle">
+            <i class="fal fa-search ml-1"></i>
+          </a>
+        </span>
       </div>
+    </div>
+  </div>
+  <div class="profile-dropdown" ngbDropdown>
+    <div class="profile-info">
+      <p>{{ auth.user.first_name }} {{ auth.user.last_name }}</p>
+      <span>{{ auth.user.position }}</span>
+    </div>
+    <a href="" prevdefault ngbDropdownToggle>
+      <div class="avatar-sm" [ngStyle]="{'background-image': 'url(' + auth.user.image + ')'}" data-rjs="3"></div>
+    </a>
+    <div ngbDropdownMenu>
+      <a uiSref="user-settings" class="dropdown-item">
+        <i class="far fa-cog"></i>
+        <span>
+          Account Settings
+          <small class="text-muted">{{ auth.user.email }}</small>
+        </span>
+      </a>
+      <a uiSref="logout" class="dropdown-item">
+        <i class="far fa-arrow-alt-right"></i>
+        Log out
+      </a>
     </div>
   </div>
 </nav>
