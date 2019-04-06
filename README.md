@@ -42,7 +42,7 @@ Frontend assets (`../<project_root>/assets/scripts/fe/src/assets/`)
 1. to symlink a directory Run `ln -s`
 
 `sudo ln -s <project_root>/assets/scripts/fe/src/assets/fonts/ <project_root>/assets/`
-`sudo ln -s <project_root>/assets/scripts/fe/src/assets/img/ <project_root>/assets/`
+`sudo ln -s <project_root>/assets/scripts/fe/src/assets/images/ <project_root>/assets/`
 
 DO NOT SYMLINK THE WHOLE `ASSETS` directory. (I will fire you **serious face**)
 
