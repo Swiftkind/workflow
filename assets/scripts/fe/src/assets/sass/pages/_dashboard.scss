@@ -206,6 +206,10 @@
     border-left: solid 1px #f0f0f0;
     padding-bottom: 2rem;
 
+    &.overflow-hidden {
+        overflow: hidden;
+    }
+
     .stat-pane-item {
         padding-top: torem(20);
         border-bottom: solid 1px $light-border;
