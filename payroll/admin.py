@@ -16,7 +16,7 @@ class PlanAdmin(admin.ModelAdmin):
 
 class PayrollAdmin(admin.ModelAdmin):
     model = Payroll
-    list_display = ('__str__', 'date_from', 'date_to',
+    list_display = ('payroll_code', '__str__', 'date_from', 'date_to',
         'gross_pay', 'total_deduction', 'net_pay')
 
 

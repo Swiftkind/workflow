@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Payroll(models.Model):
@@ -7,6 +9,8 @@ class Payroll(models.Model):
     """
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
         blank=True, null=True, on_delete=models.SET_NULL)
+
+    payroll_code = models.CharField(max_length=15, null=True, blank=True)
 
     date_from = models.DateField(blank=True, null=True)
     date_to = models.DateField(blank=True, null=True)
@@ -18,8 +22,27 @@ class Payroll(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+    is_sent = models.BooleanField(default=False)
+
     def __str__(self):
         return f"({self.id}) {self.user}"
+
+    def _generate_payroll_code(self):
+        """ generate payroll code based on the
+            employee information.
+        """
+        pr = Payroll.objects.filter(user=self.user)
+
+        return f"{settings.PAYROLL_EMPLOYEE_ID}{self.user.id}{pr.count():04d}"
+
+
+@receiver(post_save, sender=Payroll)
+def auto_generate_payroll_code(sender, instance=None, created=False, **kwargs):
+    # generate payroll code to new payroll
+    # instance.
+    if created:
+        instance.payroll_code = instance._generate_payroll_code()
+        instance.save()
 
 
 class Deduction(models.Model):

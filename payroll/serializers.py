@@ -14,13 +14,15 @@ class PayrollSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'user',
+            'payroll_code',
             'date_from',
             'date_to',
             'total_deduction',
             'gross_pay',
             'net_pay',
             'date_created',
-            'date_updated'
+            'date_updated',
+            'is_sent'
         )
 
 

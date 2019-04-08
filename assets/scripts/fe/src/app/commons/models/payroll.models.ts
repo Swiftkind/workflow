@@ -42,6 +42,7 @@ export class Deduction {
 export class Payroll {
   id              : string = null;
   user            : User = new User;
+  payroll_code    : string = null;
   date_from       : string = null;
   date_to         : string = null;
   total_deduction : string = null;
@@ -49,6 +50,7 @@ export class Payroll {
   net_pay         : string = null;
   date_created    : string = null;
   date_updated    : string = null;
+  is_sent         : boolean = false;
 
   constructor(data={}) {
     Object.assign(this, data);

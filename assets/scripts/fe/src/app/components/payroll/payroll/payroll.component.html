@@ -1,60 +1,111 @@
-<div class="container pt-5 payroll">
+<div class="center-section">
+  <div class="payroll-wrapper row">
+    
+    <section class="col-md-4">
+      <app-payroll-list></app-payroll-list>
+    </section>
 
-  <section class="payroll-list">
-    <app-payroll-list></app-payroll-list>
-  </section>
-
-  <section class="payroll-detail" *ngIf="state.params.id">
-    <p>Name : {{ payroll.user.first_name }} {{ payroll.user.last_name }}</p>
-    <p>Email: {{ payroll.user.email }}</p>
-    <p>Job : {{ payroll.user.position }}</p>
-    <p>Date: {{ payroll.date_from }} to {{ payroll.date_to }}</p>
-    <p>Payroll number: {{ payroll.id }}</p>
-
-    <table>
-      <thead>
-        <tr>
-          <th style="width: 145px">Items:</th>
-          <th>Amount:</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Gross Amount:</td>
-          <td>{{ payroll.gross_pay }}</td>
-        </tr>
-        <tr>
-          <td>Deductions:</td>
-          <td>
-            <div *ngFor="let d of payroll.user.deductions">
-              {{ d.name }} : {{ d.ee }}
+    <section class="col-md-8">
+      <div class="payslip-preview-container">
+        <div class="payslip-preview">
+          <div class="d-flex justify-content-between mb-5">
+            <div>
+              <img src="/static/images/logo-2.png" data-rjs="3">
             </div>
-            <div *ngFor="let d of payroll.user.plans">
-              {{ d.name }} : {{ d.monthly_ammort }}
-            </div>
-          </td>
-        </tr>
 
-        <tr>
-          <td>Total Deductions:</td>
-          <td>{{ payroll.total_deduction }}</td>
-        </tr>
-        <tr>
-          <td>Net Amount:</td>
-          <td>{{ payroll.net_pay }}</td>
-        </tr>
-        <tr>
-          <button (click)="downloadPDF()"> Download PDF </button>
-          <button [disabled]="sendingEmail" (click)="sendPDF()"> Send PDF </button>
-        </tr>
-      </tbody>
-    </table>
-    <p [hidden]="!emailCallbackMessage">
-      {{ emailCallbackMessage }}
-    </p>
-  </section>
-  <div class="payroll-detail" [hidden]="state.params.id">
-    No payroll atm..
+            <div class="text-right">
+              <p class="subtitle mb-1">Payslip</p>
+              <h5 class="title-bold">#FTS31902</h5>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between mb-5">
+            <div>
+              <h3 class="title-bold mb-1">Jerome Rumbaoa</h3>
+              <h6 class="pane-title mb-1">Software Developer</h6>
+              <p class="text-muted">jerome@swiftkind.com</p>
+            </div>
+            <div class="text-right">
+              <p class="text-muted mb-1 small">Pay period</p>
+              <p class="title-bold">Jan 01-15,2019</p>
+            </div>
+          </div>
+          <table class="salary-breakdown-table">
+            <thead>
+              <tr>
+                <th scope="col">
+                  <p class="title-bold">Base Salary</p>
+                </th>
+                <th scope="col">
+                  <p class="title-bold">Benefits</p>
+                </th>
+                <th scope="col">
+                  <p class="title-bold">Other Deductions</p>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <p>P30,000</p>
+                </td>
+                <td>
+                  <p>
+                    SSS
+                    <span>436.00</span>
+                  </p>
+                  <p>
+                    Phic
+                    <span>
+                      00.00
+                    </span>
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    MacBook Pro
+                    <span>436.00</span>
+                  </p>
+                  <p>
+                    Vehicle
+                    <span>
+                      4,583.33
+                    </span>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="summary d-flex justify-content-end">
+            <div class="w-50">
+              <div class="d-flex justify-content-between">
+                <p class="title-bold">Total Deductions</p>
+                <p>5,455.33</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="title-bold">Subtotal</p>
+                <p>22, 064.42</p>
+              </div>
+            </div>
+          </div>
+          <div class="total text-right">
+            <p class="h6">Pay per Period</p>
+            <h3 class="title-bold">P11, 032.21</h3>
+          </div>
+          <div class="payslip-footer d-flex align-items-end justify-content-between">
+            <div class="w-50">
+              <p class="xsmall">
+                Door 1, 3rd Floor, Consuelo Building, J.P. Laurel Avenue, Lanang, Davao City, Philippines, 8000
+              </p>  
+              <p class="xsmall">
+                (082) 225 - 1050
+              </p>  
+            </div>
+            <p class="xsmall">
+                http://swiftkind.com/
+              </p>  
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-
 </div>
