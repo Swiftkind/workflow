@@ -10,26 +10,26 @@
   <nav>
     <ul class="list-unstyled">
       <li>
-        <a uiSref="dashboard" class="active">
+        <a uiSref="dashboard" uiSrefActive="active">
           <i class="fal fa-gem"></i>
           Dashboard
         </a>
       </li>
       <li>
-        <a href="">
+        <a uiSref="">
           <i class="fal fa-inbox"></i>
           Inbox
         </a>
         <span class="count">1</span>
       </li>
       <li>
-        <a uiSref="projects">
+        <a uiSref="projects" uiSrefActive="active">
           <i class="fal fa-paste"></i>
           Projects
         </a>
       </li>
       <li>
-        <a uiSref="payroll">
+        <a uiSref="payroll" [ngClass]="{active: state.includes('payroll-detail')}">
           <i class="fal fa-gift"></i>
           Payroll
         </a>

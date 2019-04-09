@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StateService } from '@uirouter/angular';
+
 
 @Component({
   selector: 'app-side-menu',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private state: StateService
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

@@ -1,4 +1,11 @@
 .nav-list-style-1 {
+    a {
+        &.active{
+            .nav-list-item {
+                border-color: $primary;
+            }
+        }
+    }
     .nav-list-item {
         border: solid 1px transparent;
         border-top: solid 1px $light-border;
@@ -13,9 +20,6 @@
 
         &:last-child {
             border-bottom: solid 1px $light-border;
-        }
-        &.active{
-        	border-color: $primary;
         }
     }
 }
