@@ -7,6 +7,7 @@ export class User {
   email         : string = null;
   first_name    : string = null;
   last_name     : string = null;
+  full_name     : string = null;
   birthdate     : string = null;
   image         : string = null;
   position      : string = null;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavService } from '../../../commons/services/utils/nav.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private nav : NavService
+  ) {
+    // nav configuration
+    // TODO: this sucks!. find a better solution
+    this.nav.setNav('Dashboard');
   }
+
+  ngOnInit() {}
 
 }

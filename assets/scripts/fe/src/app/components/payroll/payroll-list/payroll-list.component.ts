@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 import { Component, OnInit } from '@angular/core';
 import { StateService } from '@uirouter/angular';
 
@@ -12,7 +14,6 @@ import { Payroll } from '../../../commons/models/payroll.models';
   styleUrls: ['./payroll-list.component.css']
 })
 export class PayrollListComponent implements OnInit {
-  private plist : any = [];
 
   constructor(
     private state          : StateService,
@@ -23,7 +24,9 @@ export class PayrollListComponent implements OnInit {
   ngOnInit() {
     // get the list of payrolls for the
     // authenticated user.
-    this.payrollservice.getList();
+    if(!_.size(this.payrollservice.plist)) {
+      this.payrollservice.getList();
+    }
   }
 
 }

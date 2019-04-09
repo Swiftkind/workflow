@@ -34,7 +34,6 @@
 
             thead {
                 border-bottom: solid 1px $light-border;
-
             }
 
             tbody {
@@ -43,13 +42,19 @@
 
                 tr {
                     td {
+                        vertical-align: top;
+                        padding-right: 18px;
                         p {
                             font-family: $Text-Medium;
                             color: $black;
+                            position: relative;
 
                             span {
                                 margin-left: 2rem;
                                 color: $primary-text;
+                                text-align: right;
+                                position: absolute;
+                                right: 0;
                             }
                         }
                     }

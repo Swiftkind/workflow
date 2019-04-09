@@ -1,4 +1,4 @@
-<main class="container-fluid main-container p-0">
+<main class="container-fluid main-container p-0" [ngClass]="{'container-extended': nav.config.expand}">
   <ui-view name="sidemenu"></ui-view>
 
   <div class="content-wrapper">

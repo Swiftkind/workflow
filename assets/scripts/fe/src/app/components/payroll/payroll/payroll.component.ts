@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from '@uirouter/angular';
+
 import { PayrollService } from '../../../commons/services/payroll/payroll.service';
+import { NavService } from '../../../commons/services/utils/nav.service';
 
 import { Payroll } from '../../../commons/models/payroll.models';
 
@@ -16,14 +18,19 @@ export class PayrollComponent implements OnInit {
 
   constructor(
     private state          : StateService,
-    private payrollservice : PayrollService
-  ) { }
+    private payrollservice : PayrollService,
+    private nav            : NavService
+  ) {
+    // nav configuration
+    // TODO: this sucks!. find a better solution
+    this.nav.setNav('Payroll', true);
+  }
 
   ngOnInit() {
     if(this.state.params.id) {
       // get payroll details from the backend
       this.payrollservice.detail(this.state.params.id)
-        .subscribe(resp=>{ this.payroll = new Payroll(resp); }); 
+        .subscribe(resp=>{ this.payrollservice.payroll = new Payroll(resp); }); 
     }
   }
 

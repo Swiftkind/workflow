@@ -3,17 +3,21 @@ import { HttpClient } from '@angular/common/http';
 
 import { urlsafe, queryparams } from '../../utils/http.utils';
 import { PAYROLL, PAYROLL_REPORT } from '../../constants/api.constants';
+import { Payroll } from '../../../commons/models/payroll.models';
 
 import { downloadFileHanlder } from '../../utils/file.utils';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PayrollService {
-  private plist : any = [];
+  public plist : any = [];
+  public payroll = new Payroll;
 
   constructor(
-    private http: HttpClient
+    private http           : HttpClient,
+    private payrollservice : PayrollService
   ) { }
 
   /* Payroll detail

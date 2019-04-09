@@ -67,6 +67,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
     deductions = serializers.SerializerMethodField(read_only=True)
     plans = serializers.SerializerMethodField(read_only=True)
+    full_name = serializers.SerializerMethodField(read_only=True)
     position_type = serializers.CharField(read_only=True)
 
     class Meta:
@@ -76,6 +77,7 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'first_name',
             'last_name',
+            'full_name',
             'birthdate',
             'image',
             'position',
@@ -112,6 +114,12 @@ class UserSerializer(serializers.ModelSerializer):
             PlanSerializer.Meta.model.objects.filter(user=instance),
             many=True,
         ).data
+
+    def get_full_name(self, instance):
+        """ return the complete name of
+            the user.
+        """
+        return f"{instance.first_name.title()} {instance.last_name.title()}"
 
 
 class SlackAuthSerializer(Slack, serializers.Serializer):

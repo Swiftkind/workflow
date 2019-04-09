@@ -7,5 +7,9 @@ export function ContentOnly (content) {
 }
 
 export function NavContent (content) {
-  return { sidemenu: SideMenuComponent, navigation: NavigationComponent, content: content };
+  return {
+    sidemenu   : SideMenuComponent,
+    navigation : NavigationComponent,
+    content    : content
+  };
 }
