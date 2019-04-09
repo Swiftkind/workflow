@@ -6,6 +6,10 @@ from django.utils import timezone
 from rest_framework import serializers
 
 from users.models import User
+from users.serializers import ShortUserSerializer
+
+from accounting.serializers import ProjectSerializer
+
 from .mixins import DailyStandup
 from .models import Standup, Done, Todo, Blocker
 
@@ -107,6 +111,84 @@ class StandupSerializer(DailyStandup, serializers.Serializer):
         return data
 
 
+class DoneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Done
+        fields = (
+            'id',
+            'standup',
+            'content',
+            'reference',
+            'hours',
+            'date_created',
+            'date_updated'
+        )
+
+
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = (
+            'id',
+            'standup',
+            'content',
+            'reference',
+            'date_created',
+            'date_updated'
+        )
+
+
+class BlockerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blocker
+        fields = (
+            'id',
+            'standup',
+            'content',
+            'reference',
+            'is_fixed',
+            'date_created',
+            'date_updated'
+        )
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    """ standup report read only serializer
+    """
+    user = ShortUserSerializer(read_only=True)
+    project = ProjectSerializer(read_only=True)
+    total_hours = serializers.SerializerMethodField()
+    done = serializers.SerializerMethodField()
+    todo = serializers.SerializerMethodField()
+    blockers = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Standup
+        fields = (
+            'id',
+            'user',
+            'project',
+            'date_created',
+            'total_hours',
+            'done',
+            'todo',
+            'blockers'
+        )
+
+    def get_total_hours(self, obj):
+        return f"{obj.total_hours:.1f}"
+
+    def get_done(self, obj):
+        return DoneSerializer(
+            Done.objects.filter(standup=obj), many=True).data
+
+    def get_todo(self, obj):
+        return TodoSerializer(
+            Todo.objects.filter(standup=obj), many=True).data
+
+    def get_blockers(self, obj):
+        return BlockerSerializer(
+            Blocker.objects.filter(standup=obj), many=True).data
 
 
 

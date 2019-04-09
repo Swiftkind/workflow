@@ -25,3 +25,8 @@ export const PAYROLL = '/api/payroll/';
 // This isn't by definition a "constant" url since the id changes, but this will let us
 //   put all the api/endpoints in one place.
 export const PAYROLL_REPORT = (id: any) => {return urlsafe(PAYROLL, id, 'report')} 
+
+
+/* FEED ENDPOINTS
+ */
+export const FEED = '/api/feed/';

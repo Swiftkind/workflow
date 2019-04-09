@@ -1,204 +1,80 @@
 <div class="center-section feed-container">
-  <section class="feed-section">
+  
+  <section class="feed-section" *ngIf="feed.q">
     <!-- FEED CARDS -->
-    <div class="feed-card card closeModal">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex">
-          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
-          </div>
-          <div class="profile-info">
-            <div class="d-flex align-items-center">
-              <a href="" class="mr-2">Restie Antiquin</a>
-              <span class="timestamp">Jan 23, 6:37 PM</span>
+    <div class="feed-card card" [ngClass]="{'announcement-card': item.instance_type === 'event'}" *ngFor="let item of feed.q">
+
+      <div *ngIf="item.instance_type === 'standup'">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex">
+            <div class="avatar-sm" [ngStyle]="{'background-image': 'url(' + item.instance.user.image + ')'}" data-rjs="3">
             </div>
-            <span class="">No Issues</span>
-          </div>
-        </div>
-        <div class="d-flex align-items-start">
-          <div class="feed-summary">
-            <a href="">#cl-Designs</a>
-            <p>8.7 hours</p>
-          </div>
-          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="feed-card card announcement-card">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="card-title mb-0">Weekly Meeting</h5>
-        <button class="btn btn-cta-primary">
-          <i class="far fa-calendar mr-1"></i>
-          Add to Calendar
-        </button>
-      </div>
-      <p>
-        Your company weekly is about to start in 3 hours, please be advised That your attendance is required. You’ll have to notify in advance if you won’t be able to be present.
-      </p>
-      <div class="d-flex">
-        <div class="mr-4">
-          <label class="mb-0">
-            <small class="text-muted">Mentions:</small>
-          </label>
-          <p class="text-strong">Everyone</p>
-        </div>
-        <div class="mr-4">
-          <label class="mb-0">
-            <small class="text-muted">Schedule:</small>
-          </label>
-          <p class="text-strong">Mon, Dec 13th | 10:00 AM - 11:00 AM</p>
-        </div>
-        <div class="mr-4">
-          <label class="mb-0">
-            <small class="text-muted">Posted by:</small>
-          </label>
-          <div class="avatar-xs" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3"></div>
-        </div>
-      </div>
-    </div>
-    <div class="feed-card card">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex">
-          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
-          </div>
-          <div class="profile-info">
-            <div class="d-flex align-items-center">
-              <a href="" class="mr-2">Restie Antiquin</a>
-              <span class="timestamp">Jan 23, 6:37 PM</span>
+            <div class="profile-info">
+              <div class="d-flex align-items-center">
+                <a href="" class="mr-2">{{ item.instance.user.full_name }}</a>
+                <span class="timestamp">{{ item.instance.date_created | date: "MMM d, h:mm a" }}</span>
+              </div>
+              <span *ngIf="item.instance.blockers.length === 0">No Issues</span>
+              <span *ngIf="item.instance.blockers.length > 0" class="text-danger">{{ item.instance.blockers.length }} pending issues</span>
             </div>
-            <span class="">No Issues</span>
           </div>
-        </div>
-        <div class="d-flex align-items-start">
-          <div class="feed-summary">
-            <a href="">#cl-Designs</a>
-            <p>8.7 hours</p>
-          </div>
-          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
-        </div>
-      </div>
-      <div class="details pt-4">
-        <div class="d-flex justify-content-between">
-          <small><strong>Blockers</strong></small>
-          
-        </div>
-        <ol class="pl-3 details-list">
-          <li class="issue-details resolved">
-            
-            <p>
-              Finding out why the updated server always returns 404 (the aws lambda won't execute the function run specifically the app.run.)
-            </p>
-            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
-          </li>
-          <li class="issue-details unresolved">
-            
-            <p>
-              Aws documentation didn't specify that I had to include the issuer and the username to produce the QR code.
-            </p>
-            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
-          </li>
-        </ol>
-      </div>
-    </div>
-    <div class="feed-card card closeModal">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="d-flex">
-          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
-          </div>
-          <div class="profile-info">
-            <div class="d-flex align-items-center">
-              <a href="" class="mr-2">Restie Antiquin</a>
-              <span class="timestamp">Jan 23, 6:37 PM</span>
+          <div class="d-flex align-items-start">
+            <div class="feed-summary">
+              <a href="">#{{ item.instance.project.channel_name }}</a>
+              <p>{{ item.instance.total_hours }} hours</p>
             </div>
-            <span class="">No Issues</span>
+            <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
           </div>
         </div>
-        <div class="d-flex align-items-start">
-          <div class="feed-summary">
-            <a href="">#cl-Designs</a>
-            <p>8.7 hours</p>
+        <div *ngIf="item.instance.blockers.length > 0" class="details pt-4">
+          <div class="d-flex justify-content-between">
+            <small><strong>Blockers</strong></small>
+            
           </div>
-          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
+          <ol class="pl-3 details-list">
+            <li class="issue-details" [ngClass]="{'resolved': b.is_fixed, 'unresolved': !b.is_fixed}" *ngFor="let b of item.instance.blockers">
+              <p>{{ b.content }}</p>
+              <a href="{{ b.reference }}"><small>{{ b.reference }}</small></a>
+            </li>
+          </ol>
         </div>
       </div>
-    </div>
-    <div class="feed-card card announcement-card">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="card-title mb-0">Weekly Meeting</h5>
-        <button class="btn btn-cta-primary">
-          <i class="far fa-calendar mr-1"></i>
-          Add to Calendar
-        </button>
-      </div>
-      <p>
-        Your company weekly is about to start in 3 hours, please be advised That your attendance is required. You’ll have to notify in advance if you won’t be able to be present.
-      </p>
-      <div class="d-flex">
-        <div class="mr-4">
-          <label class="mb-0">
-            <small class="text-muted">Mentions:</small>
-          </label>
-          <p class="text-strong">Everyone</p>
+
+      <div *ngIf="item.instance_type === 'event'">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="card-title mb-0">{{ item.instance.title }}</h5>
+          <button class="btn btn-cta-primary">
+            <i class="far fa-calendar mr-1"></i>
+            Add to Calendar
+          </button>
         </div>
-        <div class="mr-4">
-          <label class="mb-0">
-            <small class="text-muted">Schedule:</small>
-          </label>
-          <p class="text-strong">Mon, Dec 13th | 10:00 AM - 11:00 AM</p>
-        </div>
-        <div class="mr-4">
-          <label class="mb-0">
-            <small class="text-muted">Posted by:</small>
-          </label>
-          <div class="avatar-xs" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3"></div>
-        </div>
-      </div>
-    </div>
-    <div class="feed-card card">
-      <div class="d-flex justify-content-between align-items-center">
+        <p>{{ item.instance.content }}</p>
         <div class="d-flex">
-          <div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+          <div class="mr-4">
+            <label class="mb-0">
+              <small class="text-muted">Mentions:</small>
+            </label>
+            <p class="text-strong">Everyone</p>
           </div>
-          <div class="profile-info">
-            <div class="d-flex align-items-center">
-              <a href="" class="mr-2">Restie Antiquin</a>
-              <span class="timestamp">Jan 23, 6:37 PM</span>
-            </div>
-            <span class="">No Issues</span>
+          <div class="mr-4">
+            <label class="mb-0">
+              <small class="text-muted">Schedule:</small>
+            </label>
+            <p class="text-strong">{{ item.instance.event_date | date: "EEE, MMM d" }} | {{ item.instance.start_time | date: "h:mm a" }} - {{ item.instance.end_time | date: "h:mm a" }}</p>
           </div>
-        </div>
-        <div class="d-flex align-items-start">
-          <div class="feed-summary">
-            <a href="">#cl-Designs</a>
-            <p>8.7 hours</p>
+          <div class="mr-4">
+            <label class="mb-0">
+              <small class="text-muted">Posted by:</small>
+            </label>
+            <div class="avatar-xs" [ngStyle]="{'background-image': 'url(' + item.instance.organizer.image + ')'}" data-rjs="3"></div>
           </div>
-          <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
         </div>
       </div>
-      <div class="details pt-4">
-        <div class="d-flex justify-content-between">
-          <small><strong>Blockers</strong></small>
-          
-        </div>
-        <ol class="pl-3 details-list">
-          <li class="issue-details resolved">
-            
-            <p>
-              Finding out why the updated server always returns 404 (the aws lambda won't execute the function run specifically the app.run.)
-            </p>
-            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
-          </li>
-          <li class="issue-details unresolved">
-            
-            <p>
-              Aws documentation didn't specify that I had to include the issuer and the username to produce the QR code.
-            </p>
-            <a href=""><small>https://dribbble.com/shots/5408205-Course-academy</small></a>
-          </li>
-        </ol>
-      </div>
+
     </div>
     <!-- FEED CARDS -->
   </section>
+
   <aside class="stat-pane">
     <div class="calendar">
       <div class="event-container">

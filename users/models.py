@@ -92,6 +92,14 @@ class User(ImageDownload, AbstractBaseUser, PermissionsMixin):
             # means that the image source is not accessible.
             pass
 
+    def get_full_name(self):
+        """ return the complete name of
+            the user.
+        """
+        if self.first_name and self.last_name:
+            return f"{self.first_name.title()} {self.last_name.title()}"
+        return self.email
+
     def generate_payroll(self):
         """
         """

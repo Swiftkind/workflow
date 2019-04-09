@@ -62,6 +62,31 @@ class AuthTokenSerializer(serializers.Serializer):
         return token
 
 
+class ShortUserSerializer(serializers.ModelSerializer):
+    """ user serializer with only basic
+        information.
+    """
+    full_name = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'full_name',
+            'image',
+            'birthdate',
+        )
+
+    def get_full_name(self, instance):
+        """ return the complete name of
+            the user.
+        """
+        return instance.get_full_name()
+
+
 class UserSerializer(serializers.ModelSerializer):
     """ user serializer
     """
@@ -119,7 +144,7 @@ class UserSerializer(serializers.ModelSerializer):
         """ return the complete name of
             the user.
         """
-        return f"{instance.first_name.title()} {instance.last_name.title()}"
+        return instance.get_full_name()
 
 
 class SlackAuthSerializer(Slack, serializers.Serializer):
