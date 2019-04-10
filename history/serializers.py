@@ -157,10 +157,12 @@ class ReportSerializer(serializers.ModelSerializer):
     """
     user = ShortUserSerializer(read_only=True)
     project = ProjectSerializer(read_only=True)
+
     total_hours = serializers.SerializerMethodField()
     done = serializers.SerializerMethodField()
     todo = serializers.SerializerMethodField()
     blockers = serializers.SerializerMethodField()
+    pending_issues = serializers.SerializerMethodField()
 
     class Meta:
         model = Standup
@@ -172,7 +174,8 @@ class ReportSerializer(serializers.ModelSerializer):
             'total_hours',
             'done',
             'todo',
-            'blockers'
+            'blockers',
+            'pending_issues'
         )
 
     def get_total_hours(self, obj):
@@ -189,6 +192,9 @@ class ReportSerializer(serializers.ModelSerializer):
     def get_blockers(self, obj):
         return BlockerSerializer(
             Blocker.objects.filter(standup=obj), many=True).data
+
+    def get_pending_issues(self, obj):
+        return Blocker.objects.filter(standup=obj, is_fixed=False).count()
 
 
 

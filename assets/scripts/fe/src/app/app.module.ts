@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     UIRouterModule.forRoot(APP_STATES),
     NgbModule.forRoot(),
-
+    
     PartialsModule,
     PublicModule,
     UsersModule,

@@ -10,7 +10,7 @@
   <nav>
     <ul class="list-unstyled">
       <li>
-        <a uiSref="dashboard" uiSrefActive="active">
+        <a uiSref="dashboard" [ngClass]="{active: state.includes('dashboard') || state.includes('dashboard-report')}">
           <i class="fal fa-gem"></i>
           Dashboard
         </a>

@@ -15,7 +15,7 @@
                 <span class="timestamp">{{ item.instance.date_created | date: "MMM d, h:mm a" }}</span>
               </div>
               <span *ngIf="item.instance.blockers.length === 0">No Issues</span>
-              <span *ngIf="item.instance.blockers.length > 0" class="text-danger">{{ item.instance.blockers.length }} pending issue{{ item.instance.blockers.length > 1 ? 's': '' }}</span>
+              <span *ngIf="item.instance.blockers.length > 0" class="text-danger">{{ item.instance.pending_issues }} pending issue{{ item.instance.pending_issues > 1 ? 's': '' }}</span>
             </div>
           </div>
           <div class="d-flex align-items-start">
@@ -23,7 +23,7 @@
               <a href="">#{{ item.instance.project.channel_name }}</a>
               <p>{{ item.instance.total_hours }} hours</p>
             </div>
-            <a href="" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
+            <a uiSref="dashboard-report" [uiParams]="{id: item.instance.id}" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
           </div>
         </div>
         <div *ngIf="item.instance.blockers.length > 0" class="details pt-4">

@@ -13,3 +13,12 @@ export function NavContent (content) {
     content    : content
   };
 }
+
+export function NavSideOpenContent (content, BackgroundContent) {
+  return {
+    sidemenu   : SideMenuComponent,
+    navigation : NavigationComponent,
+    content    : BackgroundContent,
+    sideopen   : content
+  }
+}

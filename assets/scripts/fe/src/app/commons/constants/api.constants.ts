@@ -30,3 +30,9 @@ export const PAYROLL_REPORT = (id: any) => {return urlsafe(PAYROLL, id, 'report'
 /* FEED ENDPOINTS
  */
 export const FEED = '/api/feed/';
+
+
+/* HISTORY ENDPOINTS
+ */
+export const HISTORY = '/api/history/';
+export const HISTORY_STANDUP = urlsafe(HISTORY, 'standup');
