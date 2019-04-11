@@ -1,6 +1,8 @@
 import os
 import re
 import json
+import datetime
+
 from PIL import Image
 from io import BytesIO
 
@@ -217,5 +219,21 @@ class JSONParser(object):
             if _dict: result.append(_dict)
 
         return result
+
+
+class TZ(object):
+    """ timezone helper to manage
+        calculated time and date
+    """
+    def __init__(self, *args, **kwargs):
+        return super(TZ, self).__init__(*args, **kwargs)
+
+    def last_n_months(self, month_num=1):
+        """ get the month based on the `month_num`.
+        """
+        return [
+            timezone.now() - datetime.timedelta(days=month_num*30),
+            timezone.now()
+        ]
 
 

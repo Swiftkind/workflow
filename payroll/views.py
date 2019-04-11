@@ -14,7 +14,7 @@ class Payroll(Query, ViewSet):
     """ payroll worksheet endpoint
     """
     serializer_class = PayrollSerializer
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, *args, **kwargs):
         serializer = self.serializer_class(

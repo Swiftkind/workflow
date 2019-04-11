@@ -76,10 +76,10 @@ class Standup(DailyStandup, models.Model):
     raw = JSONField(default="{}", null=True, blank=True)
 
     date_created = models.DateTimeField(auto_now_add=True)
-    date_created.editable = True
+    #date_created.editable = True
     
     date_updated = models.DateTimeField(auto_now=True)
-    date_updated.editable = True
+    #date_updated.editable = True
 
     @property
     def total_hours(self):

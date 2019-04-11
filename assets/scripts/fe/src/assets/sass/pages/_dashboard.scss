@@ -175,6 +175,7 @@
         background-color: transparent;
 
         .feed-section {
+            width: 737px;
             padding: 0 torem(50);
             max-height: calc(100vh - 5.625rem);
             overflow-y: scroll;
@@ -182,13 +183,6 @@
             @include scrollbar(0.5rem, $pale-grey, $secondary, 10px, 1);
         }
     }
-
-
-
-
-
-
-
 
 }
 

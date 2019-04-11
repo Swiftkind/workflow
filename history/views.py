@@ -14,6 +14,7 @@ class Standups(Query, ViewSet):
     """ daily standups endpoint
     """
     serializer_class = StandupSerializer
+    permission_classes = (IsAuthenticated,)
 
     def post(self, *args, **kwargs):
         # this post method is being
@@ -29,6 +30,7 @@ class Standup(Query, ViewSet):
     """ daily report endpoint
     """
     serializer_class = ReportSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get(self, *args, **kwargs):
         serializer = self.serializer_class(

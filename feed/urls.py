@@ -3,7 +3,5 @@ from .views import Feed
 
 
 urlpatterns = [
-    path('', Feed.as_view({
-        'get': 'get',
-    }), name="feed"),
+    path('', Feed.as_view(), name="feed"),
 ]

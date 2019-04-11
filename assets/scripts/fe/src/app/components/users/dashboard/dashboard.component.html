@@ -1,6 +1,5 @@
 <div class="center-section feed-container">
-  
-  <section class="feed-section" *ngIf="feed.q">
+  <section class="feed-section" *ngIf="feed.q" (scroll)="scrollfeed($event)">
     <!-- FEED CARDS -->
     <div class="feed-card card" [ngClass]="{'announcement-card': item.instance_type === 'event'}" *ngFor="let item of feed.q">
 
@@ -70,7 +69,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <!-- FEED CARDS -->
   </section>

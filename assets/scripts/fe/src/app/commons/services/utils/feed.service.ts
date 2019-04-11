@@ -1,5 +1,9 @@
+import * as _ from 'lodash';
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { queryparams } from '../../utils/http.utils';
 
 import { Feed } from '../../models/feed.models';
 import { FEED } from '../../constants/api.constants';
@@ -9,18 +13,70 @@ import { FEED } from '../../constants/api.constants';
   providedIn: 'root'
 })
 export class FeedService {
-  public q;
+  public q = [];
+
+  // toggle checker that is used to check if there is
+  // a pending request to the backend. This prevents
+  // the system from sending spam requests to the backend.
+  public fetching = false;
+  
+  // toggle checker that is used to check if the feed list
+  // should be reloaded or not. there are pages/components
+  // which the list shouldn't be reloaded. (dashboard-report,
+  // feed-search, feed-filter).
+  public noreload = false;
+
+  // checker that will know if all the data is loaded
+  // in the frontend.
+  public all_loaded = false;
+
+  // this query params object is used for filtering and searching feature.
+  // ADD your filter parameters in here. PAGINATION and QUERIES are
+  // always binded to each other. DO NOT SEPARATE this functionalities
+  public qparams = {
+    page: 1
+  };
 
   constructor(
     private http: HttpClient
   ) { }
 
   getFeed() {
-    this.http.get(FEED)
+    // toggle fetching to true to prevent multiple
+    // similar request to overload the server.
+    this.fetching = true;
+
+    this.http.get(FEED + queryparams(this.qparams))
       .toPromise()
       .then(resp => {
-          this.q = resp;
+          // append the new data to the current data list.
+          this.q = _.concat(this.q, resp['results']);
+
+          // reset the fetching to false.
+          this.fetching = false;
+
+          // check if this request is the last request. by
+          // checking if there is no value for the `next` attribute,
+          // we will know that all the data are loaded.
+          if(!resp['next']) { this.all_loaded = true; }
       })
     ;
+  }
+
+  loadMoreFeed() {
+    // check if all the data are loaded.
+    if (!this.all_loaded && !this.fetching) {
+      // update the page number so that this will fetch
+      // the next batch instead of the current one.
+      // TODO: Add a checker if the the page_number is more than
+      // the maximum page count.
+      this.qparams.page++;
+
+      // fetch feed items.
+      this.getFeed();
+    }
+    else {
+      console.log('all data are loaded');
+    }
   }
 }

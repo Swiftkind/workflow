@@ -1,8 +1,11 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { StateService } from '@uirouter/angular';
 
+import { FeedService } from '../../../../commons/services/utils/feed.service';
+
 import { StandupService } from '../../../../commons/services/history/standup.service';
 import { Standup } from '../../../../commons/models/history.models';
+
 
 @Component({
   selector: 'app-side-report',
@@ -15,6 +18,7 @@ export class SideReportComponent implements OnInit {
 
   constructor(
     private state   : StateService,
+    private feed    : FeedService,
     private history : StandupService
   ) { }
 
@@ -24,6 +28,10 @@ export class SideReportComponent implements OnInit {
     // IMPORTANT: `this.open` should be set to true otherwise
     // redirecting to this page will not work
     setTimeout(()=> { this.open = true; }, 20);
+
+    // enable `FeedService.noreload` so that the feedlist
+    // will not reload when this popup is closed.
+    this.feed.noreload = true;
 
     this.history.getReport(this.state.params.id)
       .subscribe(resp => {
@@ -47,7 +55,5 @@ export class SideReportComponent implements OnInit {
       setTimeout(()=> { this.state.go('dashboard'); }, 300);
     }
   }
-
-
 
 }
