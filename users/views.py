@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
 
-from utils.mixins import Query
+from utils.mixins import Query, TZ
 from .slack import Slack
 from .serializers import (
     AuthTokenSerializer,
@@ -70,7 +70,7 @@ class SlackAuth(Query, Slack, ViewSet):
         }, status=200)
 
 
-class User(ViewSet):
+class User(TZ, ViewSet):
     """ user endpoint
     """
     serializer_class = UserSerializer
@@ -90,3 +90,9 @@ class User(ViewSet):
         serializer.save()
 
         return Response(serializer.data, status=200)
+
+    def servertime(self, *args, **kwargs):
+        """ calendar endpoint.
+            globally used datetime.
+        """
+        return Response(self.get_server_time(), status=200)

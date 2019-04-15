@@ -1,8 +1,9 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 
 import { StateService } from '@uirouter/angular';
 import { NavService } from '../../../commons/services/utils/nav.service';
 import { FeedService } from '../../../commons/services/utils/feed.service';
+import { ServerService } from '../../../commons/services/auth/server.service';
 
 
 @Component({
@@ -12,10 +13,14 @@ import { FeedService } from '../../../commons/services/utils/feed.service';
 })
 export class DashboardComponent implements OnInit {
 
+  public now = new Date();
+
   constructor(
     private nav      : NavService,
     private feed     : FeedService,
-    private state    : StateService
+    private state    : StateService,
+    private server   : ServerService,
+    private ref      : ChangeDetectorRef
   ) {
     // nav configuration
     // TODO: this sucks!. find a better solution
@@ -30,6 +35,11 @@ export class DashboardComponent implements OnInit {
     } else {
       this.feed.noreload = false;
     }
+
+    // load the notification events data.
+    this.feed.getNotificationEvents();
+    // load the notification pending issues data.
+    this.feed.getNotificationPendingIssues();
   }
 
   @HostListener('scroll', ['$event']) 

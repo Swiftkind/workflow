@@ -77,63 +77,62 @@
     <div class="calendar">
       <div class="event-container">
         <div class="d-flex align-items-center">
-          <span class="date">02</span>
+          <span class="date">{{ server.now | date: "d" }}</span>
           <div>
             <div class="d-flex">
-              <div class="month">Jan</div>
-              <div class="year">2019</div>
+              <div class="month">{{ server.now | date: "MMM" }}</div>
+              <div class="year">{{ server.now | date: "y" }}</div>
             </div>
-            <div class="day">Monday</div>
+            <div class="day">{{ server.now | date: "EEEE" }}</div>
           </div>
           
         </div>
+        
         <div class="notifications">
           <div class="d-flex align-items-center justify-content-between w-100">
-            <div>
-              <!-- <p class="mb-0 text-muted">
+            <!-- <div>
+              <p class="mb-0 text-muted">
                 <i class="fas fa-bolt"></i>
                 Hooray! no notifications for today!
-              </p> -->
-            </div>
+              </p>
+            </div> -->
             <a href="">
               <i class="fal fa-plus"></i>
             </a>
           </div>
-          <div class="stat-pane-item">
+
+          <div class="stat-pane-item" *ngFor="let i of feed.nEvents">
             <div class="stat-section-title">
               <a href="">
                 <i class="far fa-bell"></i>
-                <span>Weekly Meeting</span>
+                <span>{{ i.title }}</span>
               </a>
-              <small class="text-muted">TODAY, 3:00 PM</small>
+              <small class="text-muted">TODAY, {{ i.start_time | date: "hh:mm a" }}</small>
             </div>
             <div class="stat-section-details">
-              <p>
-                Your team’s weekly meeting is about to start in 3 hours.
-              </p>
+              <p>{{ i.content }}</p>
             </div>
           </div>
-          <div class="stat-pane-item">
+
+
+          <div class="stat-pane-item" *ngIf="feed.pendingIssues">
             <div class="stat-section-title">
               <a href="">
                 <i class="far fa-times-hexagon"></i>
-                <span>You have 3 pending issues</span>
+                <span>You have {{ feed.getIssueCount() }} pending issues</span>
               </a>
               <small class="text-muted">3 days ago</small>
             </div>
-            <div class="stat-section-details">
+            <div class="stat-section-details" *ngFor="let i of feed.pendingIssues">
               <div  class="mb-2">
-                <a href="">#cl-Helpdesk</a>
+                <a href="">#{{ i.project.channel_name }}</a>
               </div>
-              <p>
-                1. Finding out why the updated server always running and consuming server resources and spaces budget and details
-              </p>
-              <p>2. Aws documentation didn’t specify that I had …</p>
-              <p>3. Slow internet connection, I can’t access the staging</p>
+              <p *ngFor="let issue of i.blockers; let count=index">{{ count + 1 }}. {{ issue.content }}</p>
             </div>
           </div>
         </div>
       </div>
+      
       <div class="monthly-calendar">
         <h6 class="mb-2">Calendar</h6>
         <div class="calendar-header">
@@ -278,6 +277,7 @@
           <small class="text-muted">45 hours total</small>
         </div>
       </div>
+
     </div>
   </aside>
 </div>

@@ -111,7 +111,23 @@ class StandupSerializer(DailyStandup, serializers.Serializer):
         return data
 
 
+class ShortStandupSerializer(serializers.ModelSerializer):
+    user = ShortUserSerializer()
+
+    class Meta:
+        model = Standup
+        fields = (
+            'id',
+            'date_created',
+            'date_updated',
+            'user',
+        )
+
+
+
 class DoneSerializer(serializers.ModelSerializer):
+    standup = ShortStandupSerializer()
+
     class Meta:
         model = Done
         fields = (
@@ -126,6 +142,8 @@ class DoneSerializer(serializers.ModelSerializer):
 
 
 class TodoSerializer(serializers.ModelSerializer):
+    standup = ShortStandupSerializer()
+
     class Meta:
         model = Todo
         fields = (
@@ -139,6 +157,8 @@ class TodoSerializer(serializers.ModelSerializer):
 
 
 class BlockerSerializer(serializers.ModelSerializer):
+    standup = ShortStandupSerializer()
+    
     class Meta:
         model = Blocker
         fields = (
@@ -195,7 +215,6 @@ class ReportSerializer(serializers.ModelSerializer):
 
     def get_pending_issues(self, obj):
         return Blocker.objects.filter(standup=obj, is_fixed=False).count()
-
 
 
 

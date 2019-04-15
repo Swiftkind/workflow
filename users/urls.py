@@ -8,6 +8,10 @@ urlpatterns = [
         'post': 'update',
     }), name="user_detail"),
 
+    path('auth/server/', User.as_view({
+        'get': 'servertime',
+    }), name="server_status"),
+
     path('auth/slack/', SlackAuth.as_view({
         'get': 'get',
     }), name="slackauth"),

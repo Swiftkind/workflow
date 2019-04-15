@@ -9,6 +9,7 @@ export const USERS = '/api/users/';
  */
 export const AUTH_USER = urlsafe(USERS, 'auth');
 export const AUTH_LOGIN = urlsafe(AUTH_USER, 'login');
+export const SERVER_STATUS = urlsafe(AUTH_USER, 'server');
 
 
 /* SLACK AUTH ENDPOINTS
@@ -30,7 +31,9 @@ export const PAYROLL_REPORT = (id: any) => {return urlsafe(PAYROLL, id, 'report'
 /* FEED ENDPOINTS
  */
 export const FEED = '/api/feed/';
-
+export const FEED_NOTIFICATIONS = urlsafe(FEED, 'notifications');
+export const FEED_NOTIFICATIONS_EVENTS = urlsafe(FEED_NOTIFICATIONS, 'events');
+export const FEED_NOTIFICATIONS_PENDING = urlsafe(FEED_NOTIFICATIONS, 'pending');
 
 /* HISTORY ENDPOINTS
  */

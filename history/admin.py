@@ -129,24 +129,25 @@ class StandupAdmin(JSONParser, admin.ModelAdmin):
     def raw_data(self, instance):
         """Function to display pretty version of our data"""
         rawdata = json.loads(instance.raw)
-        #import pdb;pdb.set_trace()
-        rawdata['text'] = self.convert_text_to_json(rawdata['text'])
+        if rawdata.get(text):
+            rawdata['text'] = self.convert_text_to_json(rawdata['text'])
 
-        # Convert the data to sorted, indented JSON
-        response = json.dumps(rawdata, sort_keys=True, indent=2)
+            # Convert the data to sorted, indented JSON
+            response = json.dumps(rawdata, sort_keys=True, indent=2)
 
-        # Get the Pygments formatter
-        formatter = HtmlFormatter(style='colorful')
+            # Get the Pygments formatter
+            formatter = HtmlFormatter(style='colorful')
 
-        # Highlight the data
-        response = highlight(response, JsonLexer(), formatter)
+            # Highlight the data
+            response = highlight(response, JsonLexer(), formatter)
 
-        # Get the stylesheet
-        overflow = ".highlight{overflow-x: scroll;max-width: 1024px;}"
-        style = "<style>" + formatter.get_style_defs() + overflow + "</style><br>"
+            # Get the stylesheet
+            overflow = ".highlight{overflow-x: scroll;max-width: 1024px;}"
+            style = "<style>" + formatter.get_style_defs() + overflow + "</style><br>"
 
-        # Safe the output
-        return mark_safe(style + response)
+            # Safe the output
+            return mark_safe(style + response)
+        return ""
 
     def convert_text_to_json(self, text):
         """ convert report text to json

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavService } from './commons/services/utils/nav.service';
+import { ServerService } from './commons/services/auth/server.service';
 
 
 @Component({
@@ -10,6 +11,10 @@ import { NavService } from './commons/services/utils/nav.service';
 export class AppComponent {
   
   constructor(
-    private nav : NavService
-  ) { }
+    private nav    : NavService,
+    private server : ServerService
+  ) {
+    // load server date time
+    server.syncServerDT();
+  }
 }

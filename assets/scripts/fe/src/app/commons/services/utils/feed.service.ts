@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { queryparams } from '../../utils/http.utils';
 
 import { Feed } from '../../models/feed.models';
-import { FEED } from '../../constants/api.constants';
+import { FEED, FEED_NOTIFICATIONS_EVENTS, FEED_NOTIFICATIONS_PENDING } from '../../constants/api.constants';
 
 
 @Injectable({
@@ -14,6 +14,8 @@ import { FEED } from '../../constants/api.constants';
 })
 export class FeedService {
   public q = [];
+  public nEvents: any;
+  public pendingIssues: any;
 
   // toggle checker that is used to check if there is
   // a pending request to the backend. This prevents
@@ -78,5 +80,26 @@ export class FeedService {
     else {
       console.log('all data are loaded');
     }
+  }
+
+  getNotificationEvents() {
+    return this.http.get(FEED_NOTIFICATIONS_EVENTS)
+      .toPromise()
+      .then(resp => {
+        this.nEvents = resp;
+      });
+  }
+
+  getNotificationPendingIssues() {
+    return this.http.get(FEED_NOTIFICATIONS_PENDING)
+      .toPromise()
+      .then(resp => {
+        this.pendingIssues = resp;
+      });
+  }
+
+  getIssueCount() {
+    // return the sum of all the number of issues.
+    return _.map(this.pendingIssues, 'count').map(Number).reduce((x,y) => x + y);
   }
 }

@@ -228,6 +228,18 @@ class TZ(object):
     def __init__(self, *args, **kwargs):
         return super(TZ, self).__init__(*args, **kwargs)
 
+    def get_server_time(self):
+        """ global server date and time configuration
+        """
+        return dict(
+            # current timezone aware date and time.
+            datetime=timezone.now(),
+            # current timezone
+            tz=settings.TIME_ZONE
+        )
+        
+
+
     def last_n_months(self, month_num=1):
         """ get the month based on the `month_num`.
         """

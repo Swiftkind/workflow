@@ -35,7 +35,7 @@ class BurnAdmin(admin.ModelAdmin):
     """ burn admin config
     """
     model = Burn
-    list_display = ('description', 'amount', 'burn_type', 'source')
+    list_display = ('description', 'amount', 'burn_type', 'source', 'date_created', 'date_billed')
 
 
 admin.site.register(Project, ProjectAdmin)
