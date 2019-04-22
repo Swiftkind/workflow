@@ -186,9 +186,20 @@
     .stat-section-details {
         margin-top: torem(10);
 
-        a {
+        .project-name {
             color: $black;
             font-family: $Text-Medium;
+            margin-bottom: 0;
+        }
+        .issue-item{
+            margin-bottom: torem(30);
+            a{
+                font-family: $Text-Regular;
+                color: $primary-text;
+                &:hover{
+                    color: $accent;
+                }
+            }
         }
     }
 
