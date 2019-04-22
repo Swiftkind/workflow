@@ -9024,9 +9024,17 @@ form input:not([type='radio']) {
         margin-right: 0.5rem; }
   .stat-pane .stat-section-details {
     margin-top: 0.625rem; }
-    .stat-pane .stat-section-details a {
+    .stat-pane .stat-section-details .project-name {
       color: #172b4d;
-      font-family: "SF-Pro-Text-Medium"; }
+      font-family: "SF-Pro-Text-Medium";
+      margin-bottom: 0; }
+    .stat-pane .stat-section-details .issue-item {
+      margin-bottom: 1.875rem; }
+      .stat-pane .stat-section-details .issue-item a {
+        font-family: "SF-Pro-Text-Regular";
+        color: #5E6A84; }
+        .stat-pane .stat-section-details .issue-item a:hover {
+          color: #5270e2; }
   .stat-pane .calendar .event-container {
     padding: 0 2.5rem; }
     .stat-pane .calendar .event-container .month,
@@ -9559,9 +9567,8 @@ form input:not([type='radio']) {
     scrollbar-face-color: #c4c7d3;
     scrollbar-track-color: #afb5c1; }
   .payslip-preview-container .payslip-preview {
-    width: 100%;
     height: 100%;
-    max-width: 39.4375rem;
+    width: 39.4375rem;
     border-radius: 6px;
     box-shadow: 0 10px 30px 0 rgba(116, 133, 150, 0.11);
     background: #ffffff;
