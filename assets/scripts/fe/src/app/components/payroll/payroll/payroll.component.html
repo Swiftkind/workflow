@@ -29,42 +29,32 @@
               <p class="title-bold">{{ payrollservice.payroll.date_from | date: 'MMM d' }} - {{ payrollservice.payroll.date_to | date: 'd, y' }}</p>
             </div>
           </div>
-          <table class="salary-breakdown-table">
-            <thead>
-              <tr>
-                <th scope="col">
-                  <p class="title-bold">Base Salary</p>
-                </th>
-                <th scope="col">
-                  <p class="title-bold">Benefits</p>
-                </th>
-                <th scope="col">
-                  <p class="title-bold">Other Deductions</p>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <p>{{ payrollservice.payroll.gross_pay }}</p>
-                </td>
-                <td>
-                  <p *ngFor="let benefit of payrollservice.payroll.benefits">
-                    {{ benefit.name }}
-                    <span>{{ benefit.amount }}</span>
-                  </p>
-                </td>
-                <td>
-                  <p *ngFor="let plan of payrollservice.payroll.plans">
-                    {{ plan.name }}
-                    <span>{{ plan.amount }}</span>
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="summary d-flex justify-content-end">
-            <div class="w-50">
+          <div class="salary-breakdown-table">
+            <div class="salary-list-item">
+              <p class="title-bold">Base Salary</p>
+              <p>{{ payrollservice.payroll.gross_pay }}</p>
+            </div>
+            <div>
+              <p class="title-bold">Other Deductions</p>
+              <ul class="salary-list-item">
+                <li  *ngFor="let benefit of payrollservice.payroll.benefits">
+                  <p class="title-bold">{{ benefit.name }}</p>
+                  <p>{{ benefit.amount }}</p>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <p class="title-bold">Benefits</p>
+              <ul class="salary-list-item">
+                <li  *ngFor="let plan of payrollservice.payroll.plans">
+                  <p class="title-bold"> {{ plan.name }}</p>
+                  <p>{{ plan.amount }}</p>
+                </li>
+              </ul>
+            </div>
+           
+          </div>
+          <div class="summary">
               <div class="d-flex justify-content-between">
                 <p class="title-bold">Total Deductions</p>
                 <p>{{ payrollservice.payroll.total_deduction }}</p>
@@ -73,10 +63,9 @@
                 <p class="title-bold">Subtotal</p>
                 <p>{{ payrollservice.payroll.net_pay }}</p>
               </div>
-            </div>
           </div>
-          <div class="total text-right">
-            <p class="h6">Pay per Period</p>
+          <div class="total">
+            <p class="h6 title-bold">Total pay per Period</p>
             <h3 class="title-bold">P{{ payrollservice.payroll.payperiod_amount }}</h3>
           </div>
           <div class="payslip-footer d-flex align-items-end justify-content-between">

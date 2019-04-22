@@ -1,33 +1,102 @@
+<aside class="post-standup">
+    <i class="far fa-times close-popup" id="closePopup"></i>
+    <div class="post-standup__header" id="postStandupOpen">
+      <span class="wave shake animate infinite">👋</span>
+      <p class="post-standup__title">Standup</p>
+    </div>
+    <div class="post-standup__form--container">
+      <div class="form">
+        <div class="form-group">
+          <textarea rows="1" class="form__input form-control" placeholder="What did you do today?"></textarea>
+          <div class="form__input__actions" >
+            <button class="btn btn-primary">
+              Add item
+            </button>
+            <div class="form__input__hours">
+              <input type="number" name="" placeholder="HH" class="form__input form-control"> 
+              <input type="number" name="" placeholder="MM" class="form__input form-control"> 
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <textarea type="text" name="" class="form__input form-control" placeholder="What are your plans for tomorrow?" rows="1"></textarea>
+          <div class="form__input__actions" >
+            <button class="btn btn-primary">
+              Add item
+            </button>
+            <div class="form__input__hours">
+              <input type="number" name="" placeholder="HH" class="form__input form-control"> 
+              <input type="number" name="" placeholder="MM" class="form__input form-control"> 
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <textarea type="text" name="" class="form__input form-control" placeholder="Do you have issues/blockers?" rows="1"></textarea>
+          <div class="form__input__actions" >
+            <button class="btn btn-primary">
+              Add item
+            </button>
+            <div class="form__input__hours">
+              <input type="number" name="" placeholder="HH" class="form__input form-control"> 
+              <input type="number" name="" placeholder="MM" class="form__input form-control"> 
+            </div>
+          </div>
+        </div>
+        <div class="text-right">
+          <button class="btn-primary btn paragraph px-5 ">Submit</button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="post-standup__confirmation">
+      <span class="tada">🎉</span>
+      <p class="confirmation-message">Thank you! Your Standup report has been posted.</p>
+    </div> -->
+  </aside>
 <div class="center-section feed-container">
   <section class="feed-section" *ngIf="feed.q" (scroll)="scrollfeed($event)">
     <!-- FEED CARDS -->
     <div class="feed-card card" [ngClass]="{'announcement-card': item.instance_type === 'event'}" *ngFor="let item of feed.q">
 
-      <div *ngIf="item.instance_type === 'standup'">
-        <div class="d-flex justify-content-between align-items-center">
+      <div *ngIf="item.instance_type === 'standup'" class="card-content--container">
           <div class="d-flex">
-            <div class="avatar-sm" [ngStyle]="{'background-image': 'url(' + item.instance.user.image + ')'}" data-rjs="3">
-            </div>
-            <div class="profile-info">
-              <div class="d-flex align-items-center">
-                <a href="" class="mr-2">{{ item.instance.user.full_name }}</a>
-                <span class="timestamp">{{ item.instance.date_created | date: "MMM d, h:mm a" }}</span>
+            <div class="report-info">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center">
+                  <a href="" class="project-name">{{ item.instance.project.channel_name }}</a>
+                  <span class="badge badge__report">Report</span>
+                  <span class="timestamp">{{ item.instance.date_created | date: "MMM d, h:mm a" }}</span>
+                </div>
+                 <div class="feed-summary">
+                   <p class="hours badge">
+                     <span>8H</span>
+                     <span>&nbsp;</span>
+                     <span>34M</span>
+                   </p>
+                    <!-- <p>{{ item.instance.total_hours }} hours</p> -->
+                  </div>
               </div>
-              <span *ngIf="item.instance.blockers.length === 0">No Issues</span>
-              <span *ngIf="item.instance.blockers.length > 0" class="text-danger">{{ item.instance.pending_issues }} pending issue{{ item.instance.pending_issues > 1 ? 's': '' }}</span>
+               <div class="report-content">
+                <small class="report-type">Done</small>
+                 <div class="d-flex">
+                   <p class="report-hint">{{ item.instance.done[0].content }}</p>
+                   <span *ngIf="item.instance.done.length > 0" class="content-count">+{{ item.instance.done.length }}</span>
+                 </div>
+               </div>
+               <div class="report-content">
+                <small class="report-type">Todo</small>
+                 <div class="d-flex">
+                   <p class="report-hint">{{ item.instance.todo[0].content }}</p>
+                   <span *ngIf="item.instance.done.length > 0" class="content-count">+{{ item.instance.todo.length }}</span>
+                 </div>
+               </div>
+
+              
+              <span *ngIf="item.instance.blockers.length === 0" class="no-issue">No Issues</span>
+              <span *ngIf="item.instance.blockers.length > 0" class="with-issues">{{ item.instance.pending_issues }} pending issue{{ item.instance.pending_issues > 1 ? 's': '' }}</span>
             </div>
           </div>
-          <div class="d-flex align-items-start">
-            <div class="feed-summary">
-              <a href="">#{{ item.instance.project.channel_name }}</a>
-              <p>{{ item.instance.total_hours }} hours</p>
-            </div>
-            <a uiSref="dashboard-report" [uiParams]="{id: item.instance.id}" class="ml-2 expand-card"><i class="fas fa-expand-alt"></i></a>
-          </div>
-        </div>
-        <div *ngIf="item.instance.blockers.length > 0" class="details pt-4">
+        <div *ngIf="item.instance.blockers.length > 0" class="details pt-2">
           <div class="d-flex justify-content-between">
-            <small><strong>Blockers</strong></small>
             
           </div>
           <ol class="pl-3 details-list">
@@ -123,11 +192,36 @@
               </a>
               <small class="text-muted">3 days ago</small>
             </div>
-            <div class="stat-section-details" *ngFor="let i of feed.pendingIssues">
-              <div  class="mb-2">
-                <a href="">#{{ i.project.channel_name }}</a>
+
+            <div class="stat-section-details">
+              <div class="my-4">
+                <div  class="my-2 d-flex justify-content-between">
+                  <a href="">#cl-Helpdesk</a>
+                  <small class="text-muted">8 mins ago</small>
+                </div>
+                <p>
+                  1. Finding out why the updated server always running and consuming server resources and spaces budget and details
+                </p>
               </div>
-              <p *ngFor="let issue of i.blockers; let count=index">{{ count + 1 }}. {{ issue.content }}</p>
+              <div class="my-4">
+                <div  class="my-2 d-flex justify-content-between">
+                  <a href="">#cl-Helpdesk</a>
+                  <small class="text-muted">3 days ago</small>
+                </div>
+                <p>
+                  2. Aws documentation didn’t specify that I had to include the issuerand the username to produce the QR code.
+                </p>
+              </div>
+              <div class="my-4">
+                <div  class="my-2 d-flex justify-content-between">
+                  <a href="">#cl-Helpdesk</a>
+                  <small class="text-muted">3 days ago</small>
+                </div>
+                <p>
+                  3. Slow internet connection, I can’t access the staging so I can’t test if the cloud trail is working properly.
+                </p>
+              </div>
+
             </div>
           </div>
         </div>

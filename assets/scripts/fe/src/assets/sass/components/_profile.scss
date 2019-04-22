@@ -1,62 +1,67 @@
 .profile {
 
-    &-dropdown {
-        @include flex-align-center();
-        @include justify-content(flex-end);
-        padding: torem(20) torem(44);
-        width: 100%;
-        max-width: torem(440);
-        border-left: solid 1px #f0f0f0;
+  &-dropdown {
+    @include flex-align-center();
+    @include justify-content(flex-end);
+    padding: torem(20) torem(44);
+    width: 100%;
+    max-width: torem(440);
+    border-left: solid 1px #f0f0f0;
 
-        &.dropdown {
-            .dropdown-toggle {
-                &:after {
-                    content: none;
-                }
-            }
-
-            .dropdown-menu {
-                width: torem(240);
-                box-shadow: 0 6px 20px 0 rgba(159, 159, 185, 0.3);
-                background-color: $white;
-                padding: torem(20) 0;
-                border:none;
-                top: 0.6rem !important;
-                .dropdown-item {
-                    padding: torem(10) torem(20);
-                    i {
-                        margin-right: torem(20);
-                    }
-
-                    span {
-                        display: inline-table;
-
-                        small {
-                            display: block;
-                        }
-                    }
-
-                }
-            }
+    &.dropdown {
+      .dropdown-toggle {
+        &:after {
+          content: none;
         }
+      }
+
+      .dropdown-menu {
+        width: torem(240);
+        box-shadow: 0 6px 20px 0 rgba(159, 159, 185, 0.3);
+        background-color: $white;
+        padding: torem(20) 0;
+        border: none;
+        top: 0.6rem !important;
+
+        .dropdown-item {
+          padding: torem(10) torem(20);
+
+          i {
+            margin-right: torem(20);
+          }
+
+          span {
+            display: inline-table;
+
+            small {
+              display: block;
+            }
+          }
+
+        }
+      }
     }
 
-    &-info {
-        text-align: right;
+    .profile-info {
+      text-align: right;
 
-        p {
-            color: $black;
-            font-family: $Text-Medium;
-            letter-spacing: -0.4px;
-            margin-bottom: 0;
-        }
+      p {
+        color: $black;
+        font-family: $Text-Medium;
+        letter-spacing: -0.4px;
+        margin-bottom: 0;
+        text-transform: capitalize;
+      }
 
-        span {
-            display: block;
-            font-size: $small;
-            color: $brownish-grey;
-        }
+      span {
+        display: block;
+        font-size: $small;
+        color: $brownish-grey;
+      }
 
-        margin-right: torem(30);
+      margin-right: torem(30);
     }
+  }
+
+
 }

@@ -3,8 +3,11 @@
 *.DS_Store
 *local_settings.py
 
+
 media/
 static/
 
 assets/fonts
 assets/images
+.sass-cache/
+*style.css.map

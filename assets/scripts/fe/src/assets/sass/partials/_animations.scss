@@ -1,0 +1,36 @@
+@-webkit-keyframes wave {
+    52%,
+    54%,
+    56%,
+    58% {
+        -webkit-transform: translate3d(-5px, 0, 0);
+        transform: translate3d(-5px, 0, 0);
+    }
+
+    51%,
+    53%,
+    55%,
+    100% {
+        -webkit-transform: translate3d(0px, 0, 0);
+        transform: translate3d(0px, 0, 0);
+    }
+}
+
+@keyframes wave {
+    52%,
+    54%,
+    56%,
+    58% {
+        -webkit-transform: translate3d(-5px, 0, 0);
+        transform: translate3d(-5px, 0, 0);
+
+    }
+
+    51%,
+    53%,
+    55%,
+    100% {
+        -webkit-transform: translate3d(0px, 0, 0);
+        transform: translate3d(0px, 0, 0);
+    }
+}

@@ -38,6 +38,8 @@
 // partials
 @import 'partials/navbar'; 
 @import 'partials/search-filters'; 
+@import 'partials/sidebar'; 
+@import 'partials/post-standup'; 
 	
 // pages
 
@@ -46,3 +48,4 @@
 @import 'pages/projects';
 @import 'pages/payroll';
 @import 'pages/user-auth';
+
