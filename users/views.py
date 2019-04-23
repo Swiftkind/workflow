@@ -14,7 +14,17 @@ from .serializers import (
     AuthTokenSerializer,
     UserSerializer,
     SlackAuthSerializer,
+    #
+    #
+    #
+    ChangePasswordSerializer,
+    AddPasswordSerializer,
+    #
+    #
+    #
 )
+
+from .models import User
 
 
 class Login(APIView):
@@ -41,6 +51,53 @@ class Login(APIView):
             'user_id': serializer.user.id
         }, status=200)
 
+#
+# CURRENTLY EDITING
+#
+class ChangePassword(APIView):
+    """
+        User Password EndPoint
+    """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, *args, **kwargs):
+        """
+            Check if User has already set a password
+        """
+        checkflag = False
+        user = self.request.user
+        if user.has_usable_password():
+            checkflag = True
+
+        return Response(checkflag, status=200)
+    
+    def post(self, *args, **kwargs):
+        """
+            Create User Password
+        """
+        context = {
+            'user':self.request.user
+        }
+        serializer = AddPasswordSerializer(data=self.request.data, context=context)
+        if serializer.is_valid():
+            return Response({'Success': 'Password added'}, status=204)
+        return Response(serializer.errors, status=400)
+
+    def put(self, *args, **kwargs):
+        """
+            Update User Password
+        """
+        context = {
+            'user':self.request.user
+        }
+        serializer = ChangePasswordSerializer(data=self.request.data, context=context)
+        if serializer.is_valid():
+            return Response({'Updated':"Update is a Success"}, status=204)
+
+        return Response(serializer.errors, status=400)
+#
+#
+#
 
 class SlackAuth(Query, Slack, ViewSet):
     """ slack authentication endpoint

@@ -5,6 +5,13 @@ import { StateService } from '@uirouter/angular';
 
 import { UserForm } from '../../../commons/forms/user.forms';
 import { User } from '../../../commons/models/user.models';
+
+import { EditPasswordForm } from '../../../commons/forms/edit-password.forms'
+import { EditPasswordModel } from '../../../commons/models/edit-password.models'
+
+import { AddPasswordForm } from '../../../commons/forms/add-password.forms'
+import { AddPasswordModel } from '../../../commons/models/add-password.models'
+
 import { AuthService } from '../../../commons/services/auth/auth.service';
 import { UserService } from '../../../commons/services/auth/user.service';
 import { NavService } from '../../../commons/services/utils/nav.service';
@@ -18,6 +25,11 @@ import { NavService } from '../../../commons/services/utils/nav.service';
 export class SettingComponent implements OnInit {
   private form : UserForm;
 
+  private edit_password_form : EditPasswordForm
+  private add_password_form : AddPasswordForm
+  checkPass;
+
+
   constructor(
     private auth  : AuthService,
     private state : StateService,
@@ -30,6 +42,18 @@ export class SettingComponent implements OnInit {
     this.form = new UserForm(new User);
 
     this.nav.setNav('Profile', true);
+
+    this.edit_password_form = new EditPasswordForm(new EditPasswordModel)
+    this.add_password_form = new AddPasswordForm(new AddPasswordModel)
+    this.userservice.hasPass().subscribe(
+      data => {
+        this.checkPass = data
+      },
+      error => {
+        console.log(error)
+      }
+    )
+
 
     // assign values on the user form.
     // this uses `await` which will wait
@@ -53,4 +77,24 @@ export class SettingComponent implements OnInit {
     }
   }
 
+  onEditPasswordSubmit({value, valid}: {value: EditPasswordModel, valid:boolean}){
+    this.edit_password_form.submitted = true;
+
+    if(valid){
+      this.userservice.updatePassword(value)
+        .then(resp => { console.log(resp); this.edit_password_form = new EditPasswordForm(new EditPasswordModel); })
+        .catch(err => { console.log(err); });
+    }
+  }
+
+  onAddPasswordSubmit({value, valid}: {value: EditPasswordModel, valid:boolean}){
+    this.add_password_form.submitted = true;
+
+    if(valid){
+      this.userservice.addPassword(value)
+        .then(resp => { console.log(resp); this.add_password_form = new AddPasswordForm(new AddPasswordModel) })
+        .catch(err => { console.log(err); });
+      
+    }
+  }
 }

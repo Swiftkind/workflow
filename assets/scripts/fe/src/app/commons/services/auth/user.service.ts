@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { AUTH_USER } from '../../constants/api.constants';
+import { AUTH_USER, CHANGE_PASSWORD } from '../../constants/api.constants';
 import { User } from '../../models/user.models';
 
 import { AuthService } from './auth.service';
@@ -29,5 +29,23 @@ export class UserService {
       .catch(err => { return Promise.reject(err); })
     ;
   }
+
+  //
+  // Added Change Password on headers
+  //
+  hasPass(){
+    return this.http.get(CHANGE_PASSWORD)
+  }
+
+  updatePassword(data){
+    return this.http.put(CHANGE_PASSWORD, data).toPromise()
+  }
+
+  addPassword(data){
+    return this.http.post(CHANGE_PASSWORD, data).toPromise()
+  }
+  //
+  //
+  //
 
 }

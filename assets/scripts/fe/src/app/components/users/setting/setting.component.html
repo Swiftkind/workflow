@@ -172,3 +172,55 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="checkPass">
+  <form [formGroup]="edit_password_form.form" (ngSubmit)="onEditPasswordSubmit(edit_password_form.form)">  
+    <div>
+      <label>Old Password:</label>
+      <input type="password" formControlName="old_password">
+      <span [hidden]="edit_password_form.valid('old_password')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>New Password</label>
+      <input type="password" formControlName="new_password">
+      <span [hidden]="edit_password_form.valid('new_password')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>Confirm New Password</label>
+      <input type="password" formControlName="confirm_new_password">
+      <span [hidden]="edit_password_form.valid('confirm_new_password')">This field is required.</span>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary">Edit Password</button>
+
+  </form>
+</div>
+
+
+<div *ngIf="!checkPass">
+  <form [formGroup]="add_password_form.form" (ngSubmit)="onAddPasswordSubmit(add_password_form.form)">  
+
+    <div>
+      <label>Password</label>
+      <input type="password" formControlName="new_password">
+      <span [hidden]="add_password_form.valid('new_password')">This field is required.</span>
+    </div>
+
+    <div>
+      <label>Confirm Password</label>
+      <input type="password" formControlName="confirm_new_password">
+      <span [hidden]="add_password_form.valid('confirm_new_password')">This field is required.</span>
+    </div>
+    
+    <button class="btn btn-outline-danger">Add Password</button>
+
+  </form>
+</div>
+
+
+<br/>
+<br/>
+<br/>
+<br/>
