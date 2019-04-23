@@ -7,6 +7,7 @@ import { UserForm } from '../../../commons/forms/user.forms';
 import { User } from '../../../commons/models/user.models';
 import { AuthService } from '../../../commons/services/auth/auth.service';
 import { UserService } from '../../../commons/services/auth/user.service';
+import { NavService } from '../../../commons/services/utils/nav.service';
 
 
 @Component({
@@ -20,12 +21,15 @@ export class SettingComponent implements OnInit {
   constructor(
     private auth  : AuthService,
     private state : StateService,
-    private userservice : UserService
+    private userservice : UserService,
+    private nav : NavService
   ) {}
 
   async ngOnInit() {
     // initialize the form.
     this.form = new UserForm(new User);
+
+    this.nav.setNav('Profile', true);
 
     // assign values on the user form.
     // this uses `await` which will wait

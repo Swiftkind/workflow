@@ -9,14 +9,21 @@
 }
 
 .avatar{
+  &-xs{
+    width: torem(30);
+    height: torem(30);
+  }
 	&-sm{
 		width: 40px;
 		height: 40px;
 	}
-	&-xs{
-		width: torem(30);
-		height: torem(30);
-	}
+
+
+  &-md{
+    width: torem(100);
+    height: torem(100);
+  }
+
 
 }
 
@@ -32,7 +39,7 @@
 }
 
 .no-photo{
-	
+
 
 	&-pink{
 		@include badge-pill-mono($pink,15%);

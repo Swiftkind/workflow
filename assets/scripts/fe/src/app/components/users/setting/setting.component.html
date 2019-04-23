@@ -1,42 +1,174 @@
-<div class="container pt-5">
-  <form [formGroup]="form.form" (ngSubmit)="onSubmit(form.form)">
-    
-    <div>
-      <label>First Name:</label>
-      <input type="text" formControlName="first_name">
-      <span [hidden]="form.valid('first_name')">This field is required.</span>
-    </div>
+<div class="center-section profile-settings--page">
+  <div class="extend-wrapper row">
+    <div class="col-md-7">
+      <form [formGroup]="form.form" (ngSubmit)="onSubmit(form.form)" class="form">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="profile--picture">
+              <div class="avatar-md " [ngStyle]="{'background-image': 'url(' + auth.user.image + ')'}" data-rjs="3"></div>
+              <div class="d-flex pl-5">
+                <a href="" class="pane-title mr-4">Change Profile Photo</a>
+                <a href="" class="text-danger">Remove</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <h5 class="title-bold mb-3">Personal Details</h5>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>First Name:</label>
+              <input type="text" formControlName="first_name" class="form-control">
+              <span [hidden]="form.valid('first_name')">This field is required.</span>
+            </div>
+          </div>
 
-    <div>
-      <label>Last Name:</label>
-      <input type="text" formControlName="last_name">
-      <span [hidden]="form.valid('last_name')">This field is required.</span>
-    </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Last Name:</label>
+              <input type="text" formControlName="last_name" class="form-control">
+              <span [hidden]="form.valid('last_name')">This field is required.</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Birthdate:</label>
+              <input type="date" formControlName="birthdate" class="form-control">
+              <span [hidden]="form.valid('birthdate')">This field is required.</span>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <h5 class="title-bold my-3">Employment Details</h5>
+          </div>
 
-    <div>
-      <label>Email:</label>
-      <input type="text" formControlName="email">
-      <span [hidden]="form.valid('email')">This field is required.</span>
-    </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Position:</label>
+              <input type="text" formControlName="position" class="form-control">
+              <span [hidden]="form.valid('position')">This field is required.</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Position type:</label>
+              <select class="form-control">
+                <option>Trainee</option>
+                <option>Full-time</option>
+              </select>
+              <span [hidden]="form.valid('position')">This field is required.</span>
+            </div>
+          </div>
 
-    <div>
-      <label>Birthdate:</label>
-      <input type="date" formControlName="birthdate">
-      <span [hidden]="form.valid('birthdate')">This field is required.</span>
-    </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Date Started:</label>
+              <input type="date" formControlName="date_started" class="form-control">
+              <span [hidden]="form.valid('date_started')">This field is required.</span>
+            </div>
+          </div>
 
-    <div>
-      <label>Position:</label>
-      <input type="text" formControlName="position">
-      <span [hidden]="form.valid('position')">This field is required.</span>
-    </div>
+        </div>
 
-    <div>
-      <label>Date Started:</label>
-      <input type="date" formControlName="date_started">
-      <span [hidden]="form.valid('date_started')">This field is required.</span>
+        <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+      </form>
     </div>
+    <div class="col-md-5">
+      <div class="account-details">
+        <div class="primary-email">
+          <i class="fas fa-exclamation-circle"></i>
+          <div>
+            <div class="">
+              <p class="email">{{ form.form.value.email }}</p>
+              <span class="badge badge-accent">Primary</span>
+            </div>
+            <a href="" class="text-highlited">Change</a>
+          </div>
+        </div>
+        <div class="password-field">
+          <p>You’re logged in via Slack.<br/>
+          <span class="text-highlited">Create a password</span> to sign in using e-mail.</p>
 
-    <button type="submit">Save Changes</button>
-  </form>
+            <!-- CREATE PASSWORD FORM -->
+
+            <!-- <div class="form">
+              <div class="form-group">
+                <label>New Password</label>
+                <input type="password" name="" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="" class="form-control">
+              </div>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-light">Cancel</button>
+                <button class="btn btn-cta-primary">Save Password</button>
+              </div>
+            </div> -->
+
+            <!-- CREATE PASSWORD FORM -->
+
+
+
+            <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
+
+            <!-- <p>Congratulations! You’ve successfully updated your password.</p>
+            <div class="text-right">
+              <a href="" class="text-right text-strong">Change Password</a>
+            </div> -->
+            <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
+
+
+
+            <!-- CHANGE PASSWORD FORM -->
+
+            <!-- <div class="form">
+              <p>Change Password</p>
+              <div class="form-group">
+                <label>Old Password</label>
+                <input type="password" name="" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>New Password</label>
+                <input type="password" name="" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="" class="form-control">
+              </div>
+              <div class="d-flex justify-content-between">
+                <button class="btn btn-light">Cancel</button>
+                <button class="btn btn-cta-primary">Update Password</button>
+              </div>
+            </div> -->
+
+            <!-- CHANGE PASSWORD FORM -->
+
+
+
+            <!-- PASSWORD ALREADY CREATED -->
+
+           <!--  <p>Your password was created on <span class="text-muted">03/13/2019</span></p>
+            <div class="text-right">
+              <a href="" class="text-right text-strong">Change Password</a>
+            </div> -->
+
+
+            <!-- CPASSWORD ALREADY CREATED-->
+
+
+          <div class="text-right">
+            <button class="btn btn-cta-primary btn-lg">Start Creating</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6"><!--
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="text" formControlName="email" class="form-control">
+          <span [hidden]="form.valid('email')">This field is required.</span>
+        </div> -->
+      </div>
+    </div>
+  </div>
 </div>

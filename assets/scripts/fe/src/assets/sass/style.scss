@@ -30,17 +30,18 @@
 @import 'components/layout';
 @import 'components/sections';
 @import 'components/feed';
-@import 'components/images';
+@import 'components/avatar';
 @import 'components/profile';
 @import 'components/modals';
 @import 'components/list';
+@import 'components/badge';
 
 // partials
-@import 'partials/navbar'; 
-@import 'partials/search-filters'; 
-@import 'partials/sidebar'; 
-@import 'partials/post-standup'; 
-	
+@import 'partials/navbar';
+@import 'partials/search-filters';
+@import 'partials/sidebar';
+@import 'partials/post-standup';
+
 // pages
 
 @import 'pages/dashboard';
@@ -48,4 +49,5 @@
 @import 'pages/projects';
 @import 'pages/payroll';
 @import 'pages/user-auth';
+@import 'pages/profile-settings';
 

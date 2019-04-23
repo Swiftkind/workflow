@@ -53,7 +53,7 @@
         border-radius: 50px;
         @include align-items(center);
         @include justify-content(space-between);
-     
+
         margin-right: torem(40);
 
         input {
@@ -197,7 +197,7 @@
                 font-family: $Text-Regular;
                 color: $primary-text;
                 &:hover{
-                    color: $accent;
+                    color: $accent-color;
                 }
             }
         }

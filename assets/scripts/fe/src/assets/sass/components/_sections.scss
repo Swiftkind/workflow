@@ -22,5 +22,9 @@
 
 .title-highlited {
     font-family: $Display-Medium;
-    color: $primary;
+    color: $accent-color;
+}
+.text-highlited {
+    font-family: $Text-Medium;
+    color: $accent-color;
 }

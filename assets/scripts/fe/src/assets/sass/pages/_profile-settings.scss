@@ -1,0 +1,41 @@
+.profile-settings{
+  &--page{
+
+  }
+}
+
+.profile{
+  &--picture{
+    @include flexbox();
+    @include align-items(center);
+    margin-bottom:torem(50);
+  }
+}
+
+
+.account-details{
+  border: solid 1px $accent-color;
+  padding: torem(30);
+  max-width: torem(350);
+  margin: 0 auto;
+  .primary-email{
+    @include flexbox();
+    border-bottom: solid 1px $light-border;
+    padding-bottom: torem(20);
+    margin-bottom: torem(20);
+    .fas{
+      color: $accent-color;
+      margin-right: torem(15);
+      font-size: $h4;
+    }
+    .email{
+      margin-bottom: 0;
+      font-size: $h5;
+      color: $primary;
+       letter-spacing: -0.4px;
+       line-height: 1;
+       margin-bottom: torem(5);
+       display: inline-block;
+    }
+  }
+}

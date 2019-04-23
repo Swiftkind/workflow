@@ -78,7 +78,7 @@ small {
 
 a {
     text-decoration: none;
-    color: $primary;
+    color:$accent-color;
     font-size: $paragraph;
     &:hover {
         text-decoration: none;
@@ -91,9 +91,9 @@ a {
         }
     }
 }
+
 .text-strong{
-    color: $charcoal;
-    font-family: $Text-Medium;
+    font-family: $Text-Semibold;
 }
 .text-muted{
     color: $muted !important;

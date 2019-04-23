@@ -2,9 +2,6 @@
     border-radius: 2px;
     background: linear-gradient(98deg, #5979e3, #4c69d8);
     color: $white;
-    font-size: $small;
-    padding: 0.313rem 0.5rem;
-    font-family: $Text-Semibold;
 
     &:hover {
         background: linear-gradient(98deg, #4169ed, #3b5cdb);
@@ -16,7 +13,9 @@
 [class*="btn-"] {
     @include transition(all ease 0.3s);
     font-family: $Text-Semibold;
-
+    font-size: $paragraph;
+    padding-left: 1rem;
+    padding-right: 1rem;
     &:hover {
         @include transition(all ease 0.3s);
     }
@@ -25,6 +24,7 @@
 
 .btn-light{
     color: $black;
+
 }
 
 //checkbox
@@ -56,7 +56,8 @@ form {
     }
 
     .btn {
-        padding: torem(11) 0.75rem;
+        padding-top: torem(8);
+        padding-bottom: torem(8);
         height: auto;
     }
 
@@ -64,7 +65,7 @@ form {
     input:not([type='radio']) {
         border:solid 2px $border-color;
         font-size: $paragraph;
-        height: torem(50);
+        height: torem(45);
         color: $black;
         letter-spacing: -0.3px;
         @include transition(border-color  ease 0.3s);

@@ -9,5 +9,8 @@
     }
     .content-wrapper{
     	width: 100%;
+      .extend-wrapper{
+        padding: 0 torem(50);
+      }
     }
 }
