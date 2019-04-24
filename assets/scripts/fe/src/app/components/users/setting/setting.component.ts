@@ -45,6 +45,8 @@ export class SettingComponent implements OnInit {
 
     this.edit_password_form = new EditPasswordForm(new EditPasswordModel)
     this.add_password_form = new AddPasswordForm(new AddPasswordModel)
+
+    // check if user has a usable password
     this.userservice.hasPass().subscribe(
       data => {
         this.checkPass = data
@@ -53,7 +55,6 @@ export class SettingComponent implements OnInit {
         console.log(error)
       }
     )
-
 
     // assign values on the user form.
     // this uses `await` which will wait
@@ -87,10 +88,10 @@ export class SettingComponent implements OnInit {
     }
   }
 
-  onAddPasswordSubmit({value, valid}: {value: EditPasswordModel, valid:boolean}){
+  onAddPasswordSubmit({value, valid}: {value: AddPasswordModel, valid:boolean}){
     this.add_password_form.submitted = true;
 
-    if(valid){
+    if(valid){  
       this.userservice.addPassword(value)
         .then(resp => { console.log(resp); this.add_password_form = new AddPasswordForm(new AddPasswordModel) })
         .catch(err => { console.log(err); });

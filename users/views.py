@@ -14,14 +14,8 @@ from .serializers import (
     AuthTokenSerializer,
     UserSerializer,
     SlackAuthSerializer,
-    #
-    #
-    #
     ChangePasswordSerializer,
     AddPasswordSerializer,
-    #
-    #
-    #
 )
 
 from .models import User
@@ -51,9 +45,6 @@ class Login(APIView):
             'user_id': serializer.user.id
         }, status=200)
 
-#
-# CURRENTLY EDITING
-#
 class ChangePassword(APIView):
     """
         User Password EndPoint
@@ -75,29 +66,31 @@ class ChangePassword(APIView):
         """
             Create User Password
         """
-        context = {
-            'user':self.request.user
-        }
-        serializer = AddPasswordSerializer(data=self.request.data, context=context)
+        serializer = AddPasswordSerializer(
+            data=self.request.data, request=self.request)
+
         if serializer.is_valid():
-            return Response({'Success': 'Password added'}, status=204)
+            self.request.user.set_password(serializer.data.get("new_password"))
+            self.request.user.save()
+            return Response({'Success': 'Password added'}, status=200)
+
         return Response(serializer.errors, status=400)
 
     def put(self, *args, **kwargs):
         """
             Update User Password
         """
-        context = {
-            'user':self.request.user
-        }
-        serializer = ChangePasswordSerializer(data=self.request.data, context=context)
+        serializer = ChangePasswordSerializer(
+            data=self.request.data, request=self.request)
+
+        serializer.is_valid(raise_exception=True)
+
         if serializer.is_valid():
-            return Response({'Updated':"Update is a Success"}, status=204)
+            self.request.user.set_password(serializer.data.get("new_password"))
+            self.request.user.save()
+            return Response({'Success':"Update is a Success"}, status=200)
 
         return Response(serializer.errors, status=400)
-#
-#
-#
 
 class SlackAuth(Query, Slack, ViewSet):
     """ slack authentication endpoint

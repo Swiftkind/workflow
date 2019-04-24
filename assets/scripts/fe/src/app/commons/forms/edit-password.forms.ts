@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 export class EditPasswordForm {
   public form: FormGroup;
+  public err: string = null;
   public submitted: Boolean = false;
 
   constructor (data) {

@@ -30,22 +30,22 @@ export class UserService {
     ;
   }
 
-  //
-  // Added Change Password on headers
-  //
   hasPass(){
     return this.http.get(CHANGE_PASSWORD)
   }
 
   updatePassword(data){
-    return this.http.put(CHANGE_PASSWORD, data).toPromise()
+    return this.http.put(CHANGE_PASSWORD, data)
+      .toPromise()
+      .then(resp => { return resp; } )
+      .catch(err => { return Promise.reject(err); })
   }
 
   addPassword(data){
-    return this.http.post(CHANGE_PASSWORD, data).toPromise()
+    return this.http.post(CHANGE_PASSWORD, data)
+      .toPromise()
+      .then(resp => { return resp; } )
+      .catch(err => { return Promise.reject(err); })
   }
-  //
-  //
-  //
 
 }

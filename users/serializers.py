@@ -11,13 +11,7 @@ from rest_framework.authtoken.models import Token
 from .models import User, SlackToken
 from .slack import Slack
 
-#
-# Added By Melchi
-#
 from django.contrib.auth.password_validation import validate_password
-#
-#
-#
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -215,27 +209,22 @@ class SlackAuthSerializer(Slack, serializers.Serializer):
         """
         return f"{settings.SLACK_AUTH_LOGIN_REDIRECT}{self.token.token}/"
 
-
-#
-#
-#
 class AddPasswordSerializer(serializers.Serializer):
     """
     Serializer for password change endpoint.
     """
     new_password = serializers.CharField(required=True)
     confirm_new_password = serializers.CharField(required=True)
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        return super(AddPasswordSerializer, self).__init__(*args, **kwargs)
 
     def validate(self, data):
-        user = self.context.get('user')
-        new_password = data.get("new_password")
-        confirm_new_password =  data.get("confirm_new_password")
+        new_password, confirm_new_password = data.values()
 
         if new_password != confirm_new_password:
             raise serializers.ValidationError({"new_password": "Password do not match"}, code="authorization")
-        
-        user.set_password(data.get("new_password"))
-        user.save()
 
         return data
 
@@ -251,21 +240,19 @@ class ChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(required=True)
     confirm_new_password = serializers.CharField(required=True)
 
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        return super(ChangePasswordSerializer, self).__init__(*args, **kwargs)
+
     def validate(self, data):
-        user = self.context.get('user')
+        old_password, new_password, confirm_new_password = data.values()
 
-        old_password = data.get("old_password")
-        new_password = data.get("new_password")
-        confirm_new_password =  data.get("confirm_new_password")
-
-        if not user.check_password(old_password):
-            raise serializers.ValidationError({"old_password": "Wrong password."}, code="authorization")
+        if not self.request.user.check_password(old_password):
+            raise serializers.ValidationError(_("Wrong password."), code="authorization")
         
         if new_password != confirm_new_password:
-            raise serializers.ValidationError({"new_password": "Password do not match"}, code="authorization")
-
-        user.set_password(data.get("new_password"))
-        user.save()
+            raise serializers.ValidationError(_("Password do not match."), code="authorization")
 
         return data
         
@@ -273,6 +260,3 @@ class ChangePasswordSerializer(serializers.Serializer):
     def validate_new_password(self, value):
         validate_password(value)
         return value
-#
-#
-#

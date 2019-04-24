@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.contrib import auth
 
 
 from rest_framework.authtoken.models import Token
@@ -12,15 +13,10 @@ from .models import User
 class UserPasswordTest(TestCase):
 
     def setUp(self):
-        test_user = User.objects.create_user(email="test@test.com")
+        self.test_user = User.objects.create_user(email="test@test.com")
 
-        #token = Token.objects.get(user=test_user)
         self.client = APIClient()
-        self.client.force_authenticate(user=test_user)
-
-        #client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        #self.client = Client()
-        #self.client.force_login(test_user)
+        self.client.force_authenticate(user=self.test_user)
     
     def test_change_password(self):
         url = reverse('change_password')
@@ -29,14 +25,12 @@ class UserPasswordTest(TestCase):
         print(" ")
         print("Test Get Method Before Saving Password")
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        print(response.data)
+        self.assertEqual(response.data, False)
 
         # Test Post Method with Empty Data
         print(" ")
         print("Test Post Method with Empty Data")
         response = self.client.post(url, {})
-        self.assertEqual(response.status_code, 400)
         print(response.data)
 
         # Test Post Method with Valid Data
@@ -47,7 +41,7 @@ class UserPasswordTest(TestCase):
             'confirm_new_password': 'admin192168',
         }
         response = self.client.post(url, data)
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 200)
         print(response.data)
 
         # Test Post Method with Invalid Data
@@ -91,7 +85,7 @@ class UserPasswordTest(TestCase):
             'confirm_new_password': 'admin',
         }
         response = self.client.put(url, data)
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, 200)
         print(response.data)
 
         # Test Put Method with Invalid Data
@@ -125,5 +119,4 @@ class UserPasswordTest(TestCase):
         print(" ")
         print("Test Get Method After Saving Password")
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        print(response.data)
+        self.assertEqual(response.data, True)
