@@ -87,7 +87,7 @@
         </div>
 
 
-        <div [ngSwitch]="switch_expression" class="password-field">
+        <div [ngSwitch]="switchExpression" class="password-field">
 
           <!-- CREATE PASSWORD FORM -->
 
@@ -111,8 +111,6 @@
             </form>
           </div>
 
-          <!-- CREATE PASSWORD FORM -->
-
 
           <!-- CHANGE PASSWORD FORM -->
 
@@ -120,7 +118,6 @@
             <form [formGroup]="edit_password_form.form" (ngSubmit)="onEditPasswordSubmit(edit_password_form.form)">
               <p>Change Password</p>
               <span [hidden]="!edit_password_form.err">{{edit_password_form.err}}</span>
-              <!--<span [hidden]="!edit_password_form.err">{{edit_password_form.err}}</span>-->
               <div class="form-group">
                 <label>Old Password</label>
                 <input type="password" formControlName="old_password" class="form-control">
@@ -143,7 +140,6 @@
             </form>
           </div>
 
-          <!-- CHANGE PASSWORD FORM -->
 
           <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
           <div *ngSwitchCase="'success'">
@@ -152,9 +148,9 @@
               <a href="" (click)="changePassClick($event)" class="text-right text-strong">Change Password</a>
             </div>
           </div>
-          <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
 
           <!-- CPASSWORD ALREADY CREATED-->
+
           <div *ngSwitchDefault>
             <p *ngIf="!checkPass">You’re logged in via Slack.<br/>
             <span class="text-highlited">Create a password</span> to sign in using e-mail.</p>
@@ -162,6 +158,7 @@
             <div *ngIf="!checkPass" class="text-right">
               <button (click)="createPassClick()" class="btn btn-cta-primary btn-lg">Start Creating</button>
             </div>
+            <!-- CREATE PASSWORD FORM -->
 
             <!-- PASSWORD ALREADY CREATED -->
 
@@ -169,6 +166,9 @@
             <div class="text-right" *ngIf="checkPass">
               <a href="" (click)="changePassClick($event)" class="text-right text-strong">Change Password</a>
             </div>
+            
+            <!-- CPASSWORD ALREADY CREATED-->
+
           </div>
         </div>
       </div>

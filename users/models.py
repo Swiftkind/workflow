@@ -119,8 +119,7 @@ def auto_remove_imagefile(sender, instance=None, **kwargs):
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
-        user = User.objects.filter(id=instance.id).first()
-        User.get_token(user)
+        User.get_token(instance)
 
 
 class SalaryLog(models.Model):

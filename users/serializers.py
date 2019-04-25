@@ -92,6 +92,7 @@ class ShortUserSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """ user serializer
     """
+    has_usable_pass = serializers.SerializerMethodField(read_only=True)
     deductions = serializers.SerializerMethodField(read_only=True)
     plans = serializers.SerializerMethodField(read_only=True)
     full_name = serializers.SerializerMethodField(read_only=True)
@@ -111,7 +112,8 @@ class UserSerializer(serializers.ModelSerializer):
             'position_type',
             'date_started',
             'deductions',
-            'plans'
+            'plans',
+            'has_usable_pass'
         )
 
     def __init__(self, *args, **kwargs):
@@ -127,6 +129,9 @@ class UserSerializer(serializers.ModelSerializer):
         from payroll.serializers import DeductionSerializer
 
         return DeductionSerializer(instance.deductions.all(), many=True).data
+    
+    def get_has_usable_pass(self, instance):
+        return instance.has_usable_password()
 
     def get_plans(self, instance):
         """ get the list of plans from the
@@ -220,7 +225,10 @@ class AddPasswordSerializer(serializers.Serializer):
         self.request = kwargs.pop('request', None)
         return super(AddPasswordSerializer, self).__init__(*args, **kwargs)
 
-    def validate(self, data):
+    def validate(self, data):       
+        """
+            validates whether inputed passwords match
+        """
         new_password, confirm_new_password = data.values()
 
         if new_password != confirm_new_password:
@@ -229,10 +237,16 @@ class AddPasswordSerializer(serializers.Serializer):
         return data
 
     def validate_new_password(self, value):
+        """
+            validates inputed password if accepted by used django password verification
+        """
         validate_password(value)
         return value
     
     def create(self, validated_data):
+        """
+            set new password for user
+        """
         self.request.user.set_password(validated_data.get("new_password"))
         self.request.user.save()
         return self.request.user
@@ -251,6 +265,9 @@ class ChangePasswordSerializer(serializers.Serializer):
         return super(ChangePasswordSerializer, self).__init__(*args, **kwargs)
 
     def validate(self, data):
+        """
+            validates data to check user credentials
+        """
         old_password, new_password, confirm_new_password = data.values()
 
         if not self.request.user.check_password(old_password):
@@ -262,10 +279,16 @@ class ChangePasswordSerializer(serializers.Serializer):
         return data     
 
     def validate_new_password(self, value):
+        """
+            validates inputed password if accepted by used django password verification
+        """
         validate_password(value)
         return value
     
     def create(self, validated_data):
+        """
+            set new password for user
+        """
         self.request.user.set_password(validated_data.get("new_password"))
         self.request.user.save()
         return self.request.user

@@ -30,10 +30,6 @@ export class UserService {
     ;
   }
 
-  hasPass(){
-    return this.http.get(CHANGE_PASSWORD)
-  }
-
   updatePassword(data){
     return this.http.put(CHANGE_PASSWORD, data)
       .toPromise()

@@ -50,17 +50,6 @@ class ChangePassword(APIView):
         User Password EndPoint
     """
     permission_classes = (IsAuthenticated,)
-
-    def get(self, *args, **kwargs):
-        """
-            Check if User has already set a password
-        """
-        checkflag = False
-        user = self.request.user
-        if user.has_usable_password():
-            checkflag = True
-
-        return Response(checkflag, status=200)
     
     def post(self, *args, **kwargs):
         """
@@ -68,9 +57,10 @@ class ChangePassword(APIView):
         """
         serializer = AddPasswordSerializer(
             data=self.request.data, request=self.request)
+
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'Success': 'Password added'}, status=200)
+        return Response(status=204)
 
     def put(self, *args, **kwargs):
         """
@@ -81,7 +71,7 @@ class ChangePassword(APIView):
         
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'Success':"Update is a Success"}, status=200)
+        return Response(status=204)
 
 class SlackAuth(Query, Slack, ViewSet):
     """ slack authentication endpoint
@@ -120,7 +110,6 @@ class User(TZ, ViewSet):
     def get(self, *args, **kwargs):
         serializer = self.serializer_class(
             instance=self.request.user)
-
         return Response(serializer.data, status=200)
 
     def update(self, *args, **kwargs):

@@ -6,15 +6,17 @@ import { StateService } from '@uirouter/angular';
 import { UserForm } from '../../../commons/forms/user.forms';
 import { User } from '../../../commons/models/user.models';
 
-import { EditPasswordForm } from '../../../commons/forms/edit-password.forms'
 import { EditPasswordModel } from '../../../commons/models/edit-password.models'
 
-import { AddPasswordForm } from '../../../commons/forms/add-password.forms'
+import { AddPasswordForm } from '../../../commons/forms/password.forms'
+import { EditPasswordForm } from '../../../commons/forms/password.forms'
+
 import { AddPasswordModel } from '../../../commons/models/add-password.models'
 
 import { AuthService } from '../../../commons/services/auth/auth.service';
 import { UserService } from '../../../commons/services/auth/user.service';
 import { NavService } from '../../../commons/services/utils/nav.service';
+import { from } from 'rxjs';
 
 
 @Component({
@@ -25,10 +27,13 @@ import { NavService } from '../../../commons/services/utils/nav.service';
 export class SettingComponent implements OnInit {
   private form : UserForm;
 
-  private edit_password_form : EditPasswordForm
-  private add_password_form : AddPasswordForm
-  checkPass;
-  switch_expression;
+  private edit_password_form : EditPasswordForm;
+  private add_password_form : AddPasswordForm;
+
+  // private edit_password_form : EditPasswordForm
+  // private add_password_form : AddPasswordForm
+  private checkPass:boolean;
+  private switchExpression: string;
 
 
   constructor(
@@ -40,23 +45,13 @@ export class SettingComponent implements OnInit {
 
   async ngOnInit() {
     // initialize the form.
-    this.switch_expression = null
+    this.switchExpression = null;
     this.form = new UserForm(new User);
 
     this.nav.setNav('Profile', true);
 
-    this.edit_password_form = new EditPasswordForm(new EditPasswordModel)
-    this.add_password_form = new AddPasswordForm(new AddPasswordModel)
-
-    // check if user has a usable password
-    this.userservice.hasPass().subscribe(
-      data => {
-        this.checkPass = data
-      },
-      error => {
-        console.log(error)
-      }
-    )
+    this.edit_password_form = new EditPasswordForm(new EditPasswordModel);
+    this.add_password_form = new AddPasswordForm(new AddPasswordModel);
 
     // assign values on the user form.
     // this uses `await` which will wait
@@ -66,6 +61,7 @@ export class SettingComponent implements OnInit {
       await this.auth.setuser();
     }
     this.form.defaultValue(this.auth.user);
+    this.checkPass = this.auth.user.has_usable_pass
   }
 
   onSubmit({ value, valid }: { value: User, valid: boolean }) {
@@ -81,37 +77,50 @@ export class SettingComponent implements OnInit {
   }
 
   onEditPasswordSubmit({value, valid}: {value: EditPasswordModel, valid:boolean}){
+    // initiate submission of form.
     this.edit_password_form.submitted = true;
-
+    // send the form data to the backend if the value
+    // format are valid.
     if(valid){
       this.userservice.updatePassword(value)
-        .then(resp => { this.switch_expression = 'success'; this.edit_password_form = new EditPasswordForm(new EditPasswordModel); })
+        // initialize switchExpression to redirect to success view
+        // re initialize edit password form to empty fields
+        .then(resp => { this.switchExpression = 'success'; this.edit_password_form = new EditPasswordForm(new EditPasswordModel); })
         .catch(err => { this.edit_password_form.err = err.error.non_field_errors; });
     }
   }
 
   onAddPasswordSubmit({value, valid}: {value: AddPasswordModel, valid:boolean}){
+    // initiate submission of form.
     this.add_password_form.submitted = true;
-
+    // send the form data to the backend if the value
+    // format are valid.
     if(valid){  
       this.userservice.addPassword(value)
-        .then(resp => { this.switch_expression = 'success'; this.add_password_form = new AddPasswordForm(new AddPasswordModel); this.checkPass = true; })
+        // initialize switchExpression to redirect to success view
+        // re initialize edit password form to empty fields
+        .then(resp => { this.switchExpression = 'success'; this.add_password_form = new AddPasswordForm(new AddPasswordModel); this.checkPass = true; })
         .catch(err => { this.add_password_form.err = err.error.non_field_errors; });
     }
   }
 
   changePassClick($event){
-    $event.preventDefault()
-    this.switch_expression = 'change_password'
+    // prevent href default behavior
+    $event.preventDefault();
+    // initialize switchExpression to redirect to change password form 
+    this.switchExpression = 'change_password';
   }
 
   cancelPasswordEvent(){
+    // re initialize edit password and add password form to empty fields
     this.edit_password_form = new EditPasswordForm(new EditPasswordModel);
     this.add_password_form = new AddPasswordForm(new AddPasswordModel);
-    this.switch_expression = ''
+    // initialize switchExpression to redirect to default view
+    this.switchExpression = '';
   }
 
   createPassClick(){
-    this.switch_expression = 'create_password'
+    // initialize switchExpression to redirect to create password form
+    this.switchExpression = 'create_password';
   }
 }
