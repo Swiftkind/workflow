@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
@@ -115,6 +115,12 @@ def auto_remove_imagefile(sender, instance=None, **kwargs):
 
     if user and user.image and instance.image != user.image:
         instance.delete_image(user.image)
+
+@receiver(post_save, sender=User)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        user = User.objects.filter(id=instance.id).first()
+        User.get_token(user)
 
 
 class SalaryLog(models.Model):

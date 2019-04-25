@@ -20,12 +20,14 @@ class UserPasswordTest(TestCase):
     
     def test_change_password(self):
         url = reverse('change_password')
+        login_url = reverse('login')
 
         #Test Get Method Before Saving Password
         print(" ")
         print("Test Get Method Before Saving Password")
         response = self.client.get(url)
         self.assertEqual(response.data, False)
+        print(response.data)
 
         # Test Post Method with Empty Data
         print(" ")
@@ -42,6 +44,25 @@ class UserPasswordTest(TestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
+        print(response.data)
+
+        #Test Get Method After Saving Password
+        print(" ")
+        print("Test Get Method After Saving Password")
+        response = self.client.get(url)
+        self.assertEqual(response.data, True)
+        print(response.data)
+
+        # Test Login with New Password
+        dataa = {
+            'email': self.test_user.email,
+            'password': data.get('new_password')
+        }
+        print("Test Login with New Password Using self.client.login")
+        dt = self.client.login(email=dataa.get('email'), password=dataa.get('password'))
+        print(dt)
+        print("Test Login with New Password Using Post Method On Login Url")
+        response = self.client.post(login_url, dataa)
         print(response.data)
 
         # Test Post Method with Invalid Data
@@ -88,6 +109,25 @@ class UserPasswordTest(TestCase):
         self.assertEqual(response.status_code, 200)
         print(response.data)
 
+        #Test Get Method After Edit Password
+        print(" ")
+        print("Test Get Method After Edit Password")
+        response = self.client.get(url)
+        self.assertEqual(response.data, True)
+        print(response.data)
+
+        # Test Login with New Password
+        dataa = {
+            'email': self.test_user.email,
+            'password': data.get('new_password')
+        }
+        print("Test Login with Edited Password Using self.client.login")
+        dt = self.client.login(email=dataa.get('email'), password=dataa.get('password'))
+        print(dt)
+        print("Test Login with Edited Password Using Post Method On Login Url")
+        response = self.client.post(login_url, dataa)
+        print(response.data)
+
         # Test Put Method with Invalid Data
         print(" ")
         print("Test Put Method with Invalid Data")
@@ -117,6 +157,7 @@ class UserPasswordTest(TestCase):
 
         #Test Get Method After Saving Password 
         print(" ")
-        print("Test Get Method After Saving Password")
+        print("Test Get Method After Editing Password")
         response = self.client.get(url)
         self.assertEqual(response.data, True)
+        print(response.data)

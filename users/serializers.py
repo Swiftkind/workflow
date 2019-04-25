@@ -224,13 +224,18 @@ class AddPasswordSerializer(serializers.Serializer):
         new_password, confirm_new_password = data.values()
 
         if new_password != confirm_new_password:
-            raise serializers.ValidationError({"new_password": "Password do not match"}, code="authorization")
+            raise serializers.ValidationError(_("Passwords do not match."), code="authorization")
 
         return data
 
     def validate_new_password(self, value):
         validate_password(value)
         return value
+    
+    def create(self, validated_data):
+        self.request.user.set_password(validated_data.get("new_password"))
+        self.request.user.save()
+        return self.request.user
 
 class ChangePasswordSerializer(serializers.Serializer):
     """
@@ -249,14 +254,18 @@ class ChangePasswordSerializer(serializers.Serializer):
         old_password, new_password, confirm_new_password = data.values()
 
         if not self.request.user.check_password(old_password):
-            raise serializers.ValidationError(_("Wrong password."), code="authorization")
+            raise serializers.ValidationError(_("Wrong old password."), code="authorization")
         
         if new_password != confirm_new_password:
-            raise serializers.ValidationError(_("Password do not match."), code="authorization")
+            raise serializers.ValidationError(_("Passwords do not match."), code="authorization")
 
-        return data
-        
+        return data     
 
     def validate_new_password(self, value):
         validate_password(value)
         return value
+    
+    def create(self, validated_data):
+        self.request.user.set_password(validated_data.get("new_password"))
+        self.request.user.save()
+        return self.request.user

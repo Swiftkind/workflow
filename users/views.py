@@ -68,13 +68,9 @@ class ChangePassword(APIView):
         """
         serializer = AddPasswordSerializer(
             data=self.request.data, request=self.request)
-
-        if serializer.is_valid():
-            self.request.user.set_password(serializer.data.get("new_password"))
-            self.request.user.save()
-            return Response({'Success': 'Password added'}, status=200)
-
-        return Response(serializer.errors, status=400)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'Success': 'Password added'}, status=200)
 
     def put(self, *args, **kwargs):
         """
@@ -82,15 +78,10 @@ class ChangePassword(APIView):
         """
         serializer = ChangePasswordSerializer(
             data=self.request.data, request=self.request)
-
+        
         serializer.is_valid(raise_exception=True)
-
-        if serializer.is_valid():
-            self.request.user.set_password(serializer.data.get("new_password"))
-            self.request.user.save()
-            return Response({'Success':"Update is a Success"}, status=200)
-
-        return Response(serializer.errors, status=400)
+        serializer.save()
+        return Response({'Success':"Update is a Success"}, status=200)
 
 class SlackAuth(Query, Slack, ViewSet):
     """ slack authentication endpoint

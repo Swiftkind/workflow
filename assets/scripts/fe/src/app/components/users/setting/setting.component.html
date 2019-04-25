@@ -72,6 +72,7 @@
         <button type="submit" class="btn btn-primary px-4">Save Changes</button>
       </form>
     </div>
+    
     <div class="col-md-5">
       <div class="account-details">
         <div class="primary-email">
@@ -84,83 +85,92 @@
             <a href="" class="text-highlited">Change</a>
           </div>
         </div>
-        <div class="password-field">
-          <p>You’re logged in via Slack.<br/>
-          <span class="text-highlited">Create a password</span> to sign in using e-mail.</p>
 
-            <!-- CREATE PASSWORD FORM -->
 
-            <!-- <div class="form">
+        <div [ngSwitch]="switch_expression" class="password-field">
+
+          <!-- CREATE PASSWORD FORM -->
+
+          <div *ngSwitchCase="'create_password'">
+            <form [formGroup]="add_password_form.form" (ngSubmit)="onAddPasswordSubmit(add_password_form.form)">
+              <span [hidden]="!add_password_form.err">{{add_password_form.err}}</span>
               <div class="form-group">
                 <label>New Password</label>
-                <input type="password" name="" class="form-control">
+                <input type="password" formControlName="new_password" class="form-control">
+                <span [hidden]="add_password_form.valid('new_password')">This field is required.</span>
               </div>
               <div class="form-group">
                 <label>Confirm Password</label>
-                <input type="password" name="" class="form-control">
+                <input type="password" formControlName="confirm_new_password" class="form-control">
+                <span [hidden]="add_password_form.valid('confirm_new_password')">This field is required.</span>
               </div>
               <div class="d-flex justify-content-between">
-                <button class="btn btn-light">Cancel</button>
+                <button (click)="cancelPasswordEvent()" class="btn btn-light">Cancel</button>
                 <button class="btn btn-cta-primary">Save Password</button>
               </div>
-            </div> -->
+            </form>
+          </div>
 
-            <!-- CREATE PASSWORD FORM -->
-
-
-
-            <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
-
-            <!-- <p>Congratulations! You’ve successfully updated your password.</p>
-            <div class="text-right">
-              <a href="" class="text-right text-strong">Change Password</a>
-            </div> -->
-            <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
+          <!-- CREATE PASSWORD FORM -->
 
 
+          <!-- CHANGE PASSWORD FORM -->
 
-            <!-- CHANGE PASSWORD FORM -->
-
-            <!-- <div class="form">
+          <div *ngSwitchCase="'change_password'">
+            <form [formGroup]="edit_password_form.form" (ngSubmit)="onEditPasswordSubmit(edit_password_form.form)">
               <p>Change Password</p>
+              <span [hidden]="!edit_password_form.err">{{edit_password_form.err}}</span>
+              <!--<span [hidden]="!edit_password_form.err">{{edit_password_form.err}}</span>-->
               <div class="form-group">
                 <label>Old Password</label>
-                <input type="password" name="" class="form-control">
+                <input type="password" formControlName="old_password" class="form-control">
+                <span [hidden]="edit_password_form.valid('old_password')">This field is required.</span>
               </div>
               <div class="form-group">
                 <label>New Password</label>
-                <input type="password" name="" class="form-control">
+                <input type="password" formControlName="new_password" class="form-control">
+                <span [hidden]="edit_password_form.valid('new_password')">This field is required.</span>
               </div>
               <div class="form-group">
                 <label>Confirm Password</label>
-                <input type="password" name="" class="form-control">
+                <input type="password" formControlName="confirm_new_password" class="form-control">
+                <span [hidden]="edit_password_form.valid('confirm_new_password')">This field is required.</span>
               </div>
               <div class="d-flex justify-content-between">
-                <button class="btn btn-light">Cancel</button>
+                <button (click)="cancelPasswordEvent()" class="btn btn-light">Cancel</button>
                 <button class="btn btn-cta-primary">Update Password</button>
               </div>
-            </div> -->
+            </form>
+          </div>
 
-            <!-- CHANGE PASSWORD FORM -->
+          <!-- CHANGE PASSWORD FORM -->
 
+          <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
+          <div *ngSwitchCase="'success'">
+            <p>Congratulations! You’ve successfully updated your password.</p>
+            <div class="text-right">
+              <a href="" (click)="changePassClick($event)" class="text-right text-strong">Change Password</a>
+            </div>
+          </div>
+          <!-- CHANGE/CREATE PASSWORD -- SUCCESS -->
 
+          <!-- CPASSWORD ALREADY CREATED-->
+          <div *ngSwitchDefault>
+            <p *ngIf="!checkPass">You’re logged in via Slack.<br/>
+            <span class="text-highlited">Create a password</span> to sign in using e-mail.</p>
+          
+            <div *ngIf="!checkPass" class="text-right">
+              <button (click)="createPassClick()" class="btn btn-cta-primary btn-lg">Start Creating</button>
+            </div>
 
             <!-- PASSWORD ALREADY CREATED -->
 
-           <!--  <p>Your password was created on <span class="text-muted">03/13/2019</span></p>
-            <div class="text-right">
-              <a href="" class="text-right text-strong">Change Password</a>
-            </div> -->
-
-
-            <!-- CPASSWORD ALREADY CREATED-->
-
-
-          <div class="text-right">
-            <button class="btn btn-cta-primary btn-lg">Start Creating</button>
+            <p *ngIf="checkPass">Your password was created on <span class="text-muted">03/13/2019</span></p>
+            <div class="text-right" *ngIf="checkPass">
+              <a href="" (click)="changePassClick($event)" class="text-right text-strong">Change Password</a>
+            </div>
           </div>
         </div>
-
       </div>
       <div class="col-md-6"><!--
         <div class="form-group">
@@ -170,54 +180,5 @@
         </div> -->
       </div>
     </div>
-  </div>
-</div>
-
-<br/>
-<br/>
-<div class="container pt-5">
-  <div *ngIf="checkPass">
-    <form [formGroup]="edit_password_form.form" (ngSubmit)="onEditPasswordSubmit(edit_password_form.form)">
-      <span [hidden]="!edit_password_form.err">Error Message</span>
-      <div>
-        <label>Old Password:</label>
-        <input type="password" formControlName="old_password">
-        <span [hidden]="edit_password_form.valid('old_password')">This field is required.</span>
-      </div>
-
-      <div>
-        <label>New Password</label>
-        <input type="password" formControlName="new_password">
-        <span [hidden]="edit_password_form.valid('new_password')">This field is required.</span>
-      </div>
-
-      <div>
-        <label>Confirm New Password</label>
-        <input type="password" formControlName="confirm_new_password">
-        <span [hidden]="edit_password_form.valid('confirm_new_password')">This field is required.</span>
-      </div>
-
-      <button type="submit" class="btn btn-outline-primary">Edit Password</button>
-    </form>
-  </div>
-
-
-  <div *ngIf="!checkPass">
-    <form [formGroup]="add_password_form.form" (ngSubmit)="onAddPasswordSubmit(add_password_form.form)">  
-      <span [hidden]="!add_password_form.err">Error Message</span>
-      <div>
-        <label>Password</label>
-        <input type="password" formControlName="new_password">
-        <span [hidden]="add_password_form.valid('new_password')">This field is required.</span>
-      </div>
-
-      <div>
-        <label>Confirm Password</label>
-        <input type="password" formControlName="confirm_new_password">
-        <span [hidden]="add_password_form.valid('confirm_new_password')">This field is required.</span>
-      </div>
-      
-      <button class="btn btn-outline-danger">Add Password</button>
-    </form>
   </div>
 </div>
