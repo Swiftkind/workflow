@@ -3,7 +3,7 @@
   <div class="d-flex align-items-center justify-content-between mb-4">
     <h5 class="subtitle mb-0">All Pay slips</h5>
     <div class="feed-data-options ">
-      <button class="btn btn-sm mr-2" >
+      <button class="btn btn-sm mr-2" (click)="downloadPDF()" >
         <i class="fas fa-download"></i>
       </button>
       <button class="btn btn-sm">
@@ -14,10 +14,33 @@
 
   <div class="nav-list-style-1">
     <p class="text-center text-muted" *ngIf="payrollservice.plist.length === 0">No Pay slips available.</p>
+    <div *ngFor="let p of payrollservice.plist">
+      <a uiSref="payroll-detail" [uiParams]="{id:p.id}" uiSrefActive="active" >
+        <div class="nav-list-item d-flex justify-content-between align-items-start p-3">
+          <div class="d-flex align-items-center">
+            <input *ngIf="payrollservice.mapDownloadPDF.has(p.id) == true" type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)" checked>
+            <input *ngIf="payrollservice.mapDownloadPDF.has(p.id) == false" type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)" >
+            <div class="">
+              <h6 class="section-title mb-1">{{ p.payroll_code }}</h6>
+              <small class="text-muted">{{ p.date_created | date: '(EEE) MMM d, y' }}</small>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="mb-1 pane-title">{{ p.date_from | date: 'MMM d' }} - {{ p.date_to | date: 'd y' }}</p>
+            <p class="text-primary mb-0" *ngIf="p.is_sent">Sent</p>
+            <p class="text-warning mb-0" *ngIf="!p.is_sent">Pending</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!--<div class="nav-list-style-1">
+    <p class="text-center text-muted" *ngIf="payrollservice.plist.length === 0">No Pay slips available.</p>
     <a uiSref="payroll-detail" [uiParams]="{id:p.id}" uiSrefActive="active" *ngFor="let p of payrollservice.plist">
       <div class="nav-list-item d-flex justify-content-between align-items-start p-3">
+
         <div class="d-flex align-items-center">
-          <input type="checkbox" name="" class="mr-3 inputcheck">
+          <input type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)">
           <div class="">
             <h6 class="section-title mb-1">{{ p.payroll_code }}</h6>
             <small class="text-muted">{{ p.date_created | date: '(EEE) MMM d, y' }}</small>
@@ -28,8 +51,9 @@
           <p class="text-primary mb-0" *ngIf="p.is_sent">Sent</p>
           <p class="text-warning mb-0" *ngIf="!p.is_sent">Pending</p>
         </div>
+
       </div>
     </a>
 
-  </div>
+  </div> -->
 </div>
