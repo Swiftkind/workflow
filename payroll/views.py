@@ -56,17 +56,24 @@ class PayrollReport(Query, PDFHelper, MailHelper, ViewSet):
     def send_pdf(self, *args, **kwargs):
         
         # This should get the data that we are going to access
-        import pdb; pdb.set_trace()
+        test_pdf = []
+        test_pdf_details = []
         for data in self.request.data:
             serializer = self.serializer_class(
-                instance=self._get(self._model, data)
+                instance=self._get(self._model, id=data)
             )
+            pdf, pdf_details = self.produce_payroll_as_an_attachment(serializer.data)
+            test_pdf.append(pdf)
+            test_pdf_details.append(pdf_details)
 
-        
+        self.send_payroll_email(test_pdf, test_pdf_details)
+        return Response({}, status=200)
+
+        #pdf, pdf_details = self.produce_payroll_as_an_attachment(container)
         # serializer = self.serializer_class(
         #     instance=self._get(self._model, **kwargs)
         # )
+
         # Passes the data and produces the pdf based on those data
-        pdf, pdf_details = self.produce_payroll_as_an_attachment(serializer.data)
-        self.send_payroll_email(pdf, pdf_details);
-        return Response({}, status=200)
+        # pdf, pdf_details = self.produce_payroll_as_an_attachment(serializer.data)
+        # self.send_payroll_email(pdf, pdf_details)

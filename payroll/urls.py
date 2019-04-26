@@ -10,15 +10,16 @@ urlpatterns = [
         'get': 'get'
     }), name="payroll-detail"),
     
-    path('<int:id>/report/', PayrollReport.as_view({
-        'get': 'download_pdf',
-        'post': 'send_pdf'
-    }), name='payroll-report'),
     # path('<int:id>/report/', PayrollReport.as_view({
-    #     'get': 'download_pdf'
-    # }), name='payroll-report'),
-
-    # path('report/', PayrollReport.as_view({
+    #     'get': 'download_pdf',
     #     'post': 'send_pdf'
     # }), name='payroll-report'),
+
+    path('<int:id>/report/', PayrollReport.as_view({
+        'get': 'download_pdf'
+    }), name='payroll-report'),
+
+    path('report/', PayrollReport.as_view({
+        'post': 'send_pdf'
+    }), name='payroll-report-post'),
 ]

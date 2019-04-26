@@ -6,7 +6,6 @@ import { PAYROLL, PAYROLL_REPORT, PAYROLL_SEND_PDF } from '../../constants/api.c
 import { Payroll } from '../../../commons/models/payroll.models';
 
 import { downloadFileHanlder } from '../../utils/file.utils';
-import { text } from '@angular/core/src/render3/instructions';
 
 
 @Injectable({

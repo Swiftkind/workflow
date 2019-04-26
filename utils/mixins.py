@@ -97,16 +97,30 @@ class MailHelper(object):
     """ Email helper
     """
 
+    # def send_payroll_email(self, pdf, pdf_details):
+    #     # Payroll report details
+    #     subject = "Payroll Report"
+    #     message = "Attached here is a copy of your payroll report."
+    #     sender = settings.EMAIL
+    #     receipent = pdf_details.get("payroll_owner")
+
+    #     # Sending the actual email
+    #     email = EmailMessage(subject, message, sender, [receipent])
+    #     email.attach(pdf_details.get("title"), pdf, 'application/pdf')
+    #     email.send()
+
     def send_payroll_email(self, pdf, pdf_details):
         # Payroll report details
         subject = "Payroll Report"
         message = "Attached here is a copy of your payroll report."
         sender = settings.EMAIL
-        receipent = pdf_details.get("payroll_owner")
+        receipent = pdf_details[0].get("payroll_owner")
 
         # Sending the actual email
         email = EmailMessage(subject, message, sender, [receipent])
-        email.attach(pdf_details.get("title"), pdf, 'application/pdf')
+        for details, pdf_file in zip(pdf_details, pdf):
+            email.attach(details.get("title"), pdf_file, 'application/pdf')
+        # email.attach(pdf_details[0].get("title"), pdf[0], 'application/pdf')
         email.send()
 
 class PermissionHelper(object):
