@@ -14,8 +14,7 @@ from .serializers import (
     AuthTokenSerializer,
     UserSerializer,
     SlackAuthSerializer,
-    ChangePasswordSerializer,
-    AddPasswordSerializer,
+    PasswordSerializer,
 )
 
 from .models import User
@@ -55,7 +54,7 @@ class ChangePassword(APIView):
         """
             Create User Password
         """
-        serializer = AddPasswordSerializer(
+        serializer = PasswordSerializer(
             data=self.request.data, request=self.request)
 
         serializer.is_valid(raise_exception=True)
@@ -66,7 +65,7 @@ class ChangePassword(APIView):
         """
             Update User Password
         """
-        serializer = ChangePasswordSerializer(
+        serializer = PasswordSerializer(
             data=self.request.data, request=self.request)
         
         serializer.is_valid(raise_exception=True)

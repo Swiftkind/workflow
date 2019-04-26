@@ -214,64 +214,30 @@ class SlackAuthSerializer(Slack, serializers.Serializer):
         """
         return f"{settings.SLACK_AUTH_LOGIN_REDIRECT}{self.token.token}/"
 
-class AddPasswordSerializer(serializers.Serializer):
+class PasswordSerializer(serializers.Serializer):
     """
     Serializer for password change endpoint.
     """
-    new_password = serializers.CharField(required=True)
-    confirm_new_password = serializers.CharField(required=True)
-    
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        return super(AddPasswordSerializer, self).__init__(*args, **kwargs)
-
-    def validate(self, data):       
-        """
-            validates whether inputed passwords match
-        """
-        new_password, confirm_new_password = data.values()
-
-        if new_password != confirm_new_password:
-            raise serializers.ValidationError(_("Passwords do not match."), code="authorization")
-
-        return data
-
-    def validate_new_password(self, value):
-        """
-            validates inputed password if accepted by used django password verification
-        """
-        validate_password(value)
-        return value
-    
-    def create(self, validated_data):
-        """
-            set new password for user
-        """
-        self.request.user.set_password(validated_data.get("new_password"))
-        self.request.user.save()
-        return self.request.user
-
-class ChangePasswordSerializer(serializers.Serializer):
-    """
-    Serializer for password change endpoint.
-    """
-    old_password = serializers.CharField(required=True)
+    old_password = serializers.CharField(required=False)
     new_password = serializers.CharField(required=True)
     confirm_new_password = serializers.CharField(required=True)
 
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
-        return super(ChangePasswordSerializer, self).__init__(*args, **kwargs)
+        return super(PasswordSerializer, self).__init__(*args, **kwargs)
 
     def validate(self, data):
         """
             validates data to check user credentials
-        """
-        old_password, new_password, confirm_new_password = data.values()
+        """ 
 
-        if not self.request.user.check_password(old_password):
-            raise serializers.ValidationError(_("Wrong old password."), code="authorization")
+        if self.request.user.has_usable_password():
+            old_password, new_password, confirm_new_password = data.values()
+            if not self.request.user.check_password(old_password):
+                raise serializers.ValidationError(_("Wrong old password."), code="authorization")
+        else:
+            new_password, confirm_new_password = data.values()
         
         if new_password != confirm_new_password:
             raise serializers.ValidationError(_("Passwords do not match."), code="authorization")
