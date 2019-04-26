@@ -68,12 +68,3 @@ class PayrollReport(Query, PDFHelper, MailHelper, ViewSet):
 
         self.send_payroll_email(test_pdf, test_pdf_details)
         return Response({}, status=200)
-
-        #pdf, pdf_details = self.produce_payroll_as_an_attachment(container)
-        # serializer = self.serializer_class(
-        #     instance=self._get(self._model, **kwargs)
-        # )
-
-        # Passes the data and produces the pdf based on those data
-        # pdf, pdf_details = self.produce_payroll_as_an_attachment(serializer.data)
-        # self.send_payroll_email(pdf, pdf_details)

@@ -79,27 +79,29 @@ export class PayrollListComponent implements OnInit {
 
 
   sendPDF(){
-    let keys = Array.from( this.payrollservice.mapDownloadPDF.keys() );
+    let keys = Array.from( this.payrollservice.mapCheckedPayroll.keys() );
 
-    // sendingEmail means that we have to disable the button
-    this.sendingEmail = true;
-    // Reset message if it's still sending
-    this.emailCallbackMessage = "";
-    this.payrollservice.sendPayrollReport(keys)
-    .then(
-      data => {
-        console.log(data);
-        this.sendPDFGeneralCallback();
-        this.emailCallbackMessage = "Email is sent sucessfully.";
-      }
-    )
-    .catch(
-      errors => {
-        console.log(errors);
-        this.sendPDFGeneralCallback();
-        this.emailCallbackMessage = "Something went wrong in sending the email!";
-      }
-    )
+    if (keys.length){
+      // sendingEmail means that we have to disable the button
+      this.sendingEmail = true;
+      // Reset message if it's still sending
+      this.emailCallbackMessage = "";
+      this.payrollservice.sendPayrollReport(keys)
+      .then(
+        data => {
+          console.log(data);
+          this.sendPDFGeneralCallback();
+          this.emailCallbackMessage = "Email is sent sucessfully.";
+        }
+      )
+      .catch(
+        errors => {
+          console.log(errors);
+          this.sendPDFGeneralCallback();
+          this.emailCallbackMessage = "Something went wrong in sending the email!";
+        }
+      )
+    }
   }
 
   sendPDFGeneralCallback(){
@@ -107,31 +109,3 @@ export class PayrollListComponent implements OnInit {
     this.sendingEmail = false;
   }
 }
-
-
-
-
-
-    // this.payrollservice.mapDownloadPDF.forEach((value: boolean, key: string) => {
-    //   // sendingEmail means that we have to disable the button
-    //   this.sendingEmail = true;
-    //   // Reset message if it's still sending
-    //   this.emailCallbackMessage = "";
-    //   console.log(key, "going to send data")
-    //   console.log(value, "value")
-    //   this.payrollservice.sendPayrollReport(key)
-    //   .then(
-    //     data => {
-    //       console.log(data);
-    //       this.sendPDFGeneralCallback();
-    //       this.emailCallbackMessage = "Email is sent sucessfully.";
-    //     }
-    //   )
-    //   .catch(
-    //     errors => {
-    //       console.log(errors);
-    //       this.sendPDFGeneralCallback();
-    //       this.emailCallbackMessage = "Something went wrong in sending the email!";
-    //     }
-    //   )
-    // });

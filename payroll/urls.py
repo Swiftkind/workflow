@@ -9,11 +9,6 @@ urlpatterns = [
     path('<int:id>/', Payroll.as_view({
         'get': 'get'
     }), name="payroll-detail"),
-    
-    # path('<int:id>/report/', PayrollReport.as_view({
-    #     'get': 'download_pdf',
-    #     'post': 'send_pdf'
-    # }), name='payroll-report'),
 
     path('<int:id>/report/', PayrollReport.as_view({
         'get': 'download_pdf'
