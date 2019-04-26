@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { urlsafe, queryparams } from '../../utils/http.utils';
-import { PAYROLL, PAYROLL_REPORT } from '../../constants/api.constants';
+import { PAYROLL, PAYROLL_REPORT, PAYROLL_SEND_PDF } from '../../constants/api.constants';
 import { Payroll } from '../../../commons/models/payroll.models';
 
 import { downloadFileHanlder } from '../../utils/file.utils';
@@ -52,8 +52,15 @@ export class PayrollService {
      )
   }
   
-  sendPayrollReport(id){
-    return this.http.post(PAYROLL_REPORT(id), null)
+  // sendPayrollReport(id){
+  //   return this.http.post(PAYROLL_REPORT(id), null)
+  //   .toPromise()
+  //   .then(resp => { return resp; })
+  //   .catch(err => { return Promise.reject(err); });
+  // }
+
+  sendPayrollReport(data){
+    return this.http.post(PAYROLL_SEND_PDF, data)
     .toPromise()
     .then(resp => { return resp; })
     .catch(err => { return Promise.reject(err); });

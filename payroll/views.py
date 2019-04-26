@@ -39,7 +39,8 @@ class PayrollReport(Query, PDFHelper, MailHelper, ViewSet):
         Views regarding the report of a payroll.
     """
     serializer_class = PayrollSerializer
-    permission_classes = (IsAuthenticated, PayrollObjectPermission)
+    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated, PayrollObjectPermission)
 
     def download_pdf(self, *args, **kwargs):
         # Produces pdf and downloads it
@@ -53,12 +54,18 @@ class PayrollReport(Query, PDFHelper, MailHelper, ViewSet):
         return self.produce_payroll_pdf_as_a_response(serializer.data)
 
     def send_pdf(self, *args, **kwargs):
-
+        
         # This should get the data that we are going to access
-        serializer = self.serializer_class(
-            instance=self._get(self._model, **kwargs)
-        )
+        import pdb; pdb.set_trace()
+        for data in self.request.data:
+            serializer = self.serializer_class(
+                instance=self._get(self._model, data)
+            )
 
+        
+        # serializer = self.serializer_class(
+        #     instance=self._get(self._model, **kwargs)
+        # )
         # Passes the data and produces the pdf based on those data
         pdf, pdf_details = self.produce_payroll_as_an_attachment(serializer.data)
         self.send_payroll_email(pdf, pdf_details);

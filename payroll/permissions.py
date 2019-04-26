@@ -17,7 +17,6 @@ class PayrollObjectPermission(permissions.BasePermission, PermissionHelper):
                 but don't do that, we might use this permission on another view with another 
                 serializer.
         """
-
         payroll_id = request.resolver_match.kwargs.get("id")
         user_id = request.user.id
 
