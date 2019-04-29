@@ -8,6 +8,7 @@ from rest_framework.viewsets import ViewSet
 from utils.mixins import Query
 
 from .serializers import StandupSerializer, ReportSerializer
+from .models import Standup as stand_up_model
 
 
 class Standups(Query, ViewSet):
@@ -28,7 +29,12 @@ class Standups(Query, ViewSet):
         serializer.save()
 
         return Response(serializer.data, status=200)
+        
+    def get(self, *args, **kwargs):
+        serializer = ReportSerializer(stand_up_model.objects.filter(user=self.request.user)
+        , many=True)
 
+        return Response(serializer.data, status=200)
 
 class Standup(Query, ViewSet):
     """ daily report endpoint

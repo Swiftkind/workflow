@@ -5,6 +5,7 @@ from .views import Standups, Standup
 urlpatterns = [
     path('standup/', Standups.as_view({
         'post': 'post',
+        'get': 'get'
     }), name="standups"),
 
     path('standup/<int:id>/', Standup.as_view({

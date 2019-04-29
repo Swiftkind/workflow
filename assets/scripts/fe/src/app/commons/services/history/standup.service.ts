@@ -19,4 +19,8 @@ export class StandupService {
     return this.http.get(urlsafe(HISTORY_STANDUP, id));
   }
 
+  getReportList() {
+    return this.http.get(HISTORY_STANDUP);
+  }
+
 }
