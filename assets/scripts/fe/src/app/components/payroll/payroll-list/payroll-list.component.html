@@ -20,6 +20,7 @@
           <div class="d-flex align-items-center">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <input *ngIf="payrollservice.selectedPayroll.has(p.id)" type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)" checked>
             <input *ngIf="!payrollservice.selectedPayroll.has(p.id)" type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)" >
 =======
@@ -29,6 +30,10 @@
 =======
             <input [attr.checked]="payrollservice.selectedPayroll.has(p.id) ? 'checked' : null" type="checkbox" class="mr-3 inputcheck" (click)="onToggle(p)">
 >>>>>>> //implemented suggested code fixes
+=======
+            <input *ngIf="payrollservice.selectedPayroll.has(p.id)" type="checkbox" class="mr-3 inputcheck" (click)="onToggle(p)" checked>
+            <input *ngIf="!payrollservice.selectedPayroll.has(p.id)" type="checkbox" class="mr-3 inputcheck" (click)="onToggle(p)">
+>>>>>>> //input type checkbox ngIf to reflect changes without reload
             <div class="">
               <h6 class="section-title mb-1">{{ p.payroll_code }}</h6>
               <small class="text-muted">{{ p.date_created | date: '(EEE) MMM d, y' }}</small>
