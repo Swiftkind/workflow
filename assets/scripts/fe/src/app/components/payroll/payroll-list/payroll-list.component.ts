@@ -16,6 +16,7 @@ import { DatePipe } from '@angular/common';
 export class PayrollListComponent implements OnInit {
   
   private payroll = new Payroll;
+
   private sending: Boolean = false;
 
   constructor(
@@ -48,24 +49,13 @@ export class PayrollListComponent implements OnInit {
   }
 
   downloadPDF(){
-    if (this.sending != true){
-      this.sending = true;
-      let count: number = 0;
-      
-      this.payrollservice.selectedPayroll.forEach((value: Payroll, key: string) => {
-        // get file name
-        const fileName = this.getFileName(value);
-        // call the download functionality with parameters of item id and file name
-        this.payrollservice.downloadPDF(key, fileName);
-        //count iteration
-        ++count;
-        // on last iteration set sending to false
-        // to let user download or send to email
-        if(count == this.payrollservice.selectedPayroll.size){
-          this.sending = false;
-        }
-      });
-    }
+    // loops over each item of the mapped data
+    this.payrollservice.selectedPayroll.forEach((value: Payroll, key: string) => {
+      // get file name
+      const file_name = this.getFileName(value);
+      // call the download functionality with parameters of item id and file name
+      this.payrollservice.downloadPDF(key, file_name);
+    });
   }
 
   getFileName(payrollValue){

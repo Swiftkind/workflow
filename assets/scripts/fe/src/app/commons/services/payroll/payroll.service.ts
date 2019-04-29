@@ -13,11 +13,8 @@ import { downloadFileHanlder } from '../../utils/file.utils';
 })
 export class PayrollService {
   public plist : any = [];
-<<<<<<< HEAD
   public selectedPayroll = new Map<string,Payroll>();
-=======
-  public mapCheckedPayroll = new Map();
->>>>>>> //can now send multiple attachment on email, //updated mixin to accept list
+
   public payroll = new Payroll;
 
   constructor(
