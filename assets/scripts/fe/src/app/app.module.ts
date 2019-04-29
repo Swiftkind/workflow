@@ -17,6 +17,8 @@ import { APP_STATES } from './commons/utils/app.states';
 import { AppComponent } from './app.component';
 
 
+import { DatePipe } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -34,7 +36,8 @@ import { AppComponent } from './app.component';
     PayrollModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: TokenService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: TokenService, multi: true },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

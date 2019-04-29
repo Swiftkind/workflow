@@ -18,8 +18,7 @@
       <a uiSref="payroll-detail" [uiParams]="{id:p.id}" uiSrefActive="active" >
         <div class="nav-list-item d-flex justify-content-between align-items-start p-3">
           <div class="d-flex align-items-center">
-            <input *ngIf="payrollservice.mapDownloadPDF.has(p.id) == true" type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)" checked>
-            <input *ngIf="payrollservice.mapDownloadPDF.has(p.id) == false" type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)" >
+            <input [attr.checked]="payrollservice.selectedPayroll.has(p.id) ? 'checked' : null" type="checkbox" name="" class="mr-3 inputcheck" (click)="onToggle(p)">
             <div class="">
               <h6 class="section-title mb-1">{{ p.payroll_code }}</h6>
               <small class="text-muted">{{ p.date_created | date: '(EEE) MMM d, y' }}</small>

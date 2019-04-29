@@ -6,7 +6,6 @@ import { PAYROLL, PAYROLL_REPORT } from '../../constants/api.constants';
 import { Payroll } from '../../../commons/models/payroll.models';
 
 import { downloadFileHanlder } from '../../utils/file.utils';
-import { text } from '@angular/core/src/render3/instructions';
 
 
 @Injectable({
@@ -14,7 +13,7 @@ import { text } from '@angular/core/src/render3/instructions';
 })
 export class PayrollService {
   public plist : any = [];
-  public mapDownloadPDF = new Map();
+  public selectedPayroll = new Map<string,Payroll>();
   public payroll = new Payroll;
 
   constructor(
