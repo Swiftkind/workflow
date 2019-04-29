@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 export class PayrollListComponent implements OnInit {
   
   private payroll = new Payroll;
+  private sending: Boolean = false;
 
   constructor(
     private state          : StateService,
@@ -48,20 +49,31 @@ export class PayrollListComponent implements OnInit {
   }
 
   downloadPDF(){
-    // loops over each item of the mapped data
-    this.payrollservice.selectedPayroll.forEach((value: Payroll, key: string) => {
-      // get file name
-      const file_name = this.getFileName(value);
-      // call the download functionality with parameters of item id and file name
-      this.payrollservice.downloadPDF(key, file_name);
-    });
+    if (this.sending != true){
+      this.sending = true;
+      let count: number = 0;
+      
+      this.payrollservice.selectedPayroll.forEach((value: Payroll, key: string) => {
+        // get file name
+        const fileName = this.getFileName(value);
+        // call the download functionality with parameters of item id and file name
+        this.payrollservice.downloadPDF(key, fileName);
+        //count iteration
+        ++count
+        // on last iteration set sending to false
+        // to let user download or send to email
+        if(count == this.payrollservice.selectedPayroll.size){
+          this.sending = false;
+        }
+      });
+    }
   }
 
   getFileName(payrollValue){
     // Constructing the file name for the pdf
-    const employee_name = `p${payrollValue.user.id}_${payrollValue.user.last_name}`;
-    const date_phrase = this.datePipe.transform(`${payrollValue.date_from}`, "MM-dd-yy");
+    const employeeName = `p${payrollValue.user.id}_${payrollValue.user.last_name}`;
+    const datePhrase = this.datePipe.transform(`${payrollValue.date_from}`, "MM-dd-yy");
 
-    return `${employee_name}_${date_phrase}`;;
+    return `${employeeName}_${datePhrase}`;;
   }
 }
