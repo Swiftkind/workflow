@@ -59,7 +59,7 @@ export class PayrollListComponent implements OnInit {
         // call the download functionality with parameters of item id and file name
         this.payrollservice.downloadPDF(key, fileName);
         //count iteration
-        ++count
+        ++count;
         // on last iteration set sending to false
         // to let user download or send to email
         if(count == this.payrollservice.selectedPayroll.size){
