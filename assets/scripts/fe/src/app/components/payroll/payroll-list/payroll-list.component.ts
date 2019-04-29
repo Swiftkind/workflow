@@ -8,7 +8,6 @@ import { AuthService } from '../../../commons/services/auth/auth.service';
 import { Payroll } from '../../../commons/models/payroll.models';
 import { DatePipe } from '@angular/common';
 
-
 @Component({
   selector: 'app-payroll-list',
   templateUrl: './payroll-list.component.html',
@@ -77,35 +76,21 @@ export class PayrollListComponent implements OnInit {
     return `${employeeName}_${datePhrase}`;;
   }
 
-
   sendPDF(){
-    let keys = Array.from( this.payrollservice.mapCheckedPayroll.keys() );
-
-    if (keys.length){
-      // sendingEmail means that we have to disable the button
-      this.sendingEmail = true;
-      // Reset message if it's still sending
-      this.emailCallbackMessage = "";
-      this.payrollservice.sendPayrollReport(keys)
-      .then(
-        data => {
-          console.log(data);
-          this.sendPDFGeneralCallback();
-          this.emailCallbackMessage = "Email is sent sucessfully.";
-        }
-      )
-      .catch(
-        errors => {
-          console.log(errors);
-          this.sendPDFGeneralCallback();
-          this.emailCallbackMessage = "Something went wrong in sending the email!";
-        }
-      )
+    // prevent user from doing multiple action
+    // while sending file is not finished
+    if (this.sending != true){
+      // get the selected ids
+      let selectedPayrollId = Array.from( this.payrollservice.selectedPayroll.keys() );
+      // bind sending to true to prevent other action while sending
+      this.sending = true;
+      if (selectedPayrollId.length){
+        this.payrollservice.sendPayrollReport(selectedPayrollId)
+        // upon finish execution bind sendint to false so user can
+        // use sendPDF and downloadPDF
+        .then(resp => { this.sending = false; })
+        .catch(err => { this.sending = false; });
+      }
     }
-  }
-
-  sendPDFGeneralCallback(){
-    // General clean up on call back
-    this.sendingEmail = false;
   }
 }
