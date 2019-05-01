@@ -16,5 +16,5 @@ class ProjectDetails(Query, ViewSet):
 
     def get(self, *args, **kwargs):
         serializer = self.serializer_class(
-            self._get(self._model, **kwargs))
+            self._get(self._model, **kwargs), context={'request': self.request})
         return Response(serializer.data, status=200)

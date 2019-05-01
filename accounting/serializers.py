@@ -25,35 +25,30 @@ class ProjectSerializer(serializers.ModelSerializer):
 class ProjectDetailsSerializer(serializers.ModelSerializer):
     """ project serializer
     """
-    stand_up = serializers.SerializerMethodField()
+    date_data = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
         fields = (
             'id',
             'name',
-            'stand_up',
+            'date_data',
             'description',
             'channel_name',
             'date_created',
             'date_updated'
         )
 
-    def get_stand_up(self, obj):
+    def get_date_data(self, obj):
         from history.serializers import ShortStandupProjectSerializer
+
         today = datetime.now().date()
         start_of_week = today - timedelta(days=today.weekday())
         end_of_week = start_of_week + timedelta(days=7)
-        serializer = ShortStandupProjectSerializer(
-            Standup.objects.filter(date_created__range=[start_of_week, end_of_week], project=obj).order_by('-date_created'), many=True)
-        
         
         result = {
-            'date_data': {
-                'start_of_week': start_of_week,
-                'end_of_week': end_of_week - timedelta(days=1)
-            },
-            'results': serializer.data
+            'start_of_week': start_of_week,
+            'end_of_week': end_of_week - timedelta(days=1)
         }
 
         return result
