@@ -66,6 +66,7 @@ export class PayrollListComponent implements OnInit {
     return `${employeeName}_${datePhrase}`;;
   }
 
+
   sendPDF(){
     // prevent user from doing multiple action
     // while sending file is not finished
