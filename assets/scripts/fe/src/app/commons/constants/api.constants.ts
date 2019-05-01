@@ -47,3 +47,11 @@ export const FEED_NOTIFICATIONS_PENDING = urlsafe(FEED_NOTIFICATIONS, 'pending')
 export const HISTORY = '/api/history/';
 
 export const HISTORY_STANDUP = urlsafe(HISTORY, 'standup');
+export const HISTORY_STANDUP_WEEKLY = urlsafe(HISTORY_STANDUP, 'weekly');
+
+
+/* ACCOUNTING ENDPOINTS
+ */
+
+export const ACCOUNTING = '/api/accounting/';
+export const ACCOUNTING_PROJECT_DETAILS = urlsafe(ACCOUNTING, 'project');

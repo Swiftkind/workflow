@@ -7,9 +7,13 @@ from rest_framework.viewsets import ViewSet
 
 from utils.mixins import Query
 
-from .serializers import StandupSerializer, ReportSerializer
+from .serializers import StandupSerializer, ReportSerializer, ShortStandupProjectSerializer
 from .models import Standup as stand_up_model
 
+from accounting.models import Project
+
+
+from datetime import datetime, timedelta
 
 class Standups(Query, ViewSet):
     """ daily standups endpoint that receives report
@@ -47,3 +51,35 @@ class Standup(Query, ViewSet):
             self._get(self._model, **kwargs))
 
         return Response(serializer.data, status=200)
+
+class StandupByWeek(Query, ViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ShortStandupProjectSerializer
+
+    def put(self, *args, **kwargs):
+
+        project_id = self.request.data.get('project_id')
+        project = Project.objects.get(id=project_id)
+        date = self.request.data.get('start_of_week')
+        if date:
+            current_date = datetime.strptime(date, "%Y-%m-%d").date() - timedelta(days=1)
+            start_of_week = current_date - timedelta(days=current_date.weekday())
+            end_of_week = start_of_week + timedelta(days=7)
+        else:
+            date = self.request.data.get('end_of_week')
+            current_date = datetime.strptime(date, "%Y-%m-%d").date() + timedelta(days=1)
+            start_of_week = current_date - timedelta(days=current_date.weekday())
+            end_of_week = start_of_week + timedelta(days=7)
+
+        serializer = self.serializer_class(
+            stand_up_model.objects.filter(date_created__range=[start_of_week, end_of_week], project=project).order_by('-date_created'), many=True)
+        
+        stand_up = {
+            'date_data':{
+                'start_of_week':start_of_week,
+                'end_of_week':end_of_week - timedelta(days=1)
+            },
+            'results':serializer.data
+        }
+
+        return Response(stand_up, status=200)

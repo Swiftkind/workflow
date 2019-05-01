@@ -1,0 +1,364 @@
+
+	<main class="container-fluid main-container p-0 container-extended">
+		<div class="content-wrapper">
+			<!-- NEW NAV -->
+			<div class="center-section section-extend">
+				
+				<div class="container mt-5">
+					<div class="row">
+						<section class="col-md-4">
+							
+							<div class="d-flex align-items-center mb-5">
+								<div class="avatar-sm no-photo-pink mr-3">D</div>
+								<h4 class="title-highlited mb-0">{{ projectDetails.name }}</h4>
+							</div>
+							<div class="mb-3">
+								<label class="small text-muted">Description</label>
+								<p>{{ projectDetails.description }}</p>
+							</div>
+							<div class="mb-3">
+								<label class="small text-muted">Date stated</label>
+								<p>{{ projectDetails.date_created | date:'mediumDate' }}</p>
+							</div>
+							<div class="mb-3">
+								<label class="small text-muted">Pending Issues</label>
+								<p class="text-danger">1 Issues pending
+									<a href="" class="text-danger ml-2">
+										<i class="fal fa-external-link"></i>
+									</a>
+								</p>
+							</div>
+						</section>
+						<section class="feed-section col-md-7">
+							<h5 class="mb-4 subtitle">Weekly Reports</h5>
+							<div class="feed-actions">
+								<div class="date-selector">
+									<a href="" class="arrow" (click)="test_click_left($event)">
+										<i class="far fa-long-arrow-alt-left"></i>
+									</a>
+									<div class="date-selected">
+										{{projectDetails.stand_up.date_data.start_of_week | date:'EEE, MMMM d' }} -
+										{{projectDetails.stand_up.date_data.end_of_week | date:'EEE, MMMM d' }}
+									</div>
+									<a href="" class="arrow" (click)="test_click_right($event)">
+										<i class="far fa-long-arrow-alt-right"></i>
+									</a>
+								</div>
+								<div class="feed-data-options ">
+									<button class="btn mr-2">
+										<i class="fas fa-print"></i>
+									</button>
+									<button class="btn">
+										<i class="fas fa-download"></i>
+									</button>
+								</div>
+							</div>
+
+							<div class="feed-limited" *ngFor="let card of projectDetails.stand_up.results">
+								<div class="feed-card card">
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="d-flex">
+											<div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+											</div>
+											<div class="profile-info">
+												<a href="">{{card.user.full_name}}</a>
+												<span class="d-flex align-items-center justify-content-around">
+													<span>{{ card.date_created | date:'MMM d, h:mm a' }}</span>
+													<i *ngIf="card.blockers.length" class="fas fa-circle"></i>
+													<span *ngIf="card.blockers.length" class="text-danger">{{card.blockers.length}} issues</span>
+												</span>
+											</div>
+										</div>
+										<p class="feed-summary">{{card.total_hours}} hours for 
+											<a href="">#{{projectDetails.name}}</a>
+										</p>
+										<a href=""><i class="fas fa-expand-alt"></i></a>
+									</div>
+									<div class="issues pt-4" *ngIf="card.blockers.length">
+										<div class="d-flex justify-content-between">
+											<small><strong>Blockers</strong></small>
+											<small>
+												<strong>
+													<span *ngIf="card.finished_issues != 0" class="text-success">{{card.finished_issues}} resolved </span>
+													&nbsp; &nbsp; 
+													<span *ngIf="card.pending_issues != 0" class="text-danger">{{card.pending_issues}} unresolved</span>
+												</strong>
+											</small>
+										</div>
+										<ol class="pl-3 issues-list" >
+											<div *ngFor="let blocker of card.blockers">
+												<li class="issue-details resolved" *ngIf="blocker.is_fixed">
+													<p>
+														{{ blocker.content }}
+													</p>
+													<a href=""><small>{{ blocker.reference }}</small></a>
+												</li>
+												<li class="issue-details unresolved" *ngIf="!blocker.is_fixed">
+													<p>
+														{{ blocker.content }}
+													</p>
+													<a href=""><small>{{ blocker.reference }}</small></a>
+												</li>
+											</div>
+										</ol>
+									</div>
+								</div>
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+		
+
+		<!-- SIDE MODALS -->
+
+		<aside class="side-modal">
+			<a class="closeModal">
+				<i class="fal fa-times"></i>
+			</a>
+			<div class="report-feed">
+				<div class="mb-4">
+					<div class="mb-4 d-flex justify-content-between align-items-center">
+						<div>
+							<h5 class="pane-title mb-0">Monday</h5>
+							<label class="text-muted"><small>January 23, 2019</small></label>
+						</div>
+						<a href="#" class="">View report summary <i class="fal fa-long-arrow-right ml-2"></i></a>
+					</div>
+					<div class="d-flex">
+						<div class="mr-5">
+							<h6 class="mb-0 pane-title">#cl-Designs</h6>
+							<label class="text-danger"><small>2 Pending Issues</small></label>
+						</div>
+						<div class="text-left">
+							<h6 class="mb-0 d-block pane-title">Hours:  <span>8</span></h6>
+							<label class=" text-muted"><small>as of 6:45 PM</small></label>
+						</div>
+					</div>
+				</div>
+				<div class="report-table">
+					<table id="doneTable">
+						<thead>
+							<tr>
+								<th width="80%">Worked on</th>
+								<th width="10%">Reference</th>
+								<th width="10%">Hours</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<p class="report-name">
+										Lorem ipsum dolor sit amet, consetetur 
+									</p>
+								</td>
+								<td>
+									<a href="">
+										<i class="fal fa-external-link"></i>
+									</a>
+								</td>
+								<td>
+									<p>2</p>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<p class="report-name">
+										Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+									</p>
+								</td>
+								<td>
+									<a href="">
+										<i class="fal fa-external-link"></i>
+									</a>
+								</td>
+								<td>
+									<p>2</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table id="todoTable">
+						<thead>
+							<tr>
+								<th width="80%">To do</th>
+								<th width="10%">Reference</th>
+								<th width="10%">&nbsp;</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<p class="report-name">
+										Lorem ipsum dolor sit amet, consetetur 
+									</p>
+								</td>
+								<td>
+									<a href="">
+										<i class="fal fa-external-link"></i>
+									</a>
+								</td>
+								<td>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<p class="report-name">
+										Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+									</p>
+								</td>
+								<td>
+									<a href="">
+										<i class="fal fa-external-link"></i>
+									</a>
+								</td>
+								<td>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table id="issuesTable">
+						<thead>
+							<tr>
+								<th width="80%">Issues</th>
+								<th width="10%">Reference</th>
+								<th width="10%">Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<p class="report-name">
+										Lorem ipsum dolor sit amet, consetetur 
+									</p>
+								</td>
+								<td>
+									<a href="">
+										<i class="fal fa-external-link"></i>
+									</a>
+								</td>
+								<td>
+									<span class="issue-status-mark unresolved"></span>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<p class="report-name">
+										Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
+									</p>
+								</td>
+								<td>
+									<a href="">
+										<i class="fal fa-external-link"></i>
+									</a>
+								</td>
+								<td>
+									<span class="issue-status-mark unresolved"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</aside>
+		
+		<aside class="search-filter">
+			<div class="d-flex justify-content-between mb-3">
+				<label>Filters</label>
+				<small class="text-muted">
+					<i class="far fa-circle-notch"></i>
+					Applying Filters
+				</small>
+			</div>
+			<div class="mb-5">
+				<label class="section-title d-block">Inclusive Dates</label>
+				<div id="reportrange" class="date-range-picker form-control">
+				    <span></span>
+				</div>
+				
+			</div>
+			<div class="form-check pl-0 mb-5">
+				<input type="checkbox" name="" id="project">
+				<label class="text-medium">Projects</label>
+				
+				<ul class="list-unstyled">
+					<li>
+						<div class="form-check">
+							<input type="checkbox" name="" id="project">
+							<label>Current Projects</label>
+						</div>
+					</li>
+					<li>
+						<div class="form-check">
+							<input type="checkbox" name="" id="project">
+							<label>Archived Projects</label>
+						</div>
+					</li>
+					<li>
+						<div class="pl-3">
+							<label class="section-title d-block">Selected Projects</label>
+							<select class="selectpicker form-control"  multiple id="selectProject">
+							  <option>All Projects</option>
+							  <option>Mustard</option>
+							  <option>Ketchup</option>
+							  <option>Relish</option>
+							</select>
+
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="form-check pl-0 pb-5">
+				<input type="checkbox" name="" id="project">
+				<label class="text-medium">Task Status</label>
+				<ul class="list-unstyled">
+					<li>
+						<div class="form-check">
+							<input type="checkbox" name="" id="project">
+							<label>Done</label>
+						</div>
+					</li>
+					<li>
+						<div class="form-check">
+							<input type="checkbox" name="" id="project">
+							<label>To Do</label>
+						</div>
+					</li>
+					<li>
+						<div class="form-check">
+							<input type="checkbox" name="" id="project">
+							<label>Issues</label>
+						</div>
+						<ul class="list-unstyled">
+							<li>
+								<div class="form-check">
+									<input type="checkbox" name="" id="project">
+									<label>Pending</label>
+								</div>
+								<div class="form-check">
+									<input type="checkbox" name="" id="project">
+									<label>Resolved</label>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="d-flex justify-content-center mt-5">
+				<button class="btn-light btn mr-4">Clear</button>
+				<button class="btn-primary btn filter-toggle">Close</button>
+			</div>
+			
+		</aside>
+		
+		<!-- SIDE MODALS -->
+	</main>

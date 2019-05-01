@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { urlsafe, queryparams } from '../../utils/http.utils';
-import { HISTORY_STANDUP } from '../../constants/api.constants';
-import { Standup } from '../../models/history.models';
+import { HISTORY_STANDUP, ACCOUNTING_PROJECT_DETAILS, HISTORY_STANDUP_WEEKLY } from '../../constants/api.constants';
 
 
 @Injectable({
@@ -23,4 +22,11 @@ export class StandupService {
     return this.http.get(HISTORY_STANDUP);
   }
 
+  getProjectDetails(id){
+    return this.http.get(urlsafe(ACCOUNTING_PROJECT_DETAILS, id));
+  }
+
+  getWeeklyProjectReport(data){
+    return this.http.put(HISTORY_STANDUP_WEEKLY, data)
+  }
 }

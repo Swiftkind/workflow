@@ -173,7 +173,6 @@ class BlockerSerializer(serializers.ModelSerializer):
             'date_updated'
         )
 
-
 class ReportSerializer(serializers.ModelSerializer):
     """ standup report read only serializer
     """
@@ -219,4 +218,49 @@ class ReportSerializer(serializers.ModelSerializer):
         return Blocker.objects.filter(standup=obj, is_fixed=False).count()
 
 
+class ShortStandupProjectSerializer(serializers.ModelSerializer):
+    user = ShortUserSerializer()
 
+    total_hours = serializers.SerializerMethodField()
+    done = serializers.SerializerMethodField()
+    todo = serializers.SerializerMethodField()
+    blockers = serializers.SerializerMethodField()
+    pending_issues = serializers.SerializerMethodField()
+    finished_issues = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Standup
+        fields = (
+            'id',
+            'date_created',
+            'date_updated',
+            'project',
+            'user',
+            'total_hours',
+            'done',
+            'todo',
+            'blockers',
+            'pending_issues',
+            'finished_issues'
+        )
+    
+    def get_total_hours(self, obj):
+        return f"{obj.total_hours:.2f}"
+
+    def get_done(self, obj):
+        return DoneSerializer(
+            Done.objects.filter(standup=obj), many=True).data
+
+    def get_todo(self, obj):
+        return TodoSerializer(
+            Todo.objects.filter(standup=obj), many=True).data
+
+    def get_blockers(self, obj):
+        return BlockerSerializer(
+            Blocker.objects.filter(standup=obj), many=True).data
+
+    def get_pending_issues(self, obj):
+        return Blocker.objects.filter(standup=obj, is_fixed=False).count()
+    
+    def get_finished_issues(self, obj):
+        return Blocker.objects.filter(standup=obj, is_fixed=True).count()

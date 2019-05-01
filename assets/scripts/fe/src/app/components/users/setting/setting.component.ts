@@ -16,7 +16,6 @@ import { AddPasswordModel } from '../../../commons/models/add-password.models'
 import { AuthService } from '../../../commons/services/auth/auth.service';
 import { UserService } from '../../../commons/services/auth/user.service';
 import { NavService } from '../../../commons/services/utils/nav.service';
-import { from } from 'rxjs';
 
 
 @Component({
