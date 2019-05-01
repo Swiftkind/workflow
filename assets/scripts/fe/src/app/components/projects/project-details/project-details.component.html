@@ -1,9 +1,4 @@
 
-	<main class="container-fluid main-container p-0 container-extended">
-		<div class="content-wrapper">
-			<!-- NEW NAV -->
-			<div class="center-section section-extend">
-				
 				<div class="container mt-5">
 					<div class="row">
 						<section class="col-md-4">
@@ -29,6 +24,7 @@
 								</p>
 							</div>
 						</section>
+
 						<section class="feed-section col-md-7">
 							<h5 class="mb-4 subtitle">Weekly Reports</h5>
 							<div class="feed-actions">
@@ -54,61 +50,61 @@
 								</div>
 							</div>
 
-							<div class="feed-limited" *ngFor="let card of projectDetails.stand_up.results">
-								<div class="feed-card card">
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="d-flex">
-											<div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+							<section class="feed-section" (scroll)="scrollfeed($event)">
+								<div class="feed-limited" *ngFor="let card of projectDetails.stand_up.results">							
+									<div class="feed-card card">
+										<div class="d-flex justify-content-between align-items-center">
+											<div class="d-flex">
+												<div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+												</div>
+												<div class="profile-info">
+													<a href="">{{card.user.full_name}}</a>
+													<span class="d-flex align-items-center justify-content-around">
+														<span>{{ card.date_created | date:'MMM d, h:mm a' }}</span>
+														<i *ngIf="card.blockers.length" class="fas fa-circle"></i>
+														<span *ngIf="card.blockers.length" class="text-danger">{{card.blockers.length}} issues</span>
+													</span>
+												</div>
 											</div>
-											<div class="profile-info">
-												<a href="">{{card.user.full_name}}</a>
-												<span class="d-flex align-items-center justify-content-around">
-													<span>{{ card.date_created | date:'MMM d, h:mm a' }}</span>
-													<i *ngIf="card.blockers.length" class="fas fa-circle"></i>
-													<span *ngIf="card.blockers.length" class="text-danger">{{card.blockers.length}} issues</span>
-												</span>
-											</div>
+											<p class="feed-summary">{{card.total_hours}} hours for 
+												<a href="">#{{projectDetails.name}}</a>
+											</p>
+											<a href=""><i class="fas fa-expand-alt"></i></a>
 										</div>
-										<p class="feed-summary">{{card.total_hours}} hours for 
-											<a href="">#{{projectDetails.name}}</a>
-										</p>
-										<a href=""><i class="fas fa-expand-alt"></i></a>
-									</div>
-									<div class="issues pt-4" *ngIf="card.blockers.length">
-										<div class="d-flex justify-content-between">
-											<small><strong>Blockers</strong></small>
-											<small>
-												<strong>
-													<span *ngIf="card.finished_issues != 0" class="text-success">{{card.finished_issues}} resolved </span>
-													&nbsp; &nbsp; 
-													<span *ngIf="card.pending_issues != 0" class="text-danger">{{card.pending_issues}} unresolved</span>
-												</strong>
-											</small>
-										</div>
-										<ol class="pl-3 issues-list" >
-											<div *ngFor="let blocker of card.blockers">
-												<li class="issue-details resolved" *ngIf="blocker.is_fixed">
-													<p>
-														{{ blocker.content }}
-													</p>
-													<a href=""><small>{{ blocker.reference }}</small></a>
-												</li>
-												<li class="issue-details unresolved" *ngIf="!blocker.is_fixed">
-													<p>
-														{{ blocker.content }}
-													</p>
-													<a href=""><small>{{ blocker.reference }}</small></a>
-												</li>
+										<div class="issues pt-4" *ngIf="card.blockers.length">
+											<div class="d-flex justify-content-between">
+												<small><strong>Blockers</strong></small>
+												<small>
+													<strong>
+														<span *ngIf="card.finished_issues != 0" class="text-success">{{card.finished_issues}} resolved </span>
+														&nbsp; &nbsp; 
+														<span *ngIf="card.pending_issues != 0" class="text-danger">{{card.pending_issues}} unresolved</span>
+													</strong>
+												</small>
 											</div>
-										</ol>
+											<ol class="pl-3 issues-list" >
+												<div *ngFor="let blocker of card.blockers">
+													<li class="issue-details resolved" *ngIf="blocker.is_fixed">
+														<p>
+															{{ blocker.content }}
+														</p>
+														<a href=""><small>{{ blocker.reference }}</small></a>
+													</li>
+													<li class="issue-details unresolved" *ngIf="!blocker.is_fixed">
+														<p>
+															{{ blocker.content }}
+														</p>
+														<a href=""><small>{{ blocker.reference }}</small></a>
+													</li>
+												</div>
+											</ol>
+										</div>
 									</div>
 								</div>
-							</div>
+							</section>
 						</section>
 					</div>
 				</div>
-			</div>
-		</div>
 		
 
 		
@@ -361,4 +357,3 @@
 		</aside>
 		
 		<!-- SIDE MODALS -->
-	</main>

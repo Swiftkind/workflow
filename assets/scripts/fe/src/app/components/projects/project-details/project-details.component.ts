@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { StateService } from '@uirouter/angular';
 import { StandupService } from '../../../commons/services/history/standup.service'
 import { NavService } from '../../../commons/services/utils/nav.service';
@@ -71,6 +71,23 @@ export class ProjectDetailsComponent implements OnInit {
         this.projectDetails.stand_up = data
       },
     )
+  }
+
+
+  @HostListener('scroll', ['$event']) 
+  scrollfeed(event): void {
+    // captures the scroll event on the feed-section.
+    // it handles the call to the backend when the scroll
+    // reach its max height.
+    let cHeight = event.target.scrollHeight;
+    let scrollHeight = event.target.scrollTop;
+
+    // offset height. this is the sum of the margin/interval
+    // of each element inside the `cHeight`. can change based
+    // on the design template.
+    // margin-height: 708, spacing-height: 100 # spacer so that this
+    // sends a call to the backend before the user reach the last item.
+    let maxHeight = cHeight - (50 + 50);
   }
 
 }
