@@ -56,7 +56,7 @@ class Standup(Query, ViewSet):
 
         return Response(serializer.data, status=200)
 
-class StandupByWeekPagination(Query, ListAPIView):
+class StandupByWeek(Query, ListAPIView):
     """ feed endpoint.
         contains scheduled events, daily report, etc.
     """
@@ -66,47 +66,21 @@ class StandupByWeekPagination(Query, ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
+        # get date parameter from url
         dt = self.kwargs['date']
+        # convert date parameter to date value
         current_date = datetime.strptime(dt, "%Y-%m-%d").date()
+        # compute the start of the week value
         start_of_week = current_date - timedelta(days=current_date.weekday())
+        #compute the end of the week value
         end_of_week = start_of_week + timedelta(days=7)
 
+        #get project id parameter from url
         project_id = self.kwargs['id']
+        # get project object
         project = Project.objects.get(id=project_id)
-
+        # get queryset of Standup with filter date range of start of the week and end of the week
+        # which belongs to the project object
+        # order by latest date created
         queryset = stand_up_model.objects.filter(date_created__range=[start_of_week, end_of_week], project=project).order_by('-date_created')
-
         return queryset
-
-class StandupByWeek(Query, ViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = ShortStandupProjectSerializer
-
-    def put(self, *args, **kwargs):
-
-        project_id = self.request.data.get('project_id')
-        project = Project.objects.get(id=project_id)
-        date = self.request.data.get('start_of_week')
-
-        if date:
-            current_date = datetime.strptime(date, "%Y-%m-%d").date() - timedelta(days=1)
-            start_of_week = current_date - timedelta(days=current_date.weekday())
-            end_of_week = start_of_week + timedelta(days=7)
-        else:
-            date = self.request.data.get('end_of_week')
-            current_date = datetime.strptime(date, "%Y-%m-%d").date() + timedelta(days=1)
-            start_of_week = current_date - timedelta(days=current_date.weekday())
-            end_of_week = start_of_week + timedelta(days=7)
-
-        serializer = self.serializer_class(
-            stand_up_model.objects.filter(date_created__range=[start_of_week, end_of_week], project=project).order_by('-date_created'), many=True)
-        
-        stand_up = {
-            'date_data':{
-                'start_of_week':start_of_week,
-                'end_of_week':end_of_week - timedelta(days=1)
-            },
-            'results':serializer.data
-        }
-
-        return Response(stand_up, status=200)

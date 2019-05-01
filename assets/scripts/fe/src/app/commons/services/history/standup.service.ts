@@ -12,9 +12,13 @@ import { HISTORY_STANDUP, ACCOUNTING_PROJECT_DETAILS, HISTORY_STANDUP_WEEKLY } f
 })
 export class StandupService {
 
+  // contains the list of weekly reports
   public q = [];
+  // boolean to check if currently getting new weekly report
   public fetching = false;
+  // boolean to check if all data are loaded
   public all_loaded = false;
+  // url parameter for the next page
   public qparams = {
     page: 1
   };
@@ -27,7 +31,9 @@ export class StandupService {
     // toggle fetching to true to prevent multiple
     // similar request to overload the server.
     this.fetching = true;
+    // set url with project id
     let url = urlsafe(HISTORY_STANDUP_WEEKLY, id)
+    // set url with date 
     this.http.get(urlsafe(url, passedDate) + queryparams(this.qparams))
       .toPromise()
       .then(resp => {
@@ -54,7 +60,7 @@ export class StandupService {
       // the maximum page count.
       this.qparams.page++;
 
-      // fetch feed items.
+      // fetch weekly report items.
       this.getWeeklyReport(id, passedDate);
     }
   }
@@ -69,9 +75,5 @@ export class StandupService {
 
   getProjectDetails(id){
     return this.http.get(urlsafe(ACCOUNTING_PROJECT_DETAILS, id));
-  }
-
-  getWeeklyProjectReport(data){
-    return this.http.put(HISTORY_STANDUP_WEEKLY, data)
   }
 }
