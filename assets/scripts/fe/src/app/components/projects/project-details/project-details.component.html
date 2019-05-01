@@ -1,119 +1,225 @@
 
-				<div class="container mt-5">
-					<div class="row">
-						<section class="col-md-4">
-							
-							<div class="d-flex align-items-center mb-5">
-								<div class="avatar-sm no-photo-pink mr-3">D</div>
-								<h4 class="title-highlited mb-0">{{ projectDetails.name }}</h4>
-							</div>
-							<div class="mb-3">
-								<label class="small text-muted">Description</label>
-								<p>{{ projectDetails.description }}</p>
-							</div>
-							<div class="mb-3">
-								<label class="small text-muted">Date stated</label>
-								<p>{{ projectDetails.date_created | date:'mediumDate' }}</p>
-							</div>
-							<div class="mb-3">
-								<label class="small text-muted">Pending Issues</label>
-								<p class="text-danger">1 Issues pending
-									<a href="" class="text-danger ml-2">
-										<i class="fal fa-external-link"></i>
-									</a>
-								</p>
-							</div>
-						</section>
+<div class="container mt-5">
+	<div class="row">
+		<section class="col-md-4">
+			
+			<div class="d-flex align-items-center mb-5">
+				<div class="avatar-sm no-photo-pink mr-3">D</div>
+				<h4 class="title-highlited mb-0">{{ projectDetails.name }}</h4>
+			</div>
+			<div class="mb-3">
+				<label class="small text-muted">Description</label>
+				<p>{{ projectDetails.description }}</p>
+			</div>
+			<div class="mb-3">
+				<label class="small text-muted">Date stated</label>
+				<p>{{ projectDetails.date_created | date:'mediumDate' }}</p>
+			</div>
+			<div class="mb-3">
+				<label class="small text-muted">Pending Issues</label>
+				<p class="text-danger">1 Issues pending
+					<a href="" class="text-danger ml-2">
+						<i class="fal fa-external-link"></i>
+					</a>
+				</p>
+			</div>
+		</section>
 
-						<section class="feed-section col-md-7">
-							<h5 class="mb-4 subtitle">Weekly Reports</h5>
-							<div class="feed-actions">
-								<div class="date-selector">
-									<a href="" class="arrow" (click)="test_click_left($event)">
-										<i class="far fa-long-arrow-alt-left"></i>
-									</a>
-									<div class="date-selected">
-										{{projectDetails.stand_up.date_data.start_of_week | date:'EEE, MMMM d' }} -
-										{{projectDetails.stand_up.date_data.end_of_week | date:'EEE, MMMM d' }}
-									</div>
-									<a href="" class="arrow" (click)="test_click_right($event)">
-										<i class="far fa-long-arrow-alt-right"></i>
-									</a>
-								</div>
-								<div class="feed-data-options ">
-									<button class="btn mr-2">
-										<i class="fas fa-print"></i>
-									</button>
-									<button class="btn">
-										<i class="fas fa-download"></i>
-									</button>
-								</div>
-							</div>
+		<section class="feed-section col-md-7">
+			<h5 class="mb-4 subtitle">Weekly Reports</h5>
+			<div class="feed-actions">
+				<div class="date-selector">
+					<a href="" class="arrow" (click)="test_click_left($event)">
+						<i class="far fa-long-arrow-alt-left"></i>
+					</a>
+					<div class="date-selected">
+						{{weekStart | date:'EEE, MMMM d' }} -
+						{{weekEnd | date:'EEE, MMMM d' }}
+					</div>
+					<a href="" class="arrow" (click)="test_click_right($event)">
+						<i class="far fa-long-arrow-alt-right"></i>
+					</a>
+				</div>
+				<div class="feed-data-options ">
+					<button class="btn mr-2">
+						<i class="fas fa-print"></i>
+					</button>
+					<button class="btn">
+						<i class="fas fa-download"></i>
+					</button>
+				</div>
+			</div>
 
-							<section class="feed-section" (scroll)="scrollfeed($event)">
-								<div class="feed-limited" *ngFor="let card of projectDetails.stand_up.results">							
-									<div class="feed-card card">
-										<div class="d-flex justify-content-between align-items-center">
-											<div class="d-flex">
-												<div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
-												</div>
-												<div class="profile-info">
-													<a href="">{{card.user.full_name}}</a>
-													<span class="d-flex align-items-center justify-content-around">
-														<span>{{ card.date_created | date:'MMM d, h:mm a' }}</span>
-														<i *ngIf="card.blockers.length" class="fas fa-circle"></i>
-														<span *ngIf="card.blockers.length" class="text-danger">{{card.blockers.length}} issues</span>
-													</span>
-												</div>
-											</div>
-											<p class="feed-summary">{{card.total_hours}} hours for 
-												<a href="">#{{projectDetails.name}}</a>
-											</p>
-											<a href=""><i class="fas fa-expand-alt"></i></a>
-										</div>
-										<div class="issues pt-4" *ngIf="card.blockers.length">
-											<div class="d-flex justify-content-between">
-												<small><strong>Blockers</strong></small>
-												<small>
-													<strong>
-														<span *ngIf="card.finished_issues != 0" class="text-success">{{card.finished_issues}} resolved </span>
-														&nbsp; &nbsp; 
-														<span *ngIf="card.pending_issues != 0" class="text-danger">{{card.pending_issues}} unresolved</span>
-													</strong>
-												</small>
-											</div>
-											<ol class="pl-3 issues-list" >
-												<div *ngFor="let blocker of card.blockers">
-													<li class="issue-details resolved" *ngIf="blocker.is_fixed">
-														<p>
-															{{ blocker.content }}
-														</p>
-														<a href=""><small>{{ blocker.reference }}</small></a>
-													</li>
-													<li class="issue-details unresolved" *ngIf="!blocker.is_fixed">
-														<p>
-															{{ blocker.content }}
-														</p>
-														<a href=""><small>{{ blocker.reference }}</small></a>
-													</li>
-												</div>
-											</ol>
-										</div>
-									</div>
-								</div>
-							</section>
-						</section>
+			<div class="feed-limited" (scroll)="scrollfeed($event)">							
+				<div class="feed-card card" *ngFor="let card of standupservice.q">
+					<div class="d-flex justify-content-between align-items-center">
+						<div class="d-flex">
+							<div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+							</div>
+							<div class="profile-info">
+								<a href="">{{card.user.full_name}}</a>
+								<span class="d-flex align-items-center justify-content-around">
+									<span>{{ card.date_created | date:'MMM d, h:mm a' }}</span>
+									<i *ngIf="card.blockers.length" class="fas fa-circle"></i>
+									<span *ngIf="card.blockers.length" class="text-danger">{{card.blockers.length}} issues</span>
+								</span>
+							</div>
+						</div>
+						<p class="feed-summary">{{card.total_hours}} hours for 
+							<a href="">#{{projectDetails.name}}</a>
+						</p>
+						<a href=""><i class="fas fa-expand-alt"></i></a>
+					</div>
+					<div class="issues pt-4" *ngIf="card.blockers.length">
+						<div class="d-flex justify-content-between">
+							<small><strong>Blockers</strong></small>
+							<small>
+								<strong>
+									<span *ngIf="card.finished_issues != 0" class="text-success">{{card.finished_issues}} resolved </span>
+									&nbsp; &nbsp; 
+									<span *ngIf="card.pending_issues != 0" class="text-danger">{{card.pending_issues}} unresolved</span>
+								</strong>
+							</small>
+						</div>
+						<ol class="pl-3 issues-list" >
+							<div *ngFor="let blocker of card.blockers">
+								<li class="issue-details resolved" *ngIf="blocker.is_fixed">
+									<p>
+										{{ blocker.content }}
+									</p>
+									<a href=""><small>{{ blocker.reference }}</small></a>
+								</li>
+								<li class="issue-details unresolved" *ngIf="!blocker.is_fixed">
+									<p>
+										{{ blocker.content }}
+									</p>
+									<a href=""><small>{{ blocker.reference }}</small></a>
+								</li>
+							</div>
+						</ol>
 					</div>
 				</div>
-		
+			</div>
+		</section>
+	</div>
+</div>
 
-		
+<!--
+<div class="center-section ">
+	<div class="projects-tab">
+		<div class="d-flex align-items-center mb-5">
+			<div class="avatar-sm no-photo-pink mr-3">D</div>
+			<h4 class="title-highlited mb-0">{{ projectDetails.name }}</h4>
+		</div>
+		<div class="mb-3">
+			<label class="small text-muted">Description</label>
+			<p>{{ projectDetails.description }}</p>
+		</div>
+		<div class="mb-3">
+			<label class="small text-muted">Date stated</label>
+			<p>{{ projectDetails.date_created | date:'mediumDate' }}</p>
+		</div>
+		<div class="mb-3">
+			<label class="small text-muted">Pending Issues</label>
+			<p class="text-danger">1 Issues pending
+				<a href="" class="text-danger ml-2">
+					<i class="fal fa-external-link"></i>
+				</a>
+			</p>
+		</div>
+	</div>
+	<aside class="stat-pane overflow-hidden">
+    <div class="report-feed report-stream">
+      <div class="mb-4 px-4">
+				<h5 class="mb-4 subtitle">Weekly Reports</h5>
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+
+          <div>
+						<div class="date-selector">
+							<a href="" class="arrow" (click)="test_click_left($event)">
+								<i class="far fa-long-arrow-alt-left"></i>
+							</a>
+							<div class="date-selected">
+								{{projectDetails.stand_up.date_data.start_of_week | date:'EEE, MMMM d' }} -
+								{{projectDetails.stand_up.date_data.end_of_week | date:'EEE, MMMM d' }}
+							</div>
+							<a href="" class="arrow" (click)="test_click_right($event)">
+								<i class="far fa-long-arrow-alt-right"></i>
+							</a>
+						</div>
+          </div>
+
+					<div class="feed-data-options ">
+						<button class="btn mr-2">
+							<i class="fas fa-print"></i>
+						</button>
+						<button class="btn">
+							<i class="fas fa-download"></i>
+						</button>
+					</div>
+        </div>
+      </div>
+
+      <div class="feed-limited" *ngFor="let card of projectDetails.stand_up.results">							
+				<div class="feed-card card">
+					<div class="d-flex justify-content-between align-items-center">
+						<div class="d-flex">
+							<div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+							</div>
+							<div class="profile-info">
+								<a href="">{{card.user.full_name}}</a>
+								<span class="d-flex align-items-center justify-content-around">
+									<span>{{ card.date_created | date:'MMM d, h:mm a' }}</span>
+									<i *ngIf="card.blockers.length" class="fas fa-circle"></i>
+									<span *ngIf="card.blockers.length" class="text-danger">{{card.blockers.length}} issues</span>
+								</span>
+							</div>
+						</div>
+						<p class="feed-summary">{{card.total_hours}} hours for 
+							<a href="">#{{projectDetails.name}}</a>
+						</p>
+						<a href=""><i class="fas fa-expand-alt"></i></a>
+					</div>
+					<div class="issues pt-4" *ngIf="card.blockers.length">
+						<div class="d-flex justify-content-between">
+							<small><strong>Blockers</strong></small>
+							<small>
+								<strong>
+									<span *ngIf="card.finished_issues != 0" class="text-success">{{card.finished_issues}} resolved </span>
+									&nbsp; &nbsp; 
+									<span *ngIf="card.pending_issues != 0" class="text-danger">{{card.pending_issues}} unresolved</span>
+								</strong>
+							</small>
+						</div>
+						<ol class="pl-3 issues-list" >
+							<div *ngFor="let blocker of card.blockers">
+								<li class="issue-details resolved" *ngIf="blocker.is_fixed">
+									<p>
+										{{ blocker.content }}
+									</p>
+									<a href=""><small>{{ blocker.reference }}</small></a>
+								</li>
+								<li class="issue-details unresolved" *ngIf="!blocker.is_fixed">
+									<p>
+										{{ blocker.content }}
+									</p>
+									<a href=""><small>{{ blocker.reference }}</small></a>
+								</li>
+							</div>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</aside>
+</div>
+-->	
 
 		
 
 		<!-- SIDE MODALS -->
 
-		<aside class="side-modal">
+		<!--<aside class="side-modal">
 			<a class="closeModal">
 				<i class="fal fa-times"></i>
 			</a>
@@ -354,6 +460,6 @@
 				<button class="btn-primary btn filter-toggle">Close</button>
 			</div>
 			
-		</aside>
+		</aside>-->
 		
 		<!-- SIDE MODALS -->

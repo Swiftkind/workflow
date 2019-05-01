@@ -8,7 +8,11 @@ from rest_framework.viewsets import ViewSet
 from utils.mixins import Query
 
 from .serializers import StandupSerializer, ReportSerializer, ShortStandupProjectSerializer
+
 from .models import Standup as stand_up_model
+
+from .paginations import WeeklyReportsPagination
+from rest_framework.generics import ListAPIView
 
 from accounting.models import Project
 
@@ -52,6 +56,28 @@ class Standup(Query, ViewSet):
 
         return Response(serializer.data, status=200)
 
+class StandupByWeekPagination(Query, ListAPIView):
+    """ feed endpoint.
+        contains scheduled events, daily report, etc.
+    """
+    queryset = None
+    serializer_class = ShortStandupProjectSerializer
+    pagination_class = WeeklyReportsPagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        dt = self.kwargs['date']
+        current_date = datetime.strptime(dt, "%Y-%m-%d").date()
+        start_of_week = current_date - timedelta(days=current_date.weekday())
+        end_of_week = start_of_week + timedelta(days=7)
+
+        project_id = self.kwargs['id']
+        project = Project.objects.get(id=project_id)
+
+        queryset = stand_up_model.objects.filter(date_created__range=[start_of_week, end_of_week], project=project).order_by('-date_created')
+
+        return queryset
+
 class StandupByWeek(Query, ViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = ShortStandupProjectSerializer
@@ -61,6 +87,7 @@ class StandupByWeek(Query, ViewSet):
         project_id = self.request.data.get('project_id')
         project = Project.objects.get(id=project_id)
         date = self.request.data.get('start_of_week')
+
         if date:
             current_date = datetime.strptime(date, "%Y-%m-%d").date() - timedelta(days=1)
             start_of_week = current_date - timedelta(days=current_date.weekday())
