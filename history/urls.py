@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import Standups, Standup, StandupByWeek, StandupByWeekPagination
+from .views import Standups, Standup, StandupByWeek
 
 
 urlpatterns = [
@@ -12,10 +12,6 @@ urlpatterns = [
         'get': 'get'
     }), name="standup"),
 
-    path('standup/weekly/', StandupByWeek.as_view({
-        'put': 'put'
-    }), name="standup-weekly"),
-
-    path('standup/weekly/<int:id>/<str:date>/', StandupByWeekPagination.as_view(), name="standup-weekly-test"),
+    path('standup/weekly/<int:id>/<str:date>/', StandupByWeek.as_view(), name="standup-weekly-test"),
     
 ]
