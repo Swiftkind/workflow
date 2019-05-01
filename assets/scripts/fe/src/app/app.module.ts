@@ -16,7 +16,6 @@ import { TokenService } from './commons/services/interceptors/token.service';
 import { APP_STATES } from './commons/utils/app.states';
 import { AppComponent } from './app.component';
 
-
 import { DatePipe } from '@angular/common';
 
 @NgModule({

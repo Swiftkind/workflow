@@ -3,7 +3,7 @@
   <div class="d-flex align-items-center justify-content-between mb-4">
     <h5 class="subtitle mb-0">All Pay slips</h5>
     <div class="feed-data-options ">
-      <button class="btn btn-sm mr-2">
+      <button class="btn btn-sm mr-2" (click)="downloadPDF()" >
         <i class="fas fa-download"></i>
       </button>
       <button class="btn btn-sm" (click)="sendPDF()">

@@ -16,7 +16,6 @@ import { DatePipe } from '@angular/common';
 export class PayrollListComponent implements OnInit {
   
   private payroll = new Payroll;
-
   private sending: Boolean = false;
 
   constructor(
@@ -66,7 +65,6 @@ export class PayrollListComponent implements OnInit {
     return `${employeeName}_${datePhrase}`;;
   }
 
-
   sendPDF(){
     // prevent user from doing multiple action
     // while sending file is not finished
@@ -80,7 +78,7 @@ export class PayrollListComponent implements OnInit {
         // upon finish execution bind sendint to false so user can
         // use sendPDF and downloadPDF
         .then(resp => { this.sending = false; })
-        .catch(err => { this.sending = false; });
+        .catch(err => { this.sending = false; console.log(err) });
       }
     }
   }

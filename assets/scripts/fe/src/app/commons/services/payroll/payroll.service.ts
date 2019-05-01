@@ -14,7 +14,6 @@ import { downloadFileHanlder } from '../../utils/file.utils';
 export class PayrollService {
   public plist : any = [];
   public selectedPayroll = new Map<string,Payroll>();
-
   public payroll = new Payroll;
 
   constructor(
@@ -45,13 +44,12 @@ export class PayrollService {
 
    // instead of using a simple redirection to download the request.
    //  Use a get request so that the inteceptors can catch it and attach token. 
-
    this.http.get(PAYROLL_REPORT(id), { responseType: 'blob'})
      .subscribe(
        data => { downloadFileHanlder(data, fileName) }
      )
   }
-
+  
   sendPayrollReport(data){
     return this.http.post(PAYROLL_SEND_PDF, data)
     .toPromise()
