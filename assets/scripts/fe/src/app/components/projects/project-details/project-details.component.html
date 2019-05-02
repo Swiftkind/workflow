@@ -34,7 +34,7 @@
 					</a>
 					<input class="date-selected" 
 						value="{{standupservice.weekStart | date:'EEE, MMMM d' }} - {{standupservice.weekEnd | date:'EEE, MMMM d' }}"
-						name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" (dateSelect)="onDateSelect($event)">
+						name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" (dateSelect)="onDateSelect($event)" readonly>
 					<a href="" class="arrow" (click)="nextWeek($event)">
 						<i class="far fa-long-arrow-alt-right"></i>
 					</a>	
