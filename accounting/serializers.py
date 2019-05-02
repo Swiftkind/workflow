@@ -3,7 +3,8 @@ from rest_framework import serializers
 
 from .models import Project
 
-from history.models import Standup
+from history.models import Standup, Blocker
+
 from datetime import datetime, timedelta
 
 from rest_framework.pagination import PageNumberPagination
@@ -26,6 +27,7 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
     """ project serializer
     """
     date_data = serializers.SerializerMethodField()
+    pending_issues = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -36,7 +38,8 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
             'description',
             'channel_name',
             'date_created',
-            'date_updated'
+            'date_updated',
+            'pending_issues'
         )
 
     def get_date_data(self, obj):
@@ -52,5 +55,12 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
         }
 
         return result
-                
+    
+    def get_pending_issues(self, obj):
+        #find better solution
+        stand_up = Standup.objects.filter(project=obj)
+        count = 0
+        for stand in stand_up:
+            count += Blocker.objects.filter(standup=stand, is_fixed=False).count()
+        return count
         

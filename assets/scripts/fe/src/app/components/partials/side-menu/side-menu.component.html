@@ -23,7 +23,8 @@
         <span class="count">1</span>
       </li>
       <li>
-        <a uiSref="projects" uiSrefActive="active">
+      
+        <a uiSref="projects" [ngClass]="{active: state.includes('projects') || state.includes('project-details')|| state.includes('project-details-report')}">
           <i class="fal fa-paste"></i>
           Projects
         </a>

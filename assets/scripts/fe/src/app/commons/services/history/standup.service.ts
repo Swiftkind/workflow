@@ -22,19 +22,33 @@ export class StandupService {
   public qparams = {
     page: 1
   };
+  // set so that when side panel is called it will not reload all data
+  public noreload = false;
+
+  //variables for getting and setting dates
+  public dt :Date;
+  public currentWeekDay :number;
+  public lessDays :number;
+  public wkStart :Date;
+  public wkEnd :Date;
+  public weekStart :string;
+  public weekEnd :string;
+
+  // contains the project details
+  public projectDetails:any = {};
 
   constructor(
     private http: HttpClient
   ) { }
 
-  getWeeklyReport(id, passedDate) {
+  getWeeklyReport(id) {
     // toggle fetching to true to prevent multiple
     // similar request to overload the server.
     this.fetching = true;
     // set url with project id
     let url = urlsafe(HISTORY_STANDUP_WEEKLY, id)
-    // set url with date 
-    this.http.get(urlsafe(url, passedDate) + queryparams(this.qparams))
+    // set url with date
+    this.http.get(urlsafe(url, this.weekStart) + queryparams(this.qparams))
       .toPromise()
       .then(resp => {
           // append the new data to the current data list.
@@ -51,7 +65,7 @@ export class StandupService {
     ;
   }
 
-  loadMoreWeeklyReport(id, passedDate) {
+  loadMoreWeeklyReport(id) {
     // check if all the data are loaded.
     if (!this.all_loaded && !this.fetching) {
       // update the page number so that this will fetch
@@ -61,8 +75,37 @@ export class StandupService {
       this.qparams.page++;
 
       // fetch weekly report items.
-      this.getWeeklyReport(id, passedDate);
+      this.getWeeklyReport(id);
     }
+  }
+
+  setDateRange(date = new Date()){
+    // current date
+    this.dt = date; 
+
+    // get the current day of the week
+    this.currentWeekDay = this.dt.getDay();
+
+    // get the how many days to be deducted 
+    // 0 = Sunday 
+    this.lessDays = this.currentWeekDay == 0 ? 6 : this.currentWeekDay - 1;
+    // get the start of the week date
+    this.wkStart = new Date(new Date(this.dt).setDate(this.dt.getDate() - this.lessDays));
+    // get the end of the week date
+    this.wkEnd = new Date(new Date(this.wkStart).setDate(this.wkStart.getDate() + 6));
+  
+    // set the start and end week date to proper formatting
+    this.weekStart = this.wkStart.getFullYear() + "-" + (this.wkStart.getMonth() + 1) + "-" + this.wkStart.getDate()
+    this.weekEnd = this.wkEnd.getFullYear() + "-" + (this.wkEnd.getMonth() + 1) + "-" + this.wkEnd.getDate()
+  }
+
+  revertWeeklyReport(){
+    // remove all saved weekly report
+    this.q = []
+    // reset page parameter to page 1
+    this.qparams.page = 1
+    // reset all loaded boolean to allow user to scroll
+    this.all_loaded = false
   }
 
   getReport(id) {
@@ -74,6 +117,11 @@ export class StandupService {
   }
 
   getProjectDetails(id){
-    return this.http.get(urlsafe(ACCOUNTING_PROJECT_DETAILS, id));
+    this.http.get(urlsafe(ACCOUNTING_PROJECT_DETAILS, id)).subscribe(
+      data => {
+        // set the project details data
+        this.projectDetails = data
+      }
+    );
   }
 }

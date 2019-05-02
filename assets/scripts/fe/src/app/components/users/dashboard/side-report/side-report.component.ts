@@ -29,14 +29,27 @@ export class SideReportComponent implements OnInit {
     // redirecting to this page will not work
     setTimeout(()=> { this.open = true; }, 20);
 
-    // enable `FeedService.noreload` so that the feedlist
-    // will not reload when this popup is closed.
-    this.feed.noreload = true;
+    
+    
 
-    this.history.getReport(this.state.params.id)
+    if(this.state.params.cardId){
+      // enable `StateService.noreload` so that the weekly report list
+      // will not reload when this popup is closed.
+      this.history.noreload = true;
+      this.history.getReport(this.state.params.cardId)
       .subscribe(resp => {
         this.report = new Standup(resp);
       });
+    }
+    else{
+      // enable `FeedService.noreload` so that the feedlist
+      // will not reload when this popup is closed.
+      this.feed.noreload = true;
+      this.history.getReport(this.state.params.id)
+      .subscribe(resp => {
+        this.report = new Standup(resp);
+      });
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -52,7 +65,12 @@ export class SideReportComponent implements OnInit {
       this.open = false;
       // setTimout is only used for the animation effect.
       // this idea is not the best but it works.
-      setTimeout(()=> { this.state.go('dashboard'); }, 300);
+      if(this.state.params.cardId){
+        setTimeout(()=> { this.state.go('project-details', {id:this.state.params.id}); }, 300);
+      }
+      else{
+        setTimeout(()=> { this.state.go('dashboard'); }, 300);
+      }
     }
   }
 
