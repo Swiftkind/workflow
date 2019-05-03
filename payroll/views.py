@@ -66,5 +66,5 @@ class PayrollReport(Query, PDFHelper, MailHelper, ViewSet):
             pdf_list.append(pdf)
             pdf_details_list.append(pdf_details)
 
-        self.send_payroll_email(pdf_list, pdf_details_list)
+        self.send_payroll_email(self.request.user.email, pdf_list, pdf_details_list)
         return Response({}, status=200)

@@ -18,6 +18,19 @@ this runs perfectly on `python3.6` so install that version or higher but not low
 
 4. Run `python manage.py migrate` then `runserver`
 
+**TO USE SMTP EMAIL.**
+
+1. On your `local_settings.py` set `EMAIL_BACKEND` to `'django.core.mail.backends.smtp.EmailBackend'`
+
+2. Set `EMAIL_HOST` to `'smtp.gmail.com'`, `EMAIL_PORT` to `1025`, and  `EMAIL_USE_TLS` to `False`
+
+3. Afterwards create a dummy gmail account
+
+4. After creating a dummy gmail account in your `local_settings.py` set `EMAIL_HOST_USER` to created email
+
+5. And set `EMAIL_HOST_PASSWORD` to created email password
+
+
 **ON THE FRONTEND.**
 
 located in (`../<project_root>/assets/scripts/fe/`)
