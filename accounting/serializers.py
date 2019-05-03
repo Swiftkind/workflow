@@ -1,13 +1,12 @@
+from datetime import datetime, timedelta
 from django.conf import settings
-from rest_framework import serializers
 
-from .models import Project
+from rest_framework import serializers
+from rest_framework.pagination import PageNumberPagination
 
 from history.models import Standup, Blocker
 
-from datetime import datetime, timedelta
-
-from rest_framework.pagination import PageNumberPagination
+from .models import Project
 
 class ProjectSerializer(serializers.ModelSerializer):
     """ project serializer
@@ -23,10 +22,9 @@ class ProjectSerializer(serializers.ModelSerializer):
             'date_updated'
         )
 
-class ProjectDetailsSerializer(serializers.ModelSerializer):
+class ProjectDetailSerializer(serializers.ModelSerializer):
     """ project serializer
     """
-    date_data = serializers.SerializerMethodField()
     pending_issues = serializers.SerializerMethodField()
 
     class Meta:
@@ -34,33 +32,16 @@ class ProjectDetailsSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'date_data',
             'description',
             'channel_name',
             'date_created',
             'date_updated',
             'pending_issues'
         )
-
-    def get_date_data(self, obj):
-        from history.serializers import ShortStandupProjectSerializer
-
-        today = datetime.now().date()
-        start_of_week = today - timedelta(days=today.weekday())
-        end_of_week = start_of_week + timedelta(days=7)
-        
-        result = {
-            'start_of_week': start_of_week,
-            'end_of_week': end_of_week - timedelta(days=1)
-        }
-
-        return result
     
-    def get_pending_issues(self, obj):
+    def get_pending_issues(self, project):
         #find better solution
-        stand_up = Standup.objects.filter(project=obj)
-        count = 0
-        for stand in stand_up:
-            count += Blocker.objects.filter(standup=stand, is_fixed=False).count()
-        return count
+        from history.serializers import BlockerSerializer
+        return BlockerSerializer(Blocker.objects.filter(standup__in=project.standup_set.all(), is_fixed=False), many=True).data
+
         

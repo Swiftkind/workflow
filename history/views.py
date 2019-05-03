@@ -1,23 +1,19 @@
-from rest_framework import parsers, renderers
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from datetime import datetime, timedelta
+
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet
-
-from utils.mixins import Query
-
-from .serializers import StandupSerializer, ReportSerializer, ShortStandupProjectSerializer
-
-from .models import Standup as stand_up_model
-
-from .paginations import WeeklyReportsPagination
 from rest_framework.generics import ListAPIView
 
+from utils.mixins import Query, TZ
+
+from .serializers import StandupSerializer, ReportSerializer, ShortStandupProjectSerializer
+from .models import Standup as stand_up_model
+from .paginations import WeeklyReportsPagination
+
 from accounting.models import Project
-
-
-from datetime import datetime, timedelta
 
 class Standups(Query, ViewSet):
     """ daily standups endpoint that receives report
@@ -56,7 +52,7 @@ class Standup(Query, ViewSet):
 
         return Response(serializer.data, status=200)
 
-class StandupByWeek(Query, ListAPIView):
+class StandupByWeek(Query, TZ, ListAPIView):
     """ feed endpoint.
         contains scheduled events, daily report, etc.
     """
@@ -68,12 +64,7 @@ class StandupByWeek(Query, ListAPIView):
     def get_queryset(self):
         # get date parameter from url
         dt = self.kwargs['date']
-        # convert date parameter to date value
-        current_date = datetime.strptime(dt, "%Y-%m-%d").date()
-        # compute the start of the week value
-        start_of_week = current_date - timedelta(days=current_date.weekday())
-        #compute the end of the week value
-        end_of_week = start_of_week + timedelta(days=7)
+        start_of_week, end_of_week = self.dt_range(dt)
 
         #get project id parameter from url
         project_id = self.kwargs['id']

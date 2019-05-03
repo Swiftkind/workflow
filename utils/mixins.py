@@ -1,7 +1,9 @@
 import os
 import re
 import json
+
 import datetime
+from datetime import datetime as dtime, timedelta
 
 from PIL import Image
 from io import BytesIO
@@ -242,8 +244,6 @@ class TZ(object):
             # current timezone
             tz=settings.TIME_ZONE
         )
-        
-
 
     def last_n_months(self, month_num=1):
         """ get the month based on the `month_num`.
@@ -253,4 +253,12 @@ class TZ(object):
             timezone.now()
         ]
 
+    def dt_range(self, start, interval=7):
+        given_date = dtime.strptime(start, "%Y-%m-%d").date()
+        # compute the start of the week value
+        start_of_week = given_date - timedelta(days=given_date.weekday())
+        #compute the end of the week value
+        end_of_week = start_of_week + timedelta(days=interval)
+
+        return start_of_week, end_of_week
 

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { urlsafe, queryparams } from '../../utils/http.utils';
 import { HISTORY_STANDUP, ACCOUNTING_PROJECT_DETAILS, HISTORY_STANDUP_WEEKLY } from '../../constants/api.constants';
+import { ProjectDetail } from '../../../commons/models/project-detail.models';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +31,14 @@ export class StandupService {
   public lessDays :number;
   public wkStart :Date;
   public wkEnd :Date;
-  public weekStart :string;
-  public weekEnd :string;
+
+  public date_test = {
+    'year':0,
+    'month':0
+  };
 
   // contains the project details
-  public projectDetails:any = {
-    'name':''
-  };
+  public projectDetails = new ProjectDetail;
 
   constructor(
     private http: HttpClient
@@ -49,7 +51,10 @@ export class StandupService {
     // set url with project id
     let url = urlsafe(HISTORY_STANDUP_WEEKLY, id)
     // set url with date
-    this.http.get(urlsafe(url, this.weekStart) + queryparams(this.qparams))
+
+    let weekStart = this.wkStart.getFullYear() + "-" + (this.wkStart.getMonth() + 1) + "-" + this.wkStart.getDate()
+
+    this.http.get(urlsafe(url, weekStart) + queryparams(this.qparams))
       .toPromise()
       .then(resp => {
           // append the new data to the current data list.
@@ -94,10 +99,9 @@ export class StandupService {
     this.wkStart = new Date(new Date(this.dt).setDate(this.dt.getDate() - this.lessDays));
     // get the end of the week date
     this.wkEnd = new Date(new Date(this.wkStart).setDate(this.wkStart.getDate() + 6));
-  
-    // set the start and end week date to proper formatting
-    this.weekStart = this.wkStart.getFullYear() + "-" + (this.wkStart.getMonth() + 1) + "-" + this.wkStart.getDate()
-    this.weekEnd = this.wkEnd.getFullYear() + "-" + (this.wkEnd.getMonth() + 1) + "-" + this.wkEnd.getDate()
+
+    this.date_test.year = this.wkEnd.getFullYear()
+    this.date_test.month = this.wkEnd.getMonth()
   }
 
   revertWeeklyReport(){
@@ -117,11 +121,11 @@ export class StandupService {
     return this.http.get(HISTORY_STANDUP);
   }
 
-  getProjectDetails(id){
+  getProjectDetail(id){
     this.http.get(urlsafe(ACCOUNTING_PROJECT_DETAILS, id)).subscribe(
       data => {
         // set the project details data
-        this.projectDetails = data
+        this.projectDetails = new ProjectDetail(data)
       }
     );
   }
