@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { urlsafe, queryparams } from '../../utils/http.utils';
 import { HISTORY_STANDUP, ACCOUNTING_PROJECT_DETAILS, HISTORY_STANDUP_WEEKLY } from '../../constants/api.constants';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +34,9 @@ export class StandupService {
   public weekEnd :string;
 
   // contains the project details
-  public projectDetails:any = {};
+  public projectDetails:any = {
+    'name':''
+  };
 
   constructor(
     private http: HttpClient
