@@ -1,8 +1,8 @@
 from django.urls import path, re_path
-from .views import ProjectDetails
+from .views import ProjectDetail
 
 urlpatterns = [
-    path('project/<int:id>/', ProjectDetails.as_view({
+    path('project/<int:id>/', ProjectDetail.as_view({
         'get': 'get'
     }), name="project_details"),
 ]

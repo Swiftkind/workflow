@@ -4,7 +4,7 @@
 		<section class="col-md-4">
 			
 			<div class="d-flex align-items-center mb-5">
-				<div class="avatar-sm no-photo-pink mr-3">{{ standupservice.projectDetails.name.charAt(0) }}</div>
+				<div *ngIf="standupservice.projectDetails.name" class="avatar-sm no-photo-pink mr-3">{{ standupservice.projectDetails.name.charAt(0) }}</div>
 				<h4 class="title-highlited mb-0">{{ standupservice.projectDetails.name }}</h4>
 			</div>
 			<div class="mb-3">
@@ -17,7 +17,7 @@
 			</div>
 			<div class="mb-3">
 				<label class="small text-muted">Pending Issues</label>
-				<p class="text-danger">{{ standupservice.projectDetails.pending_issues }} Issues pending
+				<p *ngIf="standupservice.projectDetails.pending_issues" class="text-danger">{{ standupservice.projectDetails.pending_issues.length }} Issues pending
 					<a href="" class="text-danger ml-2">
 						<i class="fal fa-external-link"></i>
 					</a>
@@ -32,9 +32,15 @@
 					<a href="" class="arrow" (click)="previousWeek($event)">
 						<i class="far fa-long-arrow-alt-left"></i>
 					</a>
-					<input class="date-selected" 
-						value="{{standupservice.weekStart | date:'EEE, MMMM d' }} - {{standupservice.weekEnd | date:'EEE, MMMM d' }}"
-						name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" (dateSelect)="onDateSelect($event)" readonly>
+					<div ngbDropdown autoClose="outside" class="date-selected">
+						<div ngbDropdownToggle>
+							{{standupservice.wkStart | date:'EEE, MMMM d' }} - {{standupservice.wkEnd | date:'EEE, MMMM d' }}
+						</div>
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic1" autoClose="false">
+							<ngb-datepicker [startDate]="{year: standupservice.wkEnd.getFullYear(), month: standupservice.wkEnd.getMonth() + 1}" 
+							(select)="onDateSelect($event)"></ngb-datepicker>
+						</div>
+					</div>
 					<a href="" class="arrow" (click)="nextWeek($event)">
 						<i class="far fa-long-arrow-alt-right"></i>
 					</a>	

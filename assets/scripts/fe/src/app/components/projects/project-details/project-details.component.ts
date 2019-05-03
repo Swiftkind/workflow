@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { StateService } from '@uirouter/angular';
 import { StandupService } from '../../../commons/services/history/standup.service'
 import { NavService } from '../../../commons/services/utils/nav.service';
+import { b } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-project-details',
@@ -9,7 +10,7 @@ import { NavService } from '../../../commons/services/utils/nav.service';
   styleUrls: ['./project-details.component.css']
 })
 export class ProjectDetailsComponent implements OnInit {
-
+  test_date;
   constructor(
     private standupservice : StandupService,
     private state          : StateService,
@@ -23,21 +24,21 @@ export class ProjectDetailsComponent implements OnInit {
 
   ngOnInit() {
 
-    if (!this.standupservice.noreload && this.state.$current.name !== 'project-details-report') {
+    if ((!this.standupservice.noreload && this.state.$current.name !== 'project-details-report') || 
+      (this.state.$current.name === 'project-details-report' && this.standupservice.q.length < 1)) 
+    {
       // set date range parameters into today 
       this.standupservice.setDateRange()
       // get the project details
-      this.standupservice.getProjectDetails(this.state.params.id)
+      this.standupservice.getProjectDetail(this.state.params.id)
       // get all weekly reports
       this.standupservice.getWeeklyReport(this.state.params.id)
-    } else if (this.state.$current.name === 'project-details-report' && this.standupservice.q.length < 1) {
-      // get the project details
-      this.standupservice.getProjectDetails(this.state.params.id)
-      // get the project details
-      this.standupservice.setDateRange()
-      // get all weekly reports
-      this.standupservice.getWeeklyReport(this.state.params.id)
-    } else {
+      this.test_date = {
+        'year': this.standupservice.wkStart.getFullYear(),
+        'month': this.standupservice.wkStart.getMonth()
+     }
+    }
+    else {
       // enable reload for template data
       this.standupservice.noreload = false;
     }
@@ -86,7 +87,6 @@ export class ProjectDetailsComponent implements OnInit {
     // get weekly report base on new week
     this.standupservice.getWeeklyReport(this.state.params.id)
   }
-
 
   @HostListener('scroll', ['$event']) 
   scrollWeeklyReport(event): void {
