@@ -39,7 +39,7 @@
               <ul class="salary-list-item">
                 <li  *ngFor="let benefit of payrollservice.payroll.benefits">
                   <p class="title-bold">{{ benefit.name }}</p>
-                  <p>{{ benefit.amount }}</p>
+                  <p>{{ benefit.amount | number }}</p>
                 </li>
               </ul>
             </div>
@@ -48,7 +48,7 @@
               <ul class="salary-list-item">
                 <li  *ngFor="let plan of payrollservice.payroll.plans">
                   <p class="title-bold"> {{ plan.name }}</p>
-                  <p>{{ plan.amount }}</p>
+                  <p>{{ plan.amount | number }}</p>
                 </li>
               </ul>
             </div>

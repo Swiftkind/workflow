@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { Component, OnInit } from '@angular/core';
-import { StateService } from '@uirouter/angular';
+import { StateService, UISrefActive } from '@uirouter/angular';
 
 import { PayrollService } from '../../../commons/services/payroll/payroll.service';
 import { AuthService } from '../../../commons/services/auth/auth.service';
@@ -33,9 +33,9 @@ export class PayrollListComponent implements OnInit {
     }
   }
 
-  onToggle(item){
+  onToggle($event, item){
     // Function trigger upon checkbox toggle
-
+    $event.stopPropagation()
     // Checks if item is already exist in selectedPayroll 
     if(this.payrollservice.selectedPayroll.has(item.id)){
       // if item is exist. Remove it from mapped data
@@ -81,5 +81,12 @@ export class PayrollListComponent implements OnInit {
         .catch(err => { this.sending = false; console.log(err) });
       }
     }
+  }
+
+  clicked(id){
+    console.log(id)
+    console.log("i am presseeeeed")
+    
+    this.state.go('payroll-detail', {id:id, UISrefActive:"active"})
   }
 }
