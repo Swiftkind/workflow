@@ -3,6 +3,8 @@ import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { StateService } from '@uirouter/angular';
+
 import { AUTH_LOGIN, AUTH_USER } from '../../constants/api.constants';
 import { AUTH_KEY } from '../../constants/conf.constants';
 import { User } from '../../models/user.models';
@@ -15,7 +17,8 @@ export class AuthService {
   public user = new User;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private state: StateService
   ) { }
 
 
@@ -81,4 +84,10 @@ export class AuthService {
     }
     return this.user;
   }
+
+  // redirectUser(url){
+  //   if(this.getToken() != null){ // check if user is logged in, to determine whether to redirect to login page or not.
+  //     this.state.go()
+  //   }
+  // }
 }

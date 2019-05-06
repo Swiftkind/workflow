@@ -25,10 +25,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // load slack config
     this.slack.getConfig();
-
+    console.log(this.state.params);
     // initialize the form.
     this.form = new LoginForm(new Login);
-
     console.log(this.slack.config);
   }
 
