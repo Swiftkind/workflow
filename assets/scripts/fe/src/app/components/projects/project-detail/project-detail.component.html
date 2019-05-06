@@ -55,7 +55,7 @@
 				</div>
 			</div>
 
-			<div class="feed-limited" (scroll)="scrollWeeklyReport($event)">							
+			<div class="feed-limited" (scroll)="scrollWeeklyReport($event)" [scrollTop]="standupservice.scrollHeight">							
 				<div class="feed-card card" *ngFor="let card of standupservice.q">
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="d-flex">
