@@ -39,7 +39,7 @@ class PayrollReport(Query, PDFHelper, MailHelper, ViewSet):
         Views regarding the report of a payroll.
     """
     serializer_class = PayrollSerializer
-    #permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     #permission_classes = (IsAuthenticated, PayrollObjectPermission)
 
     def download_pdf(self, *args, **kwargs):
