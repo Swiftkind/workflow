@@ -17,6 +17,8 @@ export class FeedService {
   public nEvents: any;
   public pendingIssues: any;
 
+  public scrollHeight:number;
+  
   // toggle checker that is used to check if there is
   // a pending request to the backend. This prevents
   // the system from sending spam requests to the backend.

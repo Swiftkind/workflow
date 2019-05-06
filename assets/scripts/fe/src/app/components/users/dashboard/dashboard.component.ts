@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
     // it handles the call to the backend when the scroll
     // reach its max height.
     let cHeight = event.target.scrollHeight;
-    let scrollHeight = event.target.scrollTop;
+    this.feed.scrollHeight = event.target.scrollTop;
 
     // offset height. this is the sum of the margin/interval
     // of each element inside the `cHeight`. can change based
@@ -59,8 +59,8 @@ export class DashboardComponent implements OnInit {
     // margin-height: 708, spacing-height: 100 # spacer so that this
     // sends a call to the backend before the user reach the last item.
     let maxHeight = cHeight - (708 + 100);
-
-    if(scrollHeight >= maxHeight) {
+    
+    if(this.feed.scrollHeight >= maxHeight) {
       this.feed.loadMoreFeed();
     }
   }
