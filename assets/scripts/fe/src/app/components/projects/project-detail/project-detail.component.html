@@ -4,20 +4,20 @@
 		<section class="col-md-4">
 			
 			<div class="d-flex align-items-center mb-5">
-				<div *ngIf="standupservice.projectDetails.name" class="avatar-sm no-photo-pink mr-3">{{ standupservice.projectDetails.name.charAt(0) }}</div>
-				<h4 class="title-highlited mb-0">{{ standupservice.projectDetails.name }}</h4>
+				<div *ngIf="standupservice.projectDetail.name" class="avatar-sm no-photo-pink mr-3">{{ standupservice.projectDetail.name.charAt(0) }}</div>
+				<h4 class="title-highlited mb-0">{{ standupservice.projectDetail.name }}</h4>
 			</div>
 			<div class="mb-3">
 				<label class="small text-muted">Description</label>
-				<p>{{ standupservice.projectDetails.description }}</p>
+				<p>{{ standupservice.projectDetail.description }}</p>
 			</div>
 			<div class="mb-3">
 				<label class="small text-muted">Date stated</label>
-				<p>{{ standupservice.projectDetails.date_created | date:'mediumDate' }}</p>
+				<p>{{ standupservice.projectDetail.date_created | date:'mediumDate' }}</p>
 			</div>
 			<div class="mb-3">
 				<label class="small text-muted">Pending Issues</label>
-				<p *ngIf="standupservice.projectDetails.pending_issues" class="text-danger">{{ standupservice.projectDetails.pending_issues.length }} Issues pending
+				<p class="text-danger"> {{standupservice.ProjectBlockers.length}} Issues pending
 					<a href="" class="text-danger ml-2">
 						<i class="fal fa-external-link"></i>
 					</a>
@@ -71,9 +71,9 @@
 							</div>
 						</div>
 						<p class="feed-summary">{{card.total_hours}} hours for 
-							<a href="">#{{ standupservice.projectDetails.name }}</a>
+							<a href="">#{{ standupservice.projectDetail.name }}</a>
 						</p>
-						<a uiSref="project-details-report" [uiParams]="{id: standupservice.projectDetails.id,cardId: card.id}"><i class="fas fa-expand-alt"></i></a>
+						<a uiSref="project-detail-report" [uiParams]="{id: standupservice.projectDetail.id,cardId: card.id}"><i class="fas fa-expand-alt"></i></a>
 					</div>
 					<div class="issues pt-4" *ngIf="card.blockers.length">
 						<div class="d-flex justify-content-between">

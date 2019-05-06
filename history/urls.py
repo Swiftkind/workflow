@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import Standups, Standup, StandupByWeek
+from .views import Standups, Standup, StandupByWeek, ProjectBlockers
 
 
 urlpatterns = [
@@ -12,6 +12,9 @@ urlpatterns = [
         'get': 'get'
     }), name="standup"),
 
-    path('standup/weekly/<int:id>/<str:date>/', StandupByWeek.as_view(), name="standup-weekly-test"),
-    
+    path('standup/weekly/<int:id>/<str:date>/', StandupByWeek.as_view(), name="standup-weekly"),
+
+    path('project/<int:id>/blockers/', ProjectBlockers.as_view({
+        'get':'get'
+    }), name="project-blockers"),
 ]

@@ -2,15 +2,13 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { StateService } from '@uirouter/angular';
 import { StandupService } from '../../../commons/services/history/standup.service'
 import { NavService } from '../../../commons/services/utils/nav.service';
-import { b } from '@angular/core/src/render3';
 
 @Component({
-  selector: 'app-project-details',
-  templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.css']
+  selector: 'app-project-detail',
+  templateUrl: './project-detail.component.html',
+  styleUrls: ['./project-detail.component.css']
 })
-export class ProjectDetailsComponent implements OnInit {
-  test_date;
+export class ProjectDetailComponent implements OnInit {
   constructor(
     private standupservice : StandupService,
     private state          : StateService,
@@ -19,24 +17,24 @@ export class ProjectDetailsComponent implements OnInit {
   {
     // nav configuration
     // TODO: this sucks!. find a better solution
-    this.nav.setNav('Project Details', true);
+    this.nav.setNav('Project Detail', true);
   }
 
   ngOnInit() {
 
-    if ((!this.standupservice.noreload && this.state.$current.name !== 'project-details-report') || 
-      (this.state.$current.name === 'project-details-report' && this.standupservice.q.length < 1)) 
+    if ((!this.standupservice.noreload && this.state.$current.name !== 'project-detail-report') || 
+      (this.state.$current.name === 'project-detail-report' && this.standupservice.q.length < 1)) 
     {
+      // clear all fields
+      this.standupservice.revertWeeklyReport()
       // set date range parameters into today 
       this.standupservice.setDateRange()
-      // get the project details
+      // get the project detail
       this.standupservice.getProjectDetail(this.state.params.id)
+
+      this.standupservice.getProjectBlockers(this.state.params.id)
       // get all weekly reports
       this.standupservice.getWeeklyReport(this.state.params.id)
-      this.test_date = {
-        'year': this.standupservice.wkStart.getFullYear(),
-        'month': this.standupservice.wkStart.getMonth()
-     }
     }
     else {
       // enable reload for template data
@@ -51,13 +49,9 @@ export class ProjectDetailsComponent implements OnInit {
 
     // deduct 1 day to week start date to get previous week
     this.standupservice.wkStart.setDate(this.standupservice.wkStart.getDate() - 1)
-    // apply computations to set new start and end week
-    this.standupservice.setDateRange(this.standupservice.wkStart)
 
-    // re-initialize Weekly Report data and query parameters
-    this.standupservice.revertWeeklyReport()
-    // get weekly report base on new week
-    this.standupservice.getWeeklyReport(this.state.params.id)
+    // apply computations to set new start and end week
+    this.updateWeeklyReport(this.standupservice.wkStart)
   }
 
   nextWeek($event){
@@ -66,20 +60,20 @@ export class ProjectDetailsComponent implements OnInit {
 
     // add 1 day to week end date to get next week
     this.standupservice.wkEnd.setDate(this.standupservice.wkEnd.getDate() + 1)
-    
+
     // apply computations to set new start and end week
-    this.standupservice.setDateRange(this.standupservice.wkEnd)
-
-    // re-initialize Weekly Report data and query parameters
-    this.standupservice.revertWeeklyReport()
-
-    // get weekly report base on new week
-    this.standupservice.getWeeklyReport(this.state.params.id)
+    this.updateWeeklyReport(this.standupservice.wkEnd)
   }
 
   onDateSelect($event){
     // get the date time picker result
     let date = new Date($event.year + "-" + $event.month + "-" + $event.day)
+    
+    // apply computations to set new start and end week
+    this.updateWeeklyReport(date)
+  }
+
+  updateWeeklyReport(date){
     // apply computations to set new start and end week
     this.standupservice.setDateRange(date)
     // re-initialize Weekly Report data and query parameters

@@ -66,7 +66,7 @@ export class SideReportComponent implements OnInit {
       // setTimout is only used for the animation effect.
       // this idea is not the best but it works.
       if(this.state.params.cardId){
-        setTimeout(()=> { this.state.go('project-details', {id:this.state.params.id}); }, 300);
+        setTimeout(()=> { this.state.go('project-detail', {id:this.state.params.id}); }, 300);
       }
       else{
         setTimeout(()=> { this.state.go('dashboard'); }, 300);

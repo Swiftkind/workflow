@@ -46,6 +46,8 @@ export const FEED_NOTIFICATIONS_PENDING = urlsafe(FEED_NOTIFICATIONS, 'pending')
 
 export const HISTORY = '/api/history/';
 
+export const HISTORY_PROJECT = urlsafe(HISTORY, 'project');
+
 export const HISTORY_STANDUP = urlsafe(HISTORY, 'standup');
 export const HISTORY_STANDUP_WEEKLY = urlsafe(HISTORY_STANDUP, 'weekly');
 

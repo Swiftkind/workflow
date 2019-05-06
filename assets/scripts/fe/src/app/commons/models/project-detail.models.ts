@@ -5,7 +5,6 @@ export class ProjectDetail {
     name            : string = null;
     description     : string = null;
     channel_name    : string = null;
-    pending_issues  : string = null;
     date_created    : string = null;
     date_updated    : string = null;
   

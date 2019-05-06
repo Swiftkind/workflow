@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { urlsafe, queryparams } from '../../utils/http.utils';
-import { HISTORY_STANDUP, ACCOUNTING_PROJECT_DETAILS, HISTORY_STANDUP_WEEKLY } from '../../constants/api.constants';
+import { HISTORY_STANDUP, ACCOUNTING_PROJECT_DETAILS, HISTORY_STANDUP_WEEKLY, HISTORY_PROJECT } from '../../constants/api.constants';
+
 import { ProjectDetail } from '../../../commons/models/project-detail.models';
 
 @Injectable({
@@ -32,13 +33,10 @@ export class StandupService {
   public wkStart :Date;
   public wkEnd :Date;
 
-  public date_test = {
-    'year':0,
-    'month':0
-  };
-
-  // contains the project details
-  public projectDetails = new ProjectDetail;
+  // contains the project detail
+  public projectDetail = new ProjectDetail;
+  // contains the project blockers
+  public ProjectBlockers:any = [];
 
   constructor(
     private http: HttpClient
@@ -87,7 +85,7 @@ export class StandupService {
 
   setDateRange(date = new Date()){
     // current date
-    this.dt = date; 
+    this.dt = date;
 
     // get the current day of the week
     this.currentWeekDay = this.dt.getDay();
@@ -99,9 +97,6 @@ export class StandupService {
     this.wkStart = new Date(new Date(this.dt).setDate(this.dt.getDate() - this.lessDays));
     // get the end of the week date
     this.wkEnd = new Date(new Date(this.wkStart).setDate(this.wkStart.getDate() + 6));
-
-    this.date_test.year = this.wkEnd.getFullYear()
-    this.date_test.month = this.wkEnd.getMonth()
   }
 
   revertWeeklyReport(){
@@ -124,9 +119,20 @@ export class StandupService {
   getProjectDetail(id){
     this.http.get(urlsafe(ACCOUNTING_PROJECT_DETAILS, id)).subscribe(
       data => {
-        // set the project details data
-        this.projectDetails = new ProjectDetail(data)
+        // set the project detail data
+        this.projectDetail = new ProjectDetail(data)
       }
     );
+  }
+
+  getProjectBlockers(id){
+    let url = urlsafe(HISTORY_PROJECT, id)
+
+    this.http.get(urlsafe(url, 'blockers')).subscribe(
+      data => {
+        // get all blockers in opened project
+        this.ProjectBlockers = data
+      }
+    )
   }
 }

@@ -9,8 +9,9 @@ from rest_framework.generics import ListAPIView
 
 from utils.mixins import Query, TZ
 
-from .serializers import StandupSerializer, ReportSerializer, ShortStandupProjectSerializer
-from .models import Standup as stand_up_model
+from .serializers import StandupSerializer, ReportSerializer, ShortStandupProjectSerializer, BlockerSerializer
+from .models import Blocker, Standup as stand_up_model
+
 from .paginations import WeeklyReportsPagination
 
 from accounting.models import Project
@@ -75,3 +76,11 @@ class StandupByWeek(Query, TZ, ListAPIView):
         # order by latest date created
         queryset = stand_up_model.objects.filter(date_created__range=[start_of_week, end_of_week], project=project).order_by('-date_created')
         return queryset
+
+class ProjectBlockers(Query, ViewSet):
+    serializer_class = BlockerSerializer
+
+    def get(self, *args, **kwargs):
+        project = Project.objects.get(**kwargs)
+        serializer = BlockerSerializer(Blocker.objects.filter(standup__in=project.standup_set.all(), is_fixed=False), many=True)
+        return Response(serializer.data, status=200)
