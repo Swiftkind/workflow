@@ -82,11 +82,4 @@ export class PayrollListComponent implements OnInit {
       }
     }
   }
-
-  clicked(id){
-    console.log(id)
-    console.log("i am presseeeeed")
-    
-    this.state.go('payroll-detail', {id:id, UISrefActive:"active"})
-  }
 }
