@@ -57,10 +57,9 @@ class PDFHelper(object):
         return self._produce_pdf_as_an_attachment(html, pdf_details)
 
     def prepare_payroll_processing(self, data):
-        date_phrase = f"from {data.get('date_from')} to {data.get('date_to')}"
-        employee_name = f"{data.get('user').get('first_name')} {data.get('user').get('last_name')}"
+        employee_name = f"{data.get('user').get('id')}_{data.get('user').get('last_name')}"
 
-        title = f"payroll of {employee_name} {date_phrase}" 
+        title = f"{employee_name}_{data.get('date_from')}" 
 
         # # fetching and setting up necessary data
         context = {'data': data, 'title': title}
