@@ -64,16 +64,13 @@ class StandupByWeek(Query, TZ, ListAPIView):
 
     def get_queryset(self):
         # get date parameter from url
-        dt = self.kwargs['date']
+        dt = self.request.GET.get('date_start')
         start_of_week, end_of_week = self.dt_range(dt)
 
         #get project id parameter from url
-        project_id = self.kwargs['id']
+        project_id = self.request.GET.get('project_id')
         # get project object
         project = Project.objects.get(id=project_id)
-        # get queryset of Standup with filter date range of start of the week and end of the week
-        # which belongs to the project object
-        # order by latest date created
         queryset = stand_up_model.objects.filter(date_created__range=[start_of_week, end_of_week], project=project).order_by('-date_created')
         return queryset
 
