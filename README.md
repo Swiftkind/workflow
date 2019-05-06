@@ -20,16 +20,11 @@ this runs perfectly on `python3.6` so install that version or higher but not low
 
 **TO USE SMTP EMAIL.**
 
-1. On your `local_settings.py` set `EMAIL_BACKEND` to `'django.core.mail.backends.smtp.EmailBackend'`
+1. Create a dummy google mail account or use existing google mail account
 
-2. Set `EMAIL_HOST` to `'smtp.gmail.com'`, `EMAIL_PORT` to `1025`, and  `EMAIL_USE_TLS` to `False`
+2. Afterwards on your `local_settings.py` add `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` fields
 
-3. Afterwards create a dummy gmail account
-
-4. After creating a dummy gmail account in your `local_settings.py` set `EMAIL_HOST_USER` to created email
-
-5. And set `EMAIL_HOST_PASSWORD` to created email password
-
+3. Set `EMAIL_HOST_USER` to the account email and `EMAIL_HOST_PASSWORD` to account password 
 
 **ON THE FRONTEND.**
 
