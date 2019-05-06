@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { StateService } from '@uirouter/angular';
 import { StandupService } from '../../../commons/services/history/standup.service'
 import { NavService } from '../../../commons/services/utils/nav.service';
+import { ProjectService } from '../../../commons/services/project/project.service'
 
 @Component({
   selector: 'app-project-detail',
@@ -10,6 +11,7 @@ import { NavService } from '../../../commons/services/utils/nav.service';
 })
 export class ProjectDetailComponent implements OnInit {
   constructor(
+    private projectservice : ProjectService,
     private standupservice : StandupService,
     private state          : StateService,
     private nav            : NavService,
@@ -30,9 +32,9 @@ export class ProjectDetailComponent implements OnInit {
       // set date range parameters into today 
       this.standupservice.setDateRange()
       // get the project detail
-      this.standupservice.getProjectDetail(this.state.params.id)
+      this.projectservice.getProjectDetail(this.state.params.id)
 
-      this.standupservice.getProjectBlockers(this.state.params.id)
+      this.projectservice.getProjectBlockers(this.state.params.id)
       // get all weekly reports
       this.standupservice.getWeeklyReport(this.state.params.id)
     }
