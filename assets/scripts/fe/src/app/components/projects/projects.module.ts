@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UIRouterModule } from '@uirouter/angular';
 
 import { ProjectsComponent } from './projects/projects.component';
-import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { ProjectDetailComponent } from './project-detail/project-detail.component';
 
 @NgModule({
   imports: [
@@ -13,6 +13,6 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
     NgbModule,
     UIRouterModule
   ],
-  declarations: [ProjectsComponent, ProjectDetailsComponent]
+  declarations: [ProjectsComponent, ProjectDetailComponent]
 })
 export class ProjectsModule { }

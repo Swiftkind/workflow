@@ -3,13 +3,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
 from utils.mixins import Query
-from .serializers import ProjectDetailSerializer
+from .serializers import ProjectSerializer
 
 # Create your views here.
 class ProjectDetail(Query, ViewSet):
-    """ project details
+    """ project detail
     """
-    serializer_class = ProjectDetailSerializer
+    serializer_class = ProjectSerializer
     permission_classes = (IsAuthenticated,)
 
     def get(self, *args, **kwargs):
