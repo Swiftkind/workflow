@@ -10,6 +10,7 @@ import { PipesModule } from '../../commons/pipes/pipes.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingComponent } from './setting/setting.component';
 import { SideReportComponent } from './dashboard/side-report/side-report.component';
+import { CalendarComponent } from './dashboard/calendar/calendar.component';
 
 
 @NgModule({
@@ -20,6 +21,6 @@ import { SideReportComponent } from './dashboard/side-report/side-report.compone
     DirectivesModule,
     PipesModule
   ],
-  declarations: [DashboardComponent, SettingComponent, SideReportComponent]
+  declarations: [DashboardComponent, SettingComponent, SideReportComponent, CalendarComponent]
 })
 export class UsersModule { }
