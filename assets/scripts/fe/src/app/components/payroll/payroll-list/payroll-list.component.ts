@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 
 import { Component, OnInit } from '@angular/core';
-import { StateService, UISrefActive } from '@uirouter/angular';
+import { StateService } from '@uirouter/angular';
 
 import { PayrollService } from '../../../commons/services/payroll/payroll.service';
 import { AuthService } from '../../../commons/services/auth/auth.service';
