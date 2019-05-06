@@ -24,6 +24,8 @@ export class StandupService {
   // set so that when side panel is called it will not reload all data
   public noreload = false;
 
+  public scrollHeight:number;
+
   //variables for getting and setting dates
   public dt :Date;
   public currentWeekDay :number;

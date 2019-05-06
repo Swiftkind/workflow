@@ -90,7 +90,7 @@ export class ProjectDetailComponent implements OnInit {
     // it handles the call to the backend when the scroll
     // reach its max height.
     let cHeight = event.target.scrollHeight;
-    let scrollHeight = event.target.scrollTop;
+    this.standupservice.scrollHeight = event.target.scrollTop;
 
     // offset height. this is the sum of the margin/interval
     // of each element inside the `cHeight`. can change based
@@ -99,7 +99,7 @@ export class ProjectDetailComponent implements OnInit {
     // sends a call to the backend before the user reach the last item.
     let maxHeight = cHeight - (581 + 100);
 
-    if(scrollHeight >= maxHeight) {
+    if(this.standupservice.scrollHeight >= maxHeight) {
       // load more weekly report once target height is reached
       this.standupservice.loadMoreWeeklyReport(this.state.params.id)
     }
