@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.state.params);
     // load slack config
     this.slack.getConfig();
     // initialize the form.
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
       this.auth.login(value)
         .then(resp => {
           this.previousState = this.state.params.next;
+          console.log(this.previousState);
           this.auth.redirectTo(this.previousState);  
         })
         .catch(err => {

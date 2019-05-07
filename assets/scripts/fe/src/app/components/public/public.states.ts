@@ -12,9 +12,9 @@ export const PUBLIC_STATES : Object[] = [
     },
     {
       name  : 'loginRedirect',
-      url   : '/login/:next?/',
+      url   : '/login/:next/',
       params : {
-        next : ''
+        next : null  
       },
       views : ContentOnly(LoginComponent)
     },

@@ -34,9 +34,8 @@ export class TokenService {
 
     return n.handle(req).pipe(tap(
       resp => {
-        /* Check every request if the user is authenticated, otherwise the user is redirected to the login page, 
-           along with the url he/she tried to visit.
-        */   
+        // Check every request if the user is authenticated, otherwise the user is redirected to the login page, 
+        // passing a parameter on the last page he/she visited.
         this.auth.redirectUser(this.currentUrl); 
         if (resp instanceof HttpResponse) return resp;
       }
