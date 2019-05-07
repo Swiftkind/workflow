@@ -11,11 +11,19 @@
   </div>
   <div class="currentMonth" id="datesAccordion">
     <div class="weekview" id="firstWeek">
-      <span *ngFor="let date of firstWeek" [ngClass]="{'idleDay': date.getMonth() !== month, 'today': date.getDate() === today}">{{date.getDate()}}</span>
+      <span 
+        *ngFor="let date of firstWeek" 
+        [ngClass]="getDateClass(date)">
+        {{date.getDate()}}
+      </span>
     </div>
     <div class="wholeMonth" id="wholeMonth" aria-lablledby="firstWeek" data-parent="#datesAccordion" [ngbCollapse]="isCollapsed">
       <div class="weekview" *ngFor="let week of weeks.slice(1)">
-        <span *ngFor="let date of week" [ngClass]="{'idleDay': date.getMonth() !== month, 'today': date.getDate() === today}">{{date.getDate()}}</span>
+        <span 
+          *ngFor="let date of week" 
+          [ngClass]="getDateClass(date)">
+          {{date.getDate()}}
+        </span>
       </div>
     </div>
     <a href="" prevdefault class="calendar-expander" (click)="isCollapsed = !isCollapsed" 
