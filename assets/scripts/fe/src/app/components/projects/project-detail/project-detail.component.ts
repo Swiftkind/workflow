@@ -4,12 +4,15 @@ import { StandupService } from '../../../commons/services/history/standup.servic
 import { NavService } from '../../../commons/services/utils/nav.service';
 import { ProjectService } from '../../../commons/services/project/project.service'
 
+import { DateRange } from '../../../commons/utils/datetime.utils'
+
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
+
   constructor(
     private projectservice : ProjectService,
     private standupservice : StandupService,
@@ -27,13 +30,13 @@ export class ProjectDetailComponent implements OnInit {
     if ((!this.standupservice.noreload && this.state.$current.name !== 'project-detail-report') || 
       (this.state.$current.name === 'project-detail-report' && this.standupservice.q.length < 1)) 
     {
+      // set date range parameters into today
+      this.standupservice.dateData = DateRange()
       // clear all fields
       this.standupservice.revertWeeklyReport()
-      // set date range parameters into today 
-      this.standupservice.setDateRange()
       // get the project detail
       this.projectservice.getProjectDetail(this.state.params.id)
-
+      // get all blockers of project
       this.projectservice.getProjectBlockers(this.state.params.id)
       // get all weekly reports
       this.standupservice.getWeeklyReport(this.state.params.id)
@@ -42,46 +45,40 @@ export class ProjectDetailComponent implements OnInit {
       // enable reload for template data
       this.standupservice.noreload = false;
     }
+  }
 
+  updateWeeklyReport(date){
+    // apply computations to set new start and end week
+    this.standupservice.dateData = DateRange(date)
+    // re-initialize Weekly Report data and query parameters
+    this.standupservice.revertWeeklyReport()
+    // get weekly report base on new week
+    this.standupservice.getWeeklyReport(this.state.params.id)
   }
 
   previousWeek($event){
     // prevent default action of href to redirect
     $event.preventDefault();
-
     // deduct 1 day to week start date to get previous week
-    this.standupservice.wkStart.setDate(this.standupservice.wkStart.getDate() - 1)
-
+    this.standupservice.dateData.dateStart.setDate(this.standupservice.dateData.dateStart.getDate() - 1)
     // apply computations to set new start and end week
-    this.updateWeeklyReport(this.standupservice.wkStart)
+    this.updateWeeklyReport(this.standupservice.dateData.dateStart)
   }
 
   nextWeek($event){
     // prevent default action of href to redirect
     $event.preventDefault()
-
     // add 1 day to week end date to get next week
-    this.standupservice.wkEnd.setDate(this.standupservice.wkEnd.getDate() + 1)
-
+    this.standupservice.dateData.dateEnd.setDate(this.standupservice.dateData.dateEnd.getDate() + 1)
     // apply computations to set new start and end week
-    this.updateWeeklyReport(this.standupservice.wkEnd)
+    this.updateWeeklyReport(this.standupservice.dateData.dateEnd)
   }
 
   onDateSelect($event){
     // get the date time picker result
-    let date = new Date($event.year + "-" + $event.month + "-" + $event.day)
-    
+    let date = new Date($event.year + "-" + $event.month + "-" + $event.day) 
     // apply computations to set new start and end week
     this.updateWeeklyReport(date)
-  }
-
-  updateWeeklyReport(date){
-    // apply computations to set new start and end week
-    this.standupservice.setDateRange(date)
-    // re-initialize Weekly Report data and query parameters
-    this.standupservice.revertWeeklyReport()
-    // get weekly report base on new week
-    this.standupservice.getWeeklyReport(this.state.params.id)
   }
 
   @HostListener('scroll', ['$event']) 

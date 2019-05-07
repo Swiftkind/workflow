@@ -34,10 +34,10 @@
 					</a>
 					<div ngbDropdown autoClose="outside" class="date-selected">
 						<div ngbDropdownToggle>
-							{{standupservice.wkStart | date:'EEE, MMMM d' }} - {{standupservice.wkEnd | date:'EEE, MMMM d' }}
+							{{standupservice.dateData.dateStart | date:'EEE, MMMM d' }} - {{standupservice.dateData.dateEnd | date:'EEE, MMMM d' }}
 						</div>
 						<div ngbDropdownMenu aria-labelledby="dropdownBasic1" autoClose="false">
-							<ngb-datepicker [startDate]="{year: standupservice.wkEnd.getFullYear(), month: standupservice.wkEnd.getMonth() + 1}" 
+							<ngb-datepicker [startDate]="{year: standupservice.dateData.dateEnd.getFullYear(), month: standupservice.dateData.dateEnd.getMonth() + 1}" 
 							(select)="onDateSelect($event)"></ngb-datepicker>
 						</div>
 					</div>
