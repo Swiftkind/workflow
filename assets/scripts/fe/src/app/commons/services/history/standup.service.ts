@@ -26,12 +26,10 @@ export class StandupService {
 
   public scrollHeight:number;
 
-  //variables for getting and setting dates
-  public dt :Date;
-  public currentWeekDay :number;
-  public lessDays :number;
-  public wkStart :Date;
-  public wkEnd :Date;
+  dateData:any = {
+    'dateStart':Date.now(),
+    'dateEnd':Date.now()
+  };
 
   constructor(
     private http: HttpClient
@@ -43,7 +41,7 @@ export class StandupService {
     this.fetching = true;
 
     // set string date format
-    let weekStart = `${this.wkStart.getFullYear()}-${(this.wkStart.getMonth() + 1)}-${this.wkStart.getDate()}`
+    let weekStart = `${this.dateData.dateStart.getFullYear()}-${(this.dateData.dateStart.getMonth() + 1)}-${this.dateData.dateStart.getDate()}`
 
     // add url params
     let url = `${HISTORY_STANDUP_WEEKLY}${queryparams(this.qparams)}&date_start=${weekStart}&project_id=${id}`
@@ -78,22 +76,6 @@ export class StandupService {
       // fetch weekly report items.
       this.getWeeklyReport(id);
     }
-  }
-
-  setDateRange(date = new Date()){
-    // current date
-    this.dt = date;
-
-    // get the current day of the week
-    this.currentWeekDay = this.dt.getDay();
-
-    // get the how many days to be deducted 
-    // 0 = Sunday 
-    this.lessDays = this.currentWeekDay == 0 ? 6 : this.currentWeekDay - 1;
-    // get the start of the week date
-    this.wkStart = new Date(new Date(this.dt).setDate(this.dt.getDate() - this.lessDays));
-    // get the end of the week date
-    this.wkEnd = new Date(new Date(this.wkStart).setDate(this.wkStart.getDate() + 6));
   }
 
   revertWeeklyReport(){
