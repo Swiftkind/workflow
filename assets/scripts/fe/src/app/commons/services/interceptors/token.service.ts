@@ -21,7 +21,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class TokenService {
-
+  public currentUrl = window.location.pathname;
   constructor(
     private auth  : AuthService,
     private state : StateService
@@ -34,6 +34,10 @@ export class TokenService {
 
     return n.handle(req).pipe(tap(
       resp => {
+        /* Check every request if the user is authenticated, otherwise the user is redirected to the login page, 
+           along with the url he/she tried to visit.
+        */   
+        this.auth.redirectUser(this.currentUrl); 
         if (resp instanceof HttpResponse) return resp;
       }
     ));

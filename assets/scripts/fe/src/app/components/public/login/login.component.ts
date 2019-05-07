@@ -15,7 +15,7 @@ import { SlackService } from '../../../commons/services/auth/slack.service';
 })
 export class LoginComponent implements OnInit {
   private form : LoginForm;
-
+  private previousState : any;
   constructor(
     private auth  : AuthService,
     private state : StateService,
@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // load slack config
     this.slack.getConfig();
-    console.log(this.state.params);
     // initialize the form.
     this.form = new LoginForm(new Login);
     console.log(this.slack.config);
@@ -37,7 +36,8 @@ export class LoginComponent implements OnInit {
     if (valid) {
       this.auth.login(value)
         .then(resp => {
-          this.state.go('dashboard');
+          this.previousState = this.state.params.next;
+          this.auth.redirectTo(this.previousState);  
         })
         .catch(err => {
           this.form.err = err;
@@ -45,5 +45,4 @@ export class LoginComponent implements OnInit {
       ;
     }
   }
-
 }

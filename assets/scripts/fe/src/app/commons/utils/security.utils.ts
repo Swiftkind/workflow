@@ -10,12 +10,12 @@ import { PayrollService } from '../services/payroll/payroll.service';
  *         users that are not logged in.
  */
 export function LoginRequired(t) {
-  let currentUrl = window.location.pathname;
   let auth = t.injector().get(AuthService),
       state = t.router.stateService;
-  console.log(currentUrl);
-  if(!auth.authenticated()) return state.target('login', {next: currentUrl});
+
+  if(!auth.authenticated()) return state.target('login');  
 }
+
 
 
 /* DISCONNECT

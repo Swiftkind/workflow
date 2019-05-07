@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { StateService } from '@uirouter/angular';
+import { StateService, UIRouter } from '@uirouter/angular';
 
 import { AUTH_LOGIN, AUTH_USER } from '../../constants/api.constants';
 import { AUTH_KEY } from '../../constants/conf.constants';
@@ -18,7 +18,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private state: StateService
+    private state: StateService,
+    private router: UIRouter
   ) { }
 
 
@@ -85,9 +86,25 @@ export class AuthService {
     return this.user;
   }
 
-  // redirectUser(url){
-  //   if(this.getToken() != null){ // check if user is logged in, to determine whether to redirect to login page or not.
-  //     this.state.go()
-  //   }
-  // }
+  // LOGIN REDIRECT
+  redirectUser(previousUrl){
+    if(this.getToken() != null && previousUrl === '/'){ // authenticated user navigates to root url, redirects to dashboard
+      return this.state.go('dashboard');
+    }
+
+    else if(this.getToken() != null){ // authenticated user navigates on authenticated page, automatically goes to that page.
+      return this.state.go(previousUrl);
+    }
+
+    return this.state.go('loginRedirect', {next: previousUrl}); // unauthenticatd user redirects to login page
+  }
+
+  redirectTo(url){ 
+    // After authentication, if the user accessed the root url or the login page, the user will be redirected to the dashboard
+    if(url === "/" || url === "/login/"){
+      return this.state.go('dashboard');
+    }
+    // If the user visited a authenticated page, after authentication, the user is redirected to that page.
+    return this.state.go(url.replace(/\//g, ''));
+  }
 }

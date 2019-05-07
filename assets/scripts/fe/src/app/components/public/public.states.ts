@@ -11,6 +11,14 @@ export const PUBLIC_STATES : Object[] = [
       views : ContentOnly(LoginComponent)
     },
     {
+      name  : 'loginRedirect',
+      url   : '/login/:next?/',
+      params : {
+        next : ''
+      },
+      views : ContentOnly(LoginComponent)
+    },
+    {
       name    : 'logout',
       url     : '/logout/',
       onEnter : Disconnect
