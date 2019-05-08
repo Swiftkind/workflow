@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.state.params.next);
     // load slack config
     this.slack.getConfig();
 
@@ -38,7 +39,10 @@ export class LoginComponent implements OnInit {
     if (valid) {
       this.auth.login(value)
         .then(resp => {
-          this.state.go('dashboard');
+          if(this.state.params.next === null){
+            return this.state.go('dashboard');
+          }
+          return this.state.go(this.state.params.next);
         })
         .catch(err => {
           this.form.err = err;

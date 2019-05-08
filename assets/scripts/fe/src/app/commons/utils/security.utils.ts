@@ -1,5 +1,8 @@
 import * as _ from 'lodash';
 
+import { UIRouter } from '@uirouter/angular';
+import { Injector } from '@angular/core';
+
 import { AuthService } from '../services/auth/auth.service';
 import { SlackService } from '../services/auth/slack.service';
 import { PayrollService } from '../services/payroll/payroll.service';
@@ -11,9 +14,10 @@ import { PayrollService } from '../services/payroll/payroll.service';
  */
 export function LoginRequired(t) {
   let auth = t.injector().get(AuthService),
-      state = t.router.stateService;
+      state = t.router.stateService,
+      stateName = t.to().name;
 
-  if(!auth.authenticated()) return state.target('login');
+  if(!auth.authenticated()) return state.target('login', { next: stateName });
 }
 
 
@@ -81,6 +85,18 @@ export async function SlackAuthRedirect(t, $state) {
   return state.target('login');
 }
 
+export function HomeRedirect(router: UIRouter, injector: Injector){
+  let auth = injector.get(AuthService);
+
+  router.urlService.rules.otherwise(
+    (matchValue, urlParts, router) => {
+
+      if(!auth.authenticated()){
+        return { state: 'login' }
+      }
+      return { state: 'dashboard' }
+  });
+}
 
 
 
