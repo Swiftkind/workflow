@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StateService } from '@uirouter/angular';
+import { StateService,Transition } from '@uirouter/angular';
 
 import { Login } from '../../../commons/models/login.models';
 import { LoginForm } from '../../../commons/forms/login.forms';
@@ -15,15 +15,14 @@ import { SlackService } from '../../../commons/services/auth/slack.service';
 })
 export class LoginComponent implements OnInit {
   private form : LoginForm;
-
+  // private stateName = this.trans.params().next;
   constructor(
     private auth  : AuthService,
     private state : StateService,
     private slack : SlackService
   ) { }
 
-  ngOnInit() {
-    console.log(this.state.params.next);
+  ngOnInit() { 
     // load slack config
     this.slack.getConfig();
 
@@ -39,10 +38,7 @@ export class LoginComponent implements OnInit {
     if (valid) {
       this.auth.login(value)
         .then(resp => {
-          if(this.state.params.next === null){
-            return this.state.go('dashboard');
-          }
-          return this.state.go(this.state.params.next);
+          this.state.go('dashboard');
         })
         .catch(err => {
           this.form.err = err;
@@ -50,5 +46,4 @@ export class LoginComponent implements OnInit {
       ;
     }
   }
-
 }

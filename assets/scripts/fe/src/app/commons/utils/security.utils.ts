@@ -13,11 +13,14 @@ import { PayrollService } from '../services/payroll/payroll.service';
  *         users that are not logged in.
  */
 export function LoginRequired(t) {
-  let auth = t.injector().get(AuthService),
-      state = t.router.stateService,
-      stateName = t.to().name;
+  const stateName = Object.assign({}, t.params());
 
-  if(!auth.authenticated()) return state.target('login', { next: stateName });
+  let auth = t.injector().get(AuthService),
+      state = t.router.stateService;
+
+  stateName.next = t.to().name;
+
+  if(!auth.authenticated()) return state.target('login', stateName );  
 }
 
 
@@ -58,7 +61,7 @@ export async function PayrollRedirect(t) {
   if(payroll.plist.length !== 0) {
     return state.target('payroll-detail', {id: payroll.plist[0].id});
   }
-}
+}  
 
 
 /* SLACK LOGIN REDIRECT
@@ -89,14 +92,10 @@ export function HomeRedirect(router: UIRouter, injector: Injector){
   let auth = injector.get(AuthService);
 
   router.urlService.rules.otherwise(
-    (matchValue, urlParts, router) => {
-
+    res => {
       if(!auth.authenticated()){
         return { state: 'login' }
       }
       return { state: 'dashboard' }
   });
 }
-
-
-
