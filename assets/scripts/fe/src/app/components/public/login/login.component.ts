@@ -15,7 +15,7 @@ import { SlackService } from '../../../commons/services/auth/slack.service';
 })
 export class LoginComponent implements OnInit {
   private form : LoginForm;
-
+  private stateName = this.state.params.next;
   constructor(
     private auth  : AuthService,
     private state : StateService,
@@ -38,7 +38,10 @@ export class LoginComponent implements OnInit {
     if (valid) {
       this.auth.login(value)
         .then(resp => {
-          this.state.go('dashboard');
+          if(this.stateName === null){
+            return this.state.go('dashboard');
+          }
+          return this.state.go(this.stateName);
         })
         .catch(err => {
           this.form.err = err;
