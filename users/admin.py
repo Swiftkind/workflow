@@ -53,5 +53,4 @@ class UserAdmin(UserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(SalaryLog, SalaryLogAdmin)
 admin.site.register(SlackToken)
-
 admin.site.register(TimeLog)

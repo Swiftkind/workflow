@@ -1,9 +1,9 @@
+import datetime
 
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework import serializers
@@ -152,7 +152,6 @@ class UserSerializer(serializers.ModelSerializer):
         """
         return instance.get_full_name()
 
-
 class SlackAuthSerializer(Slack, serializers.Serializer):
     """ slack auth serializer
     """
@@ -299,7 +298,6 @@ class TimeLogSerializer(serializers.Serializer):
     def create(self, validated_data):
         """ create or update timelog instance
         """
-
         # get all timelog where user = request.user
         # and clock out = Null
         time_log = TimeLog.objects.filter(user=self.user, time_out=None)        
