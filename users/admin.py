@@ -4,7 +4,7 @@ from django.utils.translation import gettext, gettext_lazy as _
 
 from rest_framework.authtoken.models import Token
 from payroll.admin import PlanInline
-from .models import User, SalaryLog, SlackToken
+from .models import User, SalaryLog, SlackToken, TimeLog
 
 
 
@@ -53,3 +53,5 @@ class UserAdmin(UserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(SalaryLog, SalaryLogAdmin)
 admin.site.register(SlackToken)
+
+admin.site.register(TimeLog)

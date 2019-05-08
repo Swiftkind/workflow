@@ -1,17 +1,16 @@
-import datetime
 
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from django.contrib.auth.password_validation import validate_password
+
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from .models import User, SlackToken
+from .models import User, SlackToken, TimeLog
 from .slack import Slack
-
-from django.contrib.auth.password_validation import validate_password
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -258,3 +257,60 @@ class PasswordSerializer(serializers.Serializer):
         self.request.user.set_password(validated_data.get("new_password"))
         self.request.user.save()
         return self.request.user
+
+
+class TimeLogSerializer(serializers.Serializer):
+    """ timelog serializer for clock-in and clock-out
+        from slack api
+    """
+
+    user = None
+    team_id = serializers.CharField()
+    channel_id = serializers.CharField()
+    channel_name = serializers.CharField()
+    user_id = serializers.CharField()
+    
+    def validate_team_id(self, team_id):
+        """ validate if the team source of the
+            request came from the right team. (swiftkind)
+            if not, deny access.
+        """
+        if team_id != settings.SLACK_TEAM_ID:
+            raise serializers.ValidationError(
+                _('[Invalid Request] Wrong workspace.'),
+                code="invalid_request",
+            )
+
+        return team_id
+
+    def validate_user_id(self, user_id):
+        """ validate if the user is a valid member
+            of the workspace.
+        """
+        self.user = User.objects.filter(slack_id=user_id).first()
+        if not self.user:
+            raise serializers.ValidationError(
+                _('[Invalid Request] Requestor is not a registered user.'),
+                code="invalid_request",
+            )
+        
+        return user_id
+    
+    def create(self, validated_data):
+        """ create or update timelog instance
+        """
+
+        # get all timelog where user = request.user
+        # and clock out = Null
+        time_log = TimeLog.objects.filter(user=self.user, time_out=None)        
+        if time_log:
+            # update instances and add clock out  
+            for t_log in time_log:
+                TimeLog.objects.filter(id=t_log.id).update(time_out=timezone.now())
+            return_msg = "Clocked out"
+        else:
+            # create timelog instance for user
+            TimeLog.objects.create(user=self.user, time_in=timezone.now())
+            return_msg = "Clocked in"
+        return return_msg
+

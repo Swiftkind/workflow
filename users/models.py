@@ -145,3 +145,16 @@ class SlackToken(models.Model):
 
     def __str__(self):
         return f"({self.user}) {self.token}"
+
+class TimeLog(models.Model):
+    """ records time in and time out of user
+    """
+
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    time_in = models.DateTimeField(null=True, blank=True)
+    time_out = models.DateTimeField(null=True, blank=True)
+
+    date_created = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user}, {self.time_in} - {self.time_out}"

@@ -1,3 +1,6 @@
+import datetime
+import json
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
@@ -15,6 +18,7 @@ from .serializers import (
     UserSerializer,
     SlackAuthSerializer,
     PasswordSerializer,
+    TimeLogSerializer,
 )
 
 # Had to set an alias because of conflict with 
@@ -137,3 +141,17 @@ class User(TZ, ViewSet):
             globally used datetime.
         """
         return Response(self.get_server_time(), status=200)
+
+
+class TimeClock(Query, Slack, ViewSet):
+    """ for Clock-in and Clock-out 
+    """
+    
+    def post(self, *args, **kwargs):
+        # used by slack api
+        serializer = TimeLogSerializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        # returns if user clocked-in or clocked-out
+        msg = serializer.save()
+
+        return Response(msg, status=200)
