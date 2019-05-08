@@ -7,9 +7,8 @@ import { LoginComponent } from './login/login.component';
 export const PUBLIC_STATES : Object[] = [
     {
       name  : 'login',
-      url   : '/login/:next?',
-      views : ContentOnly(LoginComponent),
-      params: { next : null}
+      url   : '/login/',
+      views : ContentOnly(LoginComponent)
     },
     {
       name    : 'logout',
