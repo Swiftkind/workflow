@@ -249,7 +249,7 @@
                 margin: 0 auto;
 
                 span {
-                    color: $muted;
+                    color: $primary-text;
                     font-size: $small;
                     font-family: $Display-Bold;
                     text-align: center;
@@ -294,7 +294,7 @@
                     }
 
                     .idleDay {
-                        color: $Text-Regular;
+                        color: $muted;
                     }
                 }
 
