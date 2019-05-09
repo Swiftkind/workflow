@@ -305,10 +305,7 @@ class TimeLogSerializer(serializers.Serializer):
             # update instances and add clock out  
             for t_log in time_log:
                 TimeLog.objects.filter(id=t_log.id).update(time_out=timezone.now())
-            return_msg = "Clocked out"
         else:
             # create timelog instance for user
             TimeLog.objects.create(user=self.user, time_in=timezone.now())
-            return_msg = "Clocked in"
-        return return_msg
 

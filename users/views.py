@@ -149,6 +149,6 @@ class TimeClock(Query, Slack, ViewSet):
         serializer = TimeLogSerializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
         # returns if user clocked-in or clocked-out
-        msg = serializer.save()
+        serializer.save()
 
-        return Response(msg, status=200)
+        return Response(status=204)
