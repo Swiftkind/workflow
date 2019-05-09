@@ -36,9 +36,42 @@
 						<div ngbDropdownToggle>
 							{{standupservice.dateData.dateStart | date:'EEE, MMMM d' }} - {{standupservice.dateData.dateEnd | date:'EEE, MMMM d' }}
 						</div>
-						<div ngbDropdownMenu aria-labelledby="dropdownBasic1" autoClose="false">
-							<ngb-datepicker [startDate]="{year: standupservice.dateData.dateEnd.getFullYear(), month: standupservice.dateData.dateEnd.getMonth() + 1}" 
-							(select)="onDateSelect($event)"></ngb-datepicker>
+						<div ngbDropdownMenu aria-labelledby="dropdownBasic1" autoClose="false" style="padding-top: 0px; padding-bottom: 0px">
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex">
+									<div style="width: 160px">
+										<ul class="list-group list-group-flush">
+											<button type="button" class="list-group-item list-group-item-action">
+											Today</button>
+											<button type="button" class="list-group-item list-group-item-action">
+											Yesterday</button>
+											<button type="button" class="list-group-item list-group-item-action">
+											Last 7 Days</button>
+											<button type="button" class="list-group-item list-group-item-action">
+											Last 30 Days</button>
+											<button type="button" class="list-group-item list-group-item-action">
+											This Month</button>
+											<button type="button" class="list-group-item list-group-item-action">
+											Last Month</button>
+											<button type="button" class="list-group-item list-group-item-action">
+											Custom Range</button>
+										</ul>
+									</div>
+									<ngb-datepicker 
+									[startDate]="{year: standupservice.dateData.dateEnd.getFullYear(), month: standupservice.dateData.dateEnd.getMonth() + 1}" 
+									[displayMonths]="2"
+									[navigation]="arrows"
+									[footerTemplate]="footerTemplate"
+									(select)="onDateSelect($event)">
+										<button class="mr-1"> Test </button>
+									</ngb-datepicker>
+								</div>
+							</div>
+							<ng-template #footerTemplate>
+								<hr class="my-0">
+								<button class="btn btn-primary btn-sm m-2 float-right" >Today</button>
+								<button class="btn btn-secondary btn-sm m-2 float-right">Close</button>
+							</ng-template>
 						</div>
 					</div>
 					<a href="" class="arrow" (click)="nextWeek($event)">

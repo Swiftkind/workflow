@@ -6,6 +6,9 @@ import { ProjectService } from '../../../commons/services/project/project.servic
 
 import { DateRange } from '../../../commons/utils/datetime.utils'
 
+import {NgbDateStruct, NgbDatepickerI18n, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+
+
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
@@ -13,11 +16,20 @@ import { DateRange } from '../../../commons/utils/datetime.utils'
 })
 export class ProjectDetailComponent implements OnInit {
 
+  weekcount:number;
+  weekCountArray = [];
+
   constructor(
     private projectservice : ProjectService,
     private standupservice : StandupService,
     private state          : StateService,
     private nav            : NavService,
+
+    private anothercalendar :NgbDatepickerI18n,
+    private datecalendar   : NgbCalendar
+
+    // private datestruct      :NgbDateStruct,
+    // private datecalendar    :NgbCalendar
   ) 
   {
     // nav configuration
@@ -45,6 +57,8 @@ export class ProjectDetailComponent implements OnInit {
       // enable reload for template data
       this.standupservice.noreload = false;
     }
+
+    this.testingdate()
   }
 
   updateWeeklyReport(date){
@@ -81,6 +95,43 @@ export class ProjectDetailComponent implements OnInit {
     this.updateWeeklyReport(date)
   }
 
+
+  testingdate(){
+    let testdt:NgbDateStruct = this.datecalendar.getToday()
+    // NgbDateCalendar
+    console.log(this.datecalendar.getWeeksPerMonth())
+    console.log(this.datecalendar.getMonths())
+    console.log(this.datecalendar.getDaysPerWeek())
+    console.log(this.anothercalendar.getDayNumerals(testdt))
+    console.log(this.anothercalendar.getWeekNumerals(1))
+    // NgbDateStruct
+    //console.log(this.datestruct.month)
+
+    let tstdate = this.datecalendar.getToday()
+    console.log(tstdate)
+
+    this.weekcount = this.weekCount(this.standupservice.dateData.dateStart.getFullYear(), this.standupservice.dateData.dateStart.getMonth())
+    this.loopWeekCount(this.weekcount)
+  }
+  
+  weekCount(year, month_number) {
+
+    // month_number is in the range 1..12
+
+    var firstOfMonth = new Date(year, month_number-1, 1);
+    var lastOfMonth = new Date(year, month_number, 0);
+
+    var used = firstOfMonth.getDay() + lastOfMonth.getDate();
+
+    return Math.ceil( used / 7);
+  }
+
+  loopWeekCount(count){
+    for (let index = 0; index < count; index++) {
+      this.weekCountArray.push(index)
+    }
+  }
+
   @HostListener('scroll', ['$event']) 
   scrollWeeklyReport(event): void {
     // captures the scroll event on the WeeklyReport-section.
@@ -101,4 +152,5 @@ export class ProjectDetailComponent implements OnInit {
       this.standupservice.loadMoreWeeklyReport(this.state.params.id)
     }
   }
+
 }
