@@ -84,37 +84,4 @@ export class AuthService {
     }
     return this.user;
   }
-
-  // LOGIN REDIRECT
-  redirectUser(previousUrl){
-    if(this.getToken() != null && previousUrl === '/'){ // authenticated user navigates to root url, redirects to dashboard
-      return this.state.go('dashboard');
-    }
-
-    else if(this.getToken() != null){ // authenticated user navigates on authenticated page, redirects to that page.
-      return this.state.go(previousUrl);
-    }
-
-    else if(previousUrl === '/login/'){
-      return this.state.go('login');
-    }
-
-    return this.state.go('loginRedirect', {next: previousUrl}); // unauthenticatd user redirects to login page
-  }
-
-  redirectTo(url){ 
-    // After authentication, if the user accessed the home domain, the user will be redirected to the dashboard
-    if(url === "/" || url === "/login/" || url === undefined){
-      return this.state.go('dashboard');
-    }
-        
-    // If the user visited a authenticated page, after authentication, the user is redirected to that page.
-    return this.state.go(url.replace(/\//g, ''))
-    .then(res => {
-      this.state.go(url); 
-    })
-    .catch(error => {
-      this.state.go('dashboard'); 
-    })
-  }
 }

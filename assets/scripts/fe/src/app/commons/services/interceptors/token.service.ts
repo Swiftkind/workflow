@@ -10,7 +10,6 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 
-import { StateService } from '@uirouter/angular';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -21,10 +20,8 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class TokenService {
-  public currentUrl = window.location.pathname;
   constructor(
-    private auth  : AuthService,
-    private state : StateService
+    private auth  : AuthService
   ) { }
 
   intercept (r: HttpRequest<any>, n: HttpHandler) : Observable <HttpEvent <any>> {
@@ -34,9 +31,6 @@ export class TokenService {
 
     return n.handle(req).pipe(tap(
       resp => {
-        // Check every request if the user is authenticated, otherwise the user is redirected to the login page, 
-        // passing a parameter on the last page he/she visited.
-        this.auth.redirectUser(this.currentUrl); 
         if (resp instanceof HttpResponse) return resp;
       }
     ));

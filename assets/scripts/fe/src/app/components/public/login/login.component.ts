@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StateService,Transition } from '@uirouter/angular';
+import { StateService, Transition } from '@uirouter/angular';
 
 import { Login } from '../../../commons/models/login.models';
 import { LoginForm } from '../../../commons/forms/login.forms';
@@ -15,14 +15,16 @@ import { SlackService } from '../../../commons/services/auth/slack.service';
 })
 export class LoginComponent implements OnInit {
   private form : LoginForm;
-  // private stateName = this.trans.params().next;
+  private stateName = this.trans.params().next; // get statename from next= parameter
   constructor(
     private auth  : AuthService,
     private state : StateService,
-    private slack : SlackService
+    private slack : SlackService,
+    private trans : Transition
   ) { }
 
-  ngOnInit() { 
+  ngOnInit() {   
+    console.log(this.trans);
     // load slack config
     this.slack.getConfig();
 
@@ -38,7 +40,13 @@ export class LoginComponent implements OnInit {
     if (valid) {
       this.auth.login(value)
         .then(resp => {
-          this.state.go('dashboard');
+          // if theres no value in the url parameter, 
+          // automatically redirects to dashboard after authentication.
+          if(this.stateName === null){ 
+          return this.state.go('dashboard');
+          }
+          // if there's a redirect value, it redirects to that page after authentication.
+          return this.state.go(this.stateName);
         })
         .catch(err => {
           this.form.err = err;

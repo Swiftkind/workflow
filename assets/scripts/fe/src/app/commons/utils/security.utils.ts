@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { UIRouter } from '@uirouter/angular';
+import { UIRouter, LocationServices } from '@uirouter/angular';
 import { Injector } from '@angular/core';
 
 import { AuthService } from '../services/auth/auth.service';
@@ -13,14 +13,13 @@ import { PayrollService } from '../services/payroll/payroll.service';
  *         users that are not logged in.
  */
 export function LoginRequired(t) {
-  const stateName = Object.assign({}, t.params());
-
   let auth = t.injector().get(AuthService),
-      state = t.router.stateService;
+      state = t.router.stateService,
+      stateName = t.to().name; // get state name 
 
-  stateName.next = t.to().name;
+  // insert statename as redirect value
+  if(!auth.authenticated()) return state.target('login', { next: stateName }); 
 
-  if(!auth.authenticated()) return state.target('login', stateName );  
 }
 
 
@@ -81,21 +80,8 @@ export async function SlackAuthRedirect(t, $state) {
     await slack.getUserToken(token);
     // token is invalid or other error.
     //if(!auth.authenticated()) return state.target('login');
-
     return state.target('dashboard');
   }
 
   return state.target('login');
-}
-
-export function HomeRedirect(router: UIRouter, injector: Injector){
-  let auth = injector.get(AuthService);
-
-  router.urlService.rules.otherwise(
-    res => {
-      if(!auth.authenticated()){
-        return { state: 'login' }
-      }
-      return { state: 'dashboard' }
-  });
 }
