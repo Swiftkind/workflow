@@ -46,9 +46,9 @@ export class ProjectDetailComponent implements OnInit {
       (this.state.$current.name === 'project-detail-report' && this.standupservice.q.length < 1)) 
     {
       // set date range parameters into today
-      this.standupservice.dateData = DateRange()
+      this.standupservice.dateData = DateRange();
       // clear all fields
-      this.standupservice.revertWeeklyReport()
+      this.standupservice.revertWeeklyReport();
       // get the project detail
       this.projectservice.getProjectDetail(this.state.params.id).subscribe(
         data => {
@@ -70,9 +70,9 @@ export class ProjectDetailComponent implements OnInit {
         }
       );
       // get all blockers of project
-      this.projectservice.getProjectBlockers(this.state.params.id)
+      this.projectservice.getProjectBlockers(this.state.params.id);
       // get all weekly reports
-      this.standupservice.getWeeklyReport(this.state.params.id)
+      this.standupservice.getWeeklyReport(this.state.params.id);
     }
     else {
       // enable reload for template data
@@ -82,9 +82,9 @@ export class ProjectDetailComponent implements OnInit {
 
   updateWeeklyReport(){
     // re-initialize Weekly Report data and query parameters
-    this.standupservice.revertWeeklyReport()
+    this.standupservice.revertWeeklyReport();
     // get weekly report base on new week
-    this.standupservice.getWeeklyReport(this.state.params.id)
+    this.standupservice.getWeeklyReport(this.state.params.id);
   }
 
   previousWeek($event){
@@ -125,7 +125,7 @@ export class ProjectDetailComponent implements OnInit {
       // set toDate to selected date 
       this.toDate = date;
       // allow user to apply filter
-      this.ApplyFilterChange = true
+      this.ApplyFilterChange = true;
     } else {
       // if user selects day before from date
       // set toDate to null
@@ -159,13 +159,13 @@ export class ProjectDetailComponent implements OnInit {
 
   FilterByDays($event, interval){
     // set initial toDate to Date Today
-    this.toDate = this.calendar.getToday()
+    this.toDate = this.calendar.getToday();
     // get previous date
-    let convertedDate:Date = GetPreviousDate(ConvertFromNgbDate(this.toDate), interval)
+    let convertedDate:Date = GetPreviousDate(ConvertFromNgbDate(this.toDate), interval);
     // convert previous date to NgbDate Format
-    this.fromDate = new NgbDate(convertedDate.getFullYear(), (convertedDate.getMonth() + 1), convertedDate.getDate())
+    this.fromDate = new NgbDate(convertedDate.getFullYear(), (convertedDate.getMonth() + 1), convertedDate.getDate());
     // disable aplly filter button
-    this.ApplyFilterChange = false
+    this.ApplyFilterChange = false;
 
     // if interval is 1 or yesterday
     // we need to set toDate same as the fromDate
@@ -173,37 +173,37 @@ export class ProjectDetailComponent implements OnInit {
     {
       // set the date data values
       // to convert NgbDate to Date format
-      this.standupservice.setDateData(this.fromDate, this.fromDate)
+      this.standupservice.setDateData(this.fromDate, this.fromDate);
       // set toDate equivalent to fromDate
-      this.toDate = this.fromDate
+      this.toDate = this.fromDate;
     }
     // else update only the fromDate
     else{
       // set the date data values
       // to convert NgbDate to Date format
-      this.standupservice.setDateData(this.fromDate, this.toDate)
+      this.standupservice.setDateData(this.fromDate, this.toDate);
     }
     
     // re-initialize Weekly Report data and query parameters
-    this.updateWeeklyReport()
+    this.updateWeeklyReport();
   }
 
   FilterByMonth($event, interval){
     // set initial fromDate to Date Today
-    this.fromDate = this.calendar.getToday()
+    this.fromDate = this.calendar.getToday();
 
     // get dictionary containing month start date and month end date
-    let monthFirstLastDate = GetMonthFirstLastDate(ConvertFromNgbDate(this.fromDate), interval)
+    let monthFirstLastDate = GetMonthFirstLastDate(ConvertFromNgbDate(this.fromDate), interval);
 
     // set fromDate and toDate values based on monthFirstLastDate values
-    this.fromDate = new NgbDate(monthFirstLastDate.firstOfMonth.getFullYear(), (monthFirstLastDate.firstOfMonth.getMonth() + 1), monthFirstLastDate.firstOfMonth.getDate())
-    this.toDate = new NgbDate(monthFirstLastDate.lastOfMonth.getFullYear(), (monthFirstLastDate.lastOfMonth.getMonth() + 1), monthFirstLastDate.lastOfMonth.getDate())
+    this.fromDate = new NgbDate(monthFirstLastDate.firstOfMonth.getFullYear(), (monthFirstLastDate.firstOfMonth.getMonth() + 1), monthFirstLastDate.firstOfMonth.getDate());
+    this.toDate = new NgbDate(monthFirstLastDate.lastOfMonth.getFullYear(), (monthFirstLastDate.lastOfMonth.getMonth() + 1), monthFirstLastDate.lastOfMonth.getDate());
     
     // set the date data values
     // to convert NgbDate to Date format
-    this.standupservice.setDateData(this.fromDate, this.toDate)
+    this.standupservice.setDateData(this.fromDate, this.toDate);
     // re-initialize Weekly Report data and query parameters
-    this.updateWeeklyReport()
+    this.updateWeeklyReport();
   }
 
   @HostListener('scroll', ['$event']) 
