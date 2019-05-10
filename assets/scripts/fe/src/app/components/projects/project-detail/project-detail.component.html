@@ -42,22 +42,22 @@
 									<div style="width: 160px">
 										<ul class="list-group list-group-flush">
 											<button type="button" class="list-group-item list-group-item-action"
-											(click)="PreviousClick($event, 0)">
+											(click)="FilterByDays($event, 0)">
 											Today</button>
 											<button type="button" class="list-group-item list-group-item-action"
-											(click)="PreviousClick($event, 1)">
+											(click)="FilterByDays($event, 1)">
 											Yesterday</button>
 											<button type="button" class="list-group-item list-group-item-action"
-											(click)="PreviousClick($event,6)">
+											(click)="FilterByDays($event,6)">
 											Last 7 Days</button>
 											<button type="button" class="list-group-item list-group-item-action"
-											(click)="PreviousClick($event,30)">
+											(click)="FilterByDays($event,30)">
 											Last 30 Days</button>
 											<button type="button" class="list-group-item list-group-item-action"
-											(click)="ByMonth($event,0)">
+											(click)="FilterByMonth($event,0)">
 											This Month</button>
 											<button type="button" class="list-group-item list-group-item-action"
-											(click)="ByMonth($event,1)">
+											(click)="FilterByMonth($event,1)">
 											Last Month</button>
 											<button type="button" class="list-group-item list-group-item-action">
 											Custom Range</button>
@@ -88,8 +88,8 @@
 							</div>
 							<ng-template #footerTemplate>
 								<hr class="my-0">
-								<button class="btn btn-secondary btn-sm m-2 float-right" (click)="ApplyChanges($event)" 
-								[disabled]="!withdate">Apply</button>
+								<button class="btn btn-secondary btn-sm m-2 float-right" (click)="ApplyDateFilter($event)" 
+								[disabled]="!ApplyFilterChange">Apply</button>
 							</ng-template>
 						</div>
 					</div>

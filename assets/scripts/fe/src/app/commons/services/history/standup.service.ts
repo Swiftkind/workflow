@@ -90,6 +90,8 @@ export class StandupService {
   }
 
   setDateData(startDate:NgbDate, endDate:NgbDate){
+    // set date start and date end
+    // convert start and end date from NgbDate into Date format
     this.dateData.dateStart = ConvertFromNgbDate(startDate);
     this.dateData.dateEnd = ConvertFromNgbDate(endDate);
   }

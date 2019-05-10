@@ -4,12 +4,9 @@ import { StandupService } from '../../../commons/services/history/standup.servic
 import { NavService } from '../../../commons/services/utils/nav.service';
 import { ProjectService } from '../../../commons/services/project/project.service'
 
-import { DateRange, GetPreviousDate, GetMonthFirstLastDate } from '../../../commons/utils/datetime.utils'
+import { DateRange, GetPreviousDate, GetMonthFirstLastDate, ConvertFromNgbDate } from '../../../commons/utils/datetime.utils'
 
-//import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-import { ServerService } from '../../../commons/services/auth/server.service';
-
-import {NgbDate,NgbDateParserFormatter, NgbDateStruct, NgbDatepickerI18n, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDate, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-project-detail',
@@ -18,18 +15,19 @@ import {NgbDate,NgbDateParserFormatter, NgbDateStruct, NgbDatepickerI18n, NgbCal
 })
 export class ProjectDetailComponent implements OnInit {
   
+  // used by bootstrap datetimepicker
   hoveredDate: NgbDate;
   fromDate: NgbDate;
   toDate: NgbDate;
-  withdate:boolean = false;
+  // boolean to enable disable apply date filter button
+  ApplyFilterChange:boolean = false;
 
   constructor(
     private projectservice : ProjectService,
     private standupservice : StandupService,
     private state          : StateService,
     private nav            : NavService,
-    private calendar   : NgbCalendar,
-
+    private calendar       : NgbCalendar,
   ) 
   {
     // nav configuration
@@ -92,15 +90,26 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   onDateSelection(date: NgbDate) {
+    // happens when both fromDate and toDate is empty
     if (!this.fromDate && !this.toDate) {
+      //set fromDate to current date
       this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && (date.after(this.fromDate) || date.equals(this.fromDate))) {
+    }
+    // check if a fromDate is selected and toDate is still null
+    // afterwards check whether fromDate is after selected date or equals to selected date 
+    else if (this.fromDate && !this.toDate && (date.after(this.fromDate) || date.equals(this.fromDate))) {
+      // set toDate to selected date 
       this.toDate = date;
-      this.withdate = true
+      // allow user to apply filter
+      this.ApplyFilterChange = true
     } else {
+      // if user selects day before from date
+      // set toDate to null
       this.toDate = null;
+      // set fromDate to selectedDate
       this.fromDate = date;
-      this.withdate = false
+      // do not allow filter, toDate is empty
+      this.ApplyFilterChange = false
     }
   }
 
@@ -116,25 +125,36 @@ export class ProjectDetailComponent implements OnInit {
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
   }
 
-  ApplyChanges($event){
+  ApplyDateFilter($event){
     this.standupservice.setDateData(this.fromDate, this.toDate)
-
     // re-initialize Weekly Report data and query parameters
     this.updateWeeklyReport()
   }
 
-  PreviousClick($event, interval){
+  FilterByDays($event, interval){
+    // set initial toDate to Date Today
     this.toDate = this.calendar.getToday()
-    let convertdate:Date = GetPreviousDate(this.toDate, interval)
-    this.fromDate = new NgbDate(convertdate.getFullYear(), (convertdate.getMonth() + 1), convertdate.getDate())
-    
-    this.withdate = false
+    // get previous date
+    let convertedDate:Date = GetPreviousDate(ConvertFromNgbDate(this.toDate), interval)
+    // convert previous date to NgbDate Format
+    this.fromDate = new NgbDate(convertedDate.getFullYear(), (convertedDate.getMonth() + 1), convertedDate.getDate())
+    // disable aplly filter button
+    this.ApplyFilterChange = false
+
+    // if interval is 1 or yesterday
+    // we need to set toDate same as the fromDate
     if(interval == 1)
     {
+      // set the date data values
+      // to convert NgbDate to Date format
       this.standupservice.setDateData(this.fromDate, this.fromDate)
-      this.toDate = new NgbDate(convertdate.getFullYear(), (convertdate.getMonth() + 1), convertdate.getDate())
+      // set toDate equivalent to fromDate
+      this.toDate = this.fromDate
     }
+    // else update only the fromDate
     else{
+      // set the date data values
+      // to convert NgbDate to Date format
       this.standupservice.setDateData(this.fromDate, this.toDate)
     }
     
@@ -142,14 +162,19 @@ export class ProjectDetailComponent implements OnInit {
     this.updateWeeklyReport()
   }
 
-  ByMonth($event, interval){
+  FilterByMonth($event, interval){
+    // set initial fromDate to Date Today
     this.fromDate = this.calendar.getToday()
 
-    let cont = GetMonthFirstLastDate(this.fromDate, interval)
-    
-    this.fromDate = new NgbDate(cont.firstOfMonth.getFullYear(), (cont.firstOfMonth.getMonth() + 1), cont.firstOfMonth.getDate())
-    this.toDate = new NgbDate(cont.lastOfMonth.getFullYear(), (cont.lastOfMonth.getMonth() + 1), cont.lastOfMonth.getDate())
+    // get dictionary containing month start date and month end date
+    let monthFirstLastDate = GetMonthFirstLastDate(ConvertFromNgbDate(this.fromDate), interval)
 
+    // set fromDate and toDate values based on monthFirstLastDate values
+    this.fromDate = new NgbDate(monthFirstLastDate.firstOfMonth.getFullYear(), (monthFirstLastDate.firstOfMonth.getMonth() + 1), monthFirstLastDate.firstOfMonth.getDate())
+    this.toDate = new NgbDate(monthFirstLastDate.lastOfMonth.getFullYear(), (monthFirstLastDate.lastOfMonth.getMonth() + 1), monthFirstLastDate.lastOfMonth.getDate())
+    
+    // set the date data values
+    // to convert NgbDate to Date format
     this.standupservice.setDateData(this.fromDate, this.toDate)
     // re-initialize Weekly Report data and query parameters
     this.updateWeeklyReport()

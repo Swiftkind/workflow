@@ -20,17 +20,18 @@ export function DateRange (date:Date = new Date) {
     return dateRange
 }
 
-export function GetPreviousDate(date:NgbDate, interval:number){
-    let convertedDate = new Date(`${date.year}-${date.month}-${date.day}`)
-    let intervalDate = new Date(new Date(convertedDate).setDate(convertedDate.getDate() - interval))
+export function GetPreviousDate(date:Date, interval:number){
+    // get the previous date based on the given interval
+    let intervalDate = new Date(new Date(date).setDate(date.getDate() - interval))
 
     return intervalDate
 }
 
-export function GetMonthFirstLastDate(date:NgbDate, interval:number){
-    var convertedDate = new Date(`${date.year}-${date.month}-${date.day}`)
-    var intervalDate = new Date(new Date(convertedDate).setMonth(convertedDate.getMonth() - interval))
+export function GetMonthFirstLastDate(date:Date, interval:number){
+    // get the previous month based on the given interval
+    var intervalDate = new Date(new Date(date).setMonth(date.getMonth() - interval))
 
+    // compute the first and last day of the month
     var firstOfMonth = new Date(intervalDate.getFullYear(), intervalDate.getMonth(), 1);
     var lastOfMonth = new Date(intervalDate.getFullYear(), intervalDate.getMonth()+1, 0);
 
@@ -43,5 +44,6 @@ export function GetMonthFirstLastDate(date:NgbDate, interval:number){
 }
 
 export function ConvertFromNgbDate(date:NgbDate){
+    // convert NgbDate into Date
     return new Date(date.year, date.month-1, date.day);
 }
