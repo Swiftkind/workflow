@@ -298,14 +298,14 @@ class TimeLogSerializer(serializers.Serializer):
     def create(self, validated_data):
         """ create or update timelog instance
         """
-        # get all timelog where user = request.user
-        # and clock out = Null
-        time_log = TimeLog.objects.filter(user=self.user, time_out=None)        
-        if time_log:
-            # update instances and add clock out  
-            for t_log in time_log:
-                TimeLog.objects.filter(id=t_log.id).update(time_out=timezone.now())
-        else:
+        # get user timelog
+        time_log = TimeLog.objects.filter(user=self.user, time_out=None)
+        if not time_log:
             # create timelog instance for user
-            TimeLog.objects.create(user=self.user, time_in=timezone.now())
+            time_log = TimeLog.objects.create(user=self.user, time_in=timezone.now())
+        else:
+            # update user timelog
+            time_log.update(time_out=timezone.now())
+        # returns timelog instance
+        return time_log
 

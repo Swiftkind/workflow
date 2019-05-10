@@ -1,5 +1,8 @@
+import datetime
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 
 from rest_framework import parsers, renderers
 from rest_framework.authtoken.models import Token
@@ -149,6 +152,14 @@ class TimeClock(Query, Slack, ViewSet):
         serializer = TimeLogSerializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
         # returns if user clocked-in or clocked-out
-        serializer.save()
+        instance = serializer.save()
 
-        return Response(status=204)
+        # check instance content
+        if instance:
+            # clock in message to send back to slack
+            message = "Clocked In: " + str(datetime.datetime.now().strftime('%b %d, %Y-%H:%M:%S'))
+        else:
+            # clock out message to send back to slack
+            message = "Clocked Out: " + str(datetime.datetime.now().strftime('%b %d, %Y-%H:%M:%S'))
+
+        return Response(message, status=200)

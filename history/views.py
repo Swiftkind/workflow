@@ -51,7 +51,6 @@ class Standup(Query, ViewSet):
         serializer = self.serializer_class(
             self._get(self._model, **kwargs))
 
-<<<<<<< HEAD
         return Response(serializer.data, status=200)
 
 class StandupByWeek(Query, TZ, ListAPIView):
@@ -85,6 +84,3 @@ class ProjectBlockers(Query, ViewSet):
         project = Project.objects.get(**kwargs)
         serializer = BlockerSerializer(Blocker.objects.filter(standup__in=project.standup_set.all(), is_fixed=False), many=True)
         return Response(serializer.data, status=200)
-=======
-        return Response(serializer.data, status=200) 
->>>>>>> removed not needed codes and imports
