@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { UIRouterModule } from '@uirouter/angular';
 import { CookieService } from 'ngx-cookie-service';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PartialsModule } from './components/partials/partials.module';
@@ -27,6 +28,7 @@ import { DatePipe } from '@angular/common';
     HttpClientModule,
     UIRouterModule.forRoot(APP_STATES),
     NgbModule.forRoot(),
+    NgxDaterangepickerMd.forRoot(),
     
     PartialsModule,
     PublicModule,

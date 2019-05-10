@@ -8,11 +8,38 @@
     </nav> 
     <div class="tab-content">
       <div class="tab-pane fade show active" id="activeProjectslist" role="tabpanel" aria-labelled="activeProjects">
+        
+        <div class="project-item d-flex align-items-start justify-content-between" *ngFor="let project of projectservice.projects">
+          <div class="d-flex align-items-start">
+            <div class="avatar-sm no-photo-pink mr-3">D</div>
+            <div class="">
+              <a uiSref="project-detail" [uiParams]="{id:project.id}" uiSrefActive="active" class="h5">{{ project.name }}</a>
+              <p class="text-muted my-1 small">30 hours of 40/week</p>
+              <div class="hour-meter">
+                <span class="hour-spent" width="80%"></span>
+              </div>
+            </div>
+          </div>
+          <div class="team-members d-flex">
+            <div class="avatar-xs" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+            </div>
+            <div class="avatar-xs ml-2" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+            </div>
+            <div class="avatar-xs ml-2" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+            </div>
+            <div class="avatar-xs ml-2" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+            </div>
+            <div class="avatar-xs more ml-2">
+              +7
+            </div>
+          </div>
+        </div>
+
         <div class="project-item d-flex align-items-start justify-content-between">
           <div class="d-flex align-items-start">
             <div class="avatar-sm no-photo-pink mr-3">D</div>
             <div class="">
-              <a uiSref="project-detail" [uiParams]="{id:1}" uiSrefActive="active" >Designs</a>
+              <a href="" class="h5">Designs</a>
               <p class="text-muted my-1 small">30 hours of 40/week</p>
               <div class="hour-meter">
                 <span class="hour-spent" width="80%"></span>

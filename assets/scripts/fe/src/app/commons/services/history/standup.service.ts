@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { urlsafe, queryparams } from '../../utils/http.utils';
 import { HISTORY_STANDUP, HISTORY_STANDUP_WEEKLY } from '../../constants/api.constants';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+
+import { ConvertFromNgbDate } from '../../utils/datetime.utils'
 
 @Injectable({
   providedIn: 'root'
@@ -42,9 +45,9 @@ export class StandupService {
 
     // set string date format
     let weekStart = `${this.dateData.dateStart.getFullYear()}-${(this.dateData.dateStart.getMonth() + 1)}-${this.dateData.dateStart.getDate()}`
-
+    let weekEnd = `${this.dateData.dateEnd.getFullYear()}-${(this.dateData.dateEnd.getMonth() + 1)}-${this.dateData.dateEnd.getDate()}`
     // add url params
-    let url = `${HISTORY_STANDUP_WEEKLY}${queryparams(this.qparams)}&date_start=${weekStart}&project_id=${id}`
+    let url = `${HISTORY_STANDUP_WEEKLY}${queryparams(this.qparams)}&date_start=${weekStart}&date_end=${weekEnd}&project_id=${id}`
 
     //this.http.get(urlsafe(url, weekStart) + queryparams(this.qparams))
     this.http.get(url)
@@ -55,7 +58,6 @@ export class StandupService {
 
           // reset the fetching to false.
           this.fetching = false;
-
           // check if this request is the last request. by
           // checking if there is no value for the `next` attribute,
           // we will know that all the data are loaded.
@@ -85,6 +87,11 @@ export class StandupService {
     this.qparams.page = 1
     // reset all loaded boolean to allow user to scroll
     this.allLoaded = false
+  }
+
+  setDateData(startDate:NgbDate, endDate:NgbDate){
+    this.dateData.dateStart = ConvertFromNgbDate(startDate);
+    this.dateData.dateEnd = ConvertFromNgbDate(endDate);
   }
 
   getReport(id) {

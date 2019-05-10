@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StandupService } from '../../../commons/services/history/standup.service'
 import { NavService } from '../../../commons/services/utils/nav.service';
+import { ProjectService } from '../../../commons/services/project/project.service'
 
 @Component({
   selector: 'app-projects',
@@ -13,7 +14,8 @@ export class ProjectsComponent implements OnInit {
 
   constructor(
     private standupservice : StandupService,
-    private nav            : NavService
+    private nav            : NavService,
+    private projectservice : ProjectService
   ) 
   { 
     this.nav.setNav('Projects', true);
@@ -24,6 +26,13 @@ export class ProjectsComponent implements OnInit {
     this.standupservice.getReportList().subscribe(
       data => {
         this.userReportList = data;
+      }
+    )
+
+    this.projectservice.getProjects().subscribe(
+      data => {
+        this.projectservice.projects = data
+        console.log(data)
       }
     )
   }

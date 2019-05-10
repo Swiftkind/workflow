@@ -56,4 +56,4 @@ export const HISTORY_STANDUP_WEEKLY = urlsafe(HISTORY_STANDUP, 'weekly');
  */
 
 export const ACCOUNTING = '/api/accounting/';
-export const ACCOUNTING_PROJECT_DETAILS = urlsafe(ACCOUNTING, 'project');
+export const ACCOUNTING_PROJECT = urlsafe(ACCOUNTING, 'project');

@@ -41,36 +41,55 @@
 								<div class="d-flex">
 									<div style="width: 160px">
 										<ul class="list-group list-group-flush">
-											<button type="button" class="list-group-item list-group-item-action">
+											<button type="button" class="list-group-item list-group-item-action"
+											(click)="PreviousClick($event, 0)">
 											Today</button>
-											<button type="button" class="list-group-item list-group-item-action">
+											<button type="button" class="list-group-item list-group-item-action"
+											(click)="PreviousClick($event, 1)">
 											Yesterday</button>
-											<button type="button" class="list-group-item list-group-item-action">
+											<button type="button" class="list-group-item list-group-item-action"
+											(click)="PreviousClick($event,6)">
 											Last 7 Days</button>
-											<button type="button" class="list-group-item list-group-item-action">
+											<button type="button" class="list-group-item list-group-item-action"
+											(click)="PreviousClick($event,30)">
 											Last 30 Days</button>
-											<button type="button" class="list-group-item list-group-item-action">
+											<button type="button" class="list-group-item list-group-item-action"
+											(click)="ByMonth($event,0)">
 											This Month</button>
-											<button type="button" class="list-group-item list-group-item-action">
+											<button type="button" class="list-group-item list-group-item-action"
+											(click)="ByMonth($event,1)">
 											Last Month</button>
 											<button type="button" class="list-group-item list-group-item-action">
 											Custom Range</button>
 										</ul>
-									</div>
-									<ngb-datepicker 
-									[startDate]="{year: standupservice.dateData.dateEnd.getFullYear(), month: standupservice.dateData.dateEnd.getMonth() + 1}" 
+									</div> 
+									<ngb-datepicker #dp (select)="onDateSelection($event)" 
 									[displayMonths]="2"
+									[startDate]="{year: standupservice.dateData.dateStart.getFullYear(), 
+									month: standupservice.dateData.dateStart.getMonth() + 1}"
+									[dayTemplate]="t" 
 									[navigation]="arrows"
 									[footerTemplate]="footerTemplate"
-									(select)="onDateSelect($event)">
-										<button class="mr-1"> Test </button>
+									outsideDays="hidden">
 									</ngb-datepicker>
+
+									<ng-template #t let-date let-focused="focused">
+									<span class="custom-day"
+											[class.focused]="focused"
+											[class.range]="isRange(date)"
+											[class.faded]="isHovered(date) || isInside(date)"
+											(mouseenter)="hoveredDate = date"
+											(mouseleave)="hoveredDate = null">
+										{{ date.day }}
+									</span>
+									</ng-template>
+									
 								</div>
 							</div>
 							<ng-template #footerTemplate>
 								<hr class="my-0">
-								<button class="btn btn-primary btn-sm m-2 float-right" >Today</button>
-								<button class="btn btn-secondary btn-sm m-2 float-right">Close</button>
+								<button class="btn btn-secondary btn-sm m-2 float-right" (click)="ApplyChanges($event)" 
+								[disabled]="!withdate">Apply</button>
 							</ng-template>
 						</div>
 					</div>

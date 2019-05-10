@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { urlsafe } from '../../utils/http.utils';
-import { ACCOUNTING_PROJECT_DETAILS, HISTORY_PROJECT} from '../../constants/api.constants';
+import { ACCOUNTING_PROJECT, HISTORY_PROJECT} from '../../constants/api.constants';
 
 import { ProjectDetail } from '../../../commons/models/project-detail.models';
 @Injectable({
@@ -20,9 +20,15 @@ export class ProjectService {
   public ProjectBlockers:any = [];
   // contains the project detail
   public projectDetail = new ProjectDetail;
+  // contains all projects
+  public projects:any = [];
+
+  getProjects(){
+    return this.http.get(ACCOUNTING_PROJECT)
+  }
 
   getProjectDetail(id){
-    this.http.get(urlsafe(ACCOUNTING_PROJECT_DETAILS, id)).subscribe(
+    this.http.get(urlsafe(ACCOUNTING_PROJECT, id)).subscribe(
       data => {
         // set the project detail data
         this.projectDetail = new ProjectDetail(data)

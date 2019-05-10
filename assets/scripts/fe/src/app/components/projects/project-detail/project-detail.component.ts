@@ -4,10 +4,12 @@ import { StandupService } from '../../../commons/services/history/standup.servic
 import { NavService } from '../../../commons/services/utils/nav.service';
 import { ProjectService } from '../../../commons/services/project/project.service'
 
-import { DateRange } from '../../../commons/utils/datetime.utils'
+import { DateRange, GetPreviousDate, GetMonthFirstLastDate } from '../../../commons/utils/datetime.utils'
 
-import {NgbDateStruct, NgbDatepickerI18n, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+//import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { ServerService } from '../../../commons/services/auth/server.service';
 
+import {NgbDate,NgbDateParserFormatter, NgbDateStruct, NgbDatepickerI18n, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-project-detail',
@@ -15,26 +17,27 @@ import {NgbDateStruct, NgbDatepickerI18n, NgbCalendar} from '@ng-bootstrap/ng-bo
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
-
-  weekcount:number;
-  weekCountArray = [];
+  
+  hoveredDate: NgbDate;
+  fromDate: NgbDate;
+  toDate: NgbDate;
+  withdate:boolean = false;
 
   constructor(
     private projectservice : ProjectService,
     private standupservice : StandupService,
     private state          : StateService,
     private nav            : NavService,
+    private calendar   : NgbCalendar,
 
-    private anothercalendar :NgbDatepickerI18n,
-    private datecalendar   : NgbCalendar
-
-    // private datestruct      :NgbDateStruct,
-    // private datecalendar    :NgbCalendar
   ) 
   {
     // nav configuration
     // TODO: this sucks!. find a better solution
     this.nav.setNav('Project Detail', true);
+
+    //this.datenow = this.server.now
+    this.fromDate = calendar.getToday();
   }
 
   ngOnInit() {
@@ -57,13 +60,9 @@ export class ProjectDetailComponent implements OnInit {
       // enable reload for template data
       this.standupservice.noreload = false;
     }
-
-    this.testingdate()
   }
 
-  updateWeeklyReport(date){
-    // apply computations to set new start and end week
-    this.standupservice.dateData = DateRange(date)
+  updateWeeklyReport(){
     // re-initialize Weekly Report data and query parameters
     this.standupservice.revertWeeklyReport()
     // get weekly report base on new week
@@ -76,7 +75,9 @@ export class ProjectDetailComponent implements OnInit {
     // deduct 1 day to week start date to get previous week
     this.standupservice.dateData.dateStart.setDate(this.standupservice.dateData.dateStart.getDate() - 1)
     // apply computations to set new start and end week
-    this.updateWeeklyReport(this.standupservice.dateData.dateStart)
+    this.standupservice.dateData = DateRange(this.standupservice.dateData.dateStart)
+
+    this.updateWeeklyReport()
   }
 
   nextWeek($event){
@@ -85,51 +86,73 @@ export class ProjectDetailComponent implements OnInit {
     // add 1 day to week end date to get next week
     this.standupservice.dateData.dateEnd.setDate(this.standupservice.dateData.dateEnd.getDate() + 1)
     // apply computations to set new start and end week
-    this.updateWeeklyReport(this.standupservice.dateData.dateEnd)
+    this.standupservice.dateData = DateRange(this.standupservice.dateData.dateEnd)
+
+    this.updateWeeklyReport()
   }
 
-  onDateSelect($event){
-    // get the date time picker result
-    let date = new Date($event.year + "-" + $event.month + "-" + $event.day) 
-    // apply computations to set new start and end week
-    this.updateWeeklyReport(date)
-  }
-
-
-  testingdate(){
-    let testdt:NgbDateStruct = this.datecalendar.getToday()
-    // NgbDateCalendar
-    console.log(this.datecalendar.getWeeksPerMonth())
-    console.log(this.datecalendar.getMonths())
-    console.log(this.datecalendar.getDaysPerWeek())
-    console.log(this.anothercalendar.getDayNumerals(testdt))
-    console.log(this.anothercalendar.getWeekNumerals(1))
-    // NgbDateStruct
-    //console.log(this.datestruct.month)
-
-    let tstdate = this.datecalendar.getToday()
-    console.log(tstdate)
-
-    this.weekcount = this.weekCount(this.standupservice.dateData.dateStart.getFullYear(), this.standupservice.dateData.dateStart.getMonth())
-    this.loopWeekCount(this.weekcount)
-  }
-  
-  weekCount(year, month_number) {
-
-    // month_number is in the range 1..12
-
-    var firstOfMonth = new Date(year, month_number-1, 1);
-    var lastOfMonth = new Date(year, month_number, 0);
-
-    var used = firstOfMonth.getDay() + lastOfMonth.getDate();
-
-    return Math.ceil( used / 7);
-  }
-
-  loopWeekCount(count){
-    for (let index = 0; index < count; index++) {
-      this.weekCountArray.push(index)
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && (date.after(this.fromDate) || date.equals(this.fromDate))) {
+      this.toDate = date;
+      this.withdate = true
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+      this.withdate = false
     }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
+  }
+
+  ApplyChanges($event){
+    this.standupservice.setDateData(this.fromDate, this.toDate)
+
+    // re-initialize Weekly Report data and query parameters
+    this.updateWeeklyReport()
+  }
+
+  PreviousClick($event, interval){
+    this.toDate = this.calendar.getToday()
+    let convertdate:Date = GetPreviousDate(this.toDate, interval)
+    this.fromDate = new NgbDate(convertdate.getFullYear(), (convertdate.getMonth() + 1), convertdate.getDate())
+    
+    this.withdate = false
+    if(interval == 1)
+    {
+      this.standupservice.setDateData(this.fromDate, this.fromDate)
+      this.toDate = new NgbDate(convertdate.getFullYear(), (convertdate.getMonth() + 1), convertdate.getDate())
+    }
+    else{
+      this.standupservice.setDateData(this.fromDate, this.toDate)
+    }
+    
+    // re-initialize Weekly Report data and query parameters
+    this.updateWeeklyReport()
+  }
+
+  ByMonth($event, interval){
+    this.fromDate = this.calendar.getToday()
+
+    let cont = GetMonthFirstLastDate(this.fromDate, interval)
+    
+    this.fromDate = new NgbDate(cont.firstOfMonth.getFullYear(), (cont.firstOfMonth.getMonth() + 1), cont.firstOfMonth.getDate())
+    this.toDate = new NgbDate(cont.lastOfMonth.getFullYear(), (cont.lastOfMonth.getMonth() + 1), cont.lastOfMonth.getDate())
+
+    this.standupservice.setDateData(this.fromDate, this.toDate)
+    // re-initialize Weekly Report data and query parameters
+    this.updateWeeklyReport()
   }
 
   @HostListener('scroll', ['$event']) 

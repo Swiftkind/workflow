@@ -64,8 +64,11 @@ class StandupByWeek(Query, TZ, ListAPIView):
 
     def get_queryset(self):
         # get date parameter from url
-        dt = self.request.GET.get('date_start')
-        start_of_week, end_of_week = self.dt_range(dt)
+        dt_start = self.request.GET.get('date_start')
+        dt_end = self.request.GET.get('date_end')
+        
+        start_of_week = datetime.strptime(dt_start, "%Y-%m-%d").date()
+        end_of_week = ((datetime.strptime(dt_end, "%Y-%m-%d").date()) + timedelta(days=1))
 
         #get project id parameter from url
         project_id = self.request.GET.get('project_id')
