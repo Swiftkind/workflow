@@ -15,16 +15,13 @@ import { SlackService } from '../../../commons/services/auth/slack.service';
 })
 export class LoginComponent implements OnInit {
   private form : LoginForm;
-  private stateName = this.trans.params().next; // get statename from next= parameter
   constructor(
     private auth  : AuthService,
     private state : StateService,
-    private slack : SlackService,
-    private trans : Transition
+    private slack : SlackService
   ) { }
 
   ngOnInit() {   
-    console.log(this.trans);
     // load slack config
     this.slack.getConfig();
 
@@ -42,11 +39,11 @@ export class LoginComponent implements OnInit {
         .then(resp => {
           // if theres no value in the url parameter, 
           // automatically redirects to dashboard after authentication.
-          if(this.stateName === null){ 
-          return this.state.go('dashboard');
+          if(this.state.params.next === null){ 
+            return this.state.go('dashboard');
           }
           // if there's a redirect value, it redirects to that page after authentication.
-          return this.state.go(this.stateName);
+          return this.state.go(this.state.params.next);
         })
         .catch(err => {
           this.form.err = err;

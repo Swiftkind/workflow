@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { StateService, UIRouter } from '@uirouter/angular';
+import { StateService } from '@uirouter/angular';
 
 import { AUTH_LOGIN, AUTH_USER } from '../../constants/api.constants';
 import { AUTH_KEY } from '../../constants/conf.constants';
