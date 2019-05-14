@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NavService {
+
   public config : Object = {
     title  : null,
     expand : false
@@ -11,9 +12,9 @@ export class NavService {
 
   constructor() { }
 
-  setNav(title, expand=false) {
+  setNav(title, expand=false, noClass=false) {
     this.config = Object({
-      title: title, expand: expand
+      title: title, expand: expand, noClass: noClass
     });
   }
 }

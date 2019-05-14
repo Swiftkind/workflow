@@ -1,10 +1,14 @@
-
-<div class="container mt-5">
-	<div class="row">
+<div class="container mt-3">
+	<div class="row ml-3">
 		<section class="col-md-4">
-			
-			<div class="d-flex align-items-center mb-5">
-				<div *ngIf="projectservice.projectDetail.name" class="avatar-sm no-photo-pink mr-3">{{ projectservice.projectDetail.name.charAt(0) }}</div>
+			<div class="d-flex align-items-center mb-2">
+				<a uiSref="projects" class="h4">
+					<i class="far fa-arrow-left mr-3 small"></i>
+					<span><b>Back</b></span>
+				</a>
+			</div>
+			<div class="d-flex align-items-center mb-3">
+				<div *ngIf="projectservice.projectDetail.name" class="Rectangle-19 mr-3">{{ projectservice.projectDetail.name.charAt(0) }}</div>
 				<h4 class="title-highlited mb-0">{{ projectservice.projectDetail.name }}</h4>
 			</div>
 			<div class="mb-3">
@@ -12,8 +16,16 @@
 				<p>{{ projectservice.projectDetail.description }}</p>
 			</div>
 			<div class="mb-3">
-				<label class="small text-muted">Date stated</label>
-				<p>{{ projectservice.projectDetail.date_created | date:'mediumDate' }}</p>
+				<div class="row">
+					<div class="col-sm-5">
+						<label class="small text-muted">Date stated</label>
+						<p>{{ projectservice.projectDetail.date_created | date:'mediumDate' }}</p>
+					</div>
+					<div class="col-sm-5">
+						<label class="small text-muted">Total hours spent</label>
+						<p>{{projectservice.projectDetail.total_hours}} hours</p>
+					</div>
+				</div>
 			</div>
 			<div class="mb-3">
 				<label class="small text-muted">Pending Issues</label>
@@ -23,9 +35,24 @@
 					</a>
 				</p>
 			</div>
+			<div class="mb-3">
+			    <div class="team-members d-flex">
+					<div class="avatar-xs" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+					</div>
+					<div class="avatar-xs ml-2" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+					</div>
+					<div class="avatar-xs ml-2" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+					</div>
+					<div class="avatar-xs ml-2" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+					</div>
+					<div class="avatar-xs more ml-2">
+					+7
+					</div>
+				</div>
+			</div>
 		</section>
 
-		<section class="feed-section col-md-7">
+		<section class="feed-section col-md-7 mt-5">
 			<h5 class="mb-4 subtitle">Weekly Reports</h5>
 			<div class="feed-actions">
 				<div class="date-selector">
@@ -98,9 +125,6 @@
 					</a>	
 				</div>
 				<div class="feed-data-options ">
-					<button class="btn mr-2">
-						<i class="fas fa-print"></i>
-					</button>
 					<button class="btn">
 						<i class="fas fa-download"></i>
 					</button>
@@ -109,51 +133,53 @@
 
 			<div class="feed-limited" (scroll)="scrollWeeklyReport($event)" [scrollTop]="standupservice.scrollHeight">							
 				<div class="feed-card card" *ngFor="let card of standupservice.q">
-					<div class="d-flex justify-content-between align-items-center">
+					<div class="card-content--container" >
 						<div class="d-flex">
-							<div class="avatar-sm" style="background-image: url('assets/images/tamara-bellis-401355-unsplash.jpg');" data-rjs="3">
+							<div class="report-info">
+							<div class="d-flex align-items-center justify-content-between mb-3">
+								<div class="d-flex align-items-center">
+								<a uiSref="project-detail-report" [uiParams]="{id: projectservice.projectDetail.id,cardId: card.id}">{{projectservice.projectDetail.name}}</a>
+								<span class="badge badge__report">Report</span>
+								<span class="timestamp"> {{ card.date_created | date:'MMM d, h:mm a' }}</span>
+								</div>
+								<div class="feed-summary">
+									<p class="hours badge" [innerHtml]="card.total_hours | timeformat"></p>
+								</div>
 							</div>
-							<div class="profile-info">
-								<a href="">{{card.user.full_name}}</a>
-								<span class="d-flex align-items-center justify-content-around">
-									<span>{{ card.date_created | date:'MMM d, h:mm a' }}</span>
-									<i *ngIf="card.blockers.length" class="fas fa-circle"></i>
-									<span *ngIf="card.blockers.length" class="text-danger">{{card.blockers.length}} issues</span>
-								</span>
+							<div class="report-content">
+								<small class="report-type">Done</small>
+								<div class="d-flex">
+								<p class="report-hint">{{ card.done | getornull: "0" }}</p>
+								<span *ngIf="card.done.length > 0" class="content-count">+{{ card.done.length }}</span>
+								</div>
+							</div>
+							<div class="report-content">
+								<small class="report-type">Todo</small>
+								<div class="d-flex">
+								<p class="report-hint">{{ card.todo | getornull: "0" }}</p>
+								<span *ngIf="card.done.length > 0" class="content-count">+{{ card.todo.length }}</span>
+								</div>
+							</div>
+
+							
+							<span *ngIf="card.blockers.length === 0" class="no-issue">No Issues</span>
+							<span *ngIf="card.blockers.length > 0" class="with-issues">{{ card.pending_issues }} pending issue{{ card.blockers | pluralize }}</span>
+							
 							</div>
 						</div>
-						<p class="feed-summary">{{card.total_hours}} hours for 
-							<a href="">#{{ projectservice.projectDetail.name }}</a>
-						</p>
-						<a uiSref="project-detail-report" [uiParams]="{id: projectservice.projectDetail.id,cardId: card.id}"><i class="fas fa-expand-alt"></i></a>
-					</div>
-					<div class="issues pt-4" *ngIf="card.blockers.length">
+						
+						<div *ngIf="card.blockers.length > 0" class="details pt-2">
 						<div class="d-flex justify-content-between">
-							<small><strong>Blockers</strong></small>
-							<small>
-								<strong>
-									<span *ngIf="card.finished_issues != 0" class="text-success">{{card.finished_issues}} resolved </span>
-									&nbsp; &nbsp; 
-									<span *ngIf="card.pending_issues != 0" class="text-danger">{{card.pending_issues}} unresolved</span>
-								</strong>
-							</small>
+							
 						</div>
-						<ol class="pl-3 issues-list" >
-							<div *ngFor="let blocker of card.blockers">
-								<li class="issue-details resolved" *ngIf="blocker.is_fixed">
-									<p>
-										{{ blocker.content }}
-									</p>
-									<a href=""><small>{{ blocker.reference }}</small></a>
-								</li>
-								<li class="issue-details unresolved" *ngIf="!blocker.is_fixed">
-									<p>
-										{{ blocker.content }}
-									</p>
-									<a href=""><small>{{ blocker.reference }}</small></a>
-								</li>
-							</div>
+						<ol class="pl-3 details-list">
+							<li class="issue-details" [ngClass]="{'resolved': b.is_fixed, 'unresolved': !b.is_fixed}" *ngFor="let b of card.blockers">
+							<p>{{ b.content }}</p>
+							<a [href]="b.reference | sanitizeurl" [target]="_blank"><small>{{ b.reference }}</small></a>
+							</li>
 						</ol>
+						</div>
+						
 					</div>
 				</div>
 			</div>

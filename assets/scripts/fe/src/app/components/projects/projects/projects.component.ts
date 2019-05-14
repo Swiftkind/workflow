@@ -32,7 +32,6 @@ export class ProjectsComponent implements OnInit {
     this.projectservice.getProjects().subscribe(
       data => {
         this.projectservice.projects = data
-        console.log(data)
       }
     )
   }

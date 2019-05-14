@@ -32,14 +32,12 @@ export class ProjectDetailComponent implements OnInit {
   {
     // nav configuration
     // TODO: this sucks!. find a better solution
-    this.nav.setNav('Project Detail', true);
-
-    //this.datenow = this.server.now
+    this.nav.setNav('Projects/', true, true)
     this.fromDate = calendar.getToday();
+
   }
 
   ngOnInit() {
-
     if ((!this.standupservice.noreload && this.state.$current.name !== 'project-detail-report') || 
       (this.state.$current.name === 'project-detail-report' && this.standupservice.q.length < 1)) 
     {

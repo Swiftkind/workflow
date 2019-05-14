@@ -1,6 +1,8 @@
 <nav class="center-nav">
   <div class="d-flex justify-content-between w-100">
-    <h2 class="section-title">{{ nav.config.title }}</h2>
+    <h2 *ngIf="!nav.config.noClass" class="section-title">{{ nav.config.title }}</h2>
+    <p *ngIf="nav.config.noClass">{{ nav.config.title }}</p>
+
     <div class="search-input input-group">
       <div class="input-group-prepend">
         <span class="input-group-text filter-toggle">Show Filters</span>
