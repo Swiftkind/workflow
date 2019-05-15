@@ -28,12 +28,7 @@ export class ProjectService {
   }
 
   getProjectDetail(id){
-    this.http.get(urlsafe(ACCOUNTING_PROJECT, id)).subscribe(
-      data => {
-        // set the project detail data
-        this.projectDetail = new ProjectDetail(data)
-      }
-    );
+    return this.http.get(urlsafe(ACCOUNTING_PROJECT, id))
   }
 
   getProjectBlockers(id){

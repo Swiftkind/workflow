@@ -8,6 +8,7 @@ export class ProjectDetail {
     date_created    : string = null;
     date_updated    : string = null;
     total_hours     : string = null;
+    users           : Object[] = [];
   
     constructor (data={}) { 
       Object.assign(this, data);

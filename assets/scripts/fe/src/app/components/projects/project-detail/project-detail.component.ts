@@ -3,10 +3,13 @@ import { StateService } from '@uirouter/angular';
 import { StandupService } from '../../../commons/services/history/standup.service'
 import { NavService } from '../../../commons/services/utils/nav.service';
 import { ProjectService } from '../../../commons/services/project/project.service'
+import { BreadcrumbsService } from '../../../commons/services/utils/breadcrumbs.service'
 
 import { DateRange, GetPreviousDate, GetMonthFirstLastDate, ConvertFromNgbDate } from '../../../commons/utils/datetime.utils'
 
 import {NgbDate, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+
+import { ProjectDetail } from '../../../commons/models/project-detail.models';
 
 @Component({
   selector: 'app-project-detail',
@@ -28,6 +31,7 @@ export class ProjectDetailComponent implements OnInit {
     private state          : StateService,
     private nav            : NavService,
     private calendar       : NgbCalendar,
+    private crumbs         : BreadcrumbsService
   ) 
   {
     // nav configuration
@@ -46,7 +50,25 @@ export class ProjectDetailComponent implements OnInit {
       // clear all fields
       this.standupservice.revertWeeklyReport()
       // get the project detail
-      this.projectservice.getProjectDetail(this.state.params.id)
+      this.projectservice.getProjectDetail(this.state.params.id).subscribe(
+        data => {
+          // set the project detail data
+          this.projectservice.projectDetail = new ProjectDetail(data)
+          // set data to be passed for breadcrumbs
+          // list of dictionaries containing title and path
+          let crumb = [{
+            'title': 'Projects',
+            'path': 'projects'
+          },
+          {
+            'title': this.projectservice.projectDetail.name,
+            'path': 'project-detail'
+          }]
+
+          // set bread crumbs
+          this.crumbs.setBreadCrumbs(crumb)
+        }
+      );
       // get all blockers of project
       this.projectservice.getProjectBlockers(this.state.params.id)
       // get all weekly reports
