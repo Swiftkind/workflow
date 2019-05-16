@@ -151,10 +151,9 @@ class TimeLog(models.Model):
     """
 
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    time_in = models.DateTimeField(null=True, blank=True)
-    time_out = models.DateTimeField(null=True, blank=True)
+    time_in = models.DateTimeField(auto_now_add=True)
 
-    date_created = models.DateField(auto_now_add=True)
+    date_updated = models.DateField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user}, {self.time_in} - {self.time_out}"
+        return f"{self.user}, {self.time_in}"

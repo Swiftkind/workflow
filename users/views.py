@@ -143,7 +143,7 @@ class User(TZ, ViewSet):
         return Response(self.get_server_time(), status=200)
 
 
-class TimeClock(Query, Slack, ViewSet):
+class TimeClock(Query, Slack, TZ, ViewSet):
     """ for Clock-in and Clock-out 
     """
     
@@ -153,13 +153,7 @@ class TimeClock(Query, Slack, ViewSet):
         serializer.is_valid(raise_exception=True)
         # returns if user clocked-in or clocked-out
         instance = serializer.save()
-
         # check instance content
-        if instance:
-            # clock in message to send back to slack
-            message = "Clocked In: " + str(datetime.datetime.now().strftime('%b %d, %Y-%H:%M:%S'))
-        else:
-            # clock out message to send back to slack
-            message = "Clocked Out: " + str(datetime.datetime.now().strftime('%b %d, %Y-%H:%M:%S'))
+        message = f"Time in: {self._timestamp(datetime.datetime.now())}"
 
         return Response(message, status=200)

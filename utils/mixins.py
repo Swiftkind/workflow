@@ -262,4 +262,8 @@ class TZ(object):
         end_of_week = start_of_week + timedelta(days=interval)
 
         return start_of_week, end_of_week
-
+        
+    def _timestamp(self, dt):
+        """ format the timestamp
+        """
+        return f"{dt.strftime('%b %d, %Y-%H:%M:%S')}"

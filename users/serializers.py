@@ -298,14 +298,19 @@ class TimeLogSerializer(serializers.Serializer):
     def create(self, validated_data):
         """ create or update timelog instance
         """
-        # get user timelog
-        time_log = TimeLog.objects.filter(user=self.user, time_out=None)
-        if not time_log:
-            # create timelog instance for user
-            time_log = TimeLog.objects.create(user=self.user, time_in=timezone.now())
-        else:
-            # update user timelog
-            time_log.update(time_out=timezone.now())
-        # returns timelog instance
-        return time_log
+        # calculate start and end of day time
+        today_min = datetime.datetime.combine(timezone.now().date(), datetime.time.min)
+        today_max = datetime.datetime.combine(timezone.now().date(), datetime.time.max)
 
+        # check for time in logs for the day
+        duplicate_time_check = TimeLog.objects.filter(user=self.user, time_in__range=(today_min, today_max))
+
+        # if time log exist
+        if duplicate_time_check.exists():
+            raise serializers.ValidationError(
+                _("attendance already recorded")
+            )
+        else:
+            time_log = TimeLog.objects.create(user=self.user)
+
+        return time_log
