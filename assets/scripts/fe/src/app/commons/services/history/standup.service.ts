@@ -20,6 +20,8 @@ export class StandupService {
   public fetching = false;
   // boolean to check if all data are loaded
   public allLoaded = false;
+  // boolean to check if api not done loading
+  public resultsLoaded = true;
   // url parameter for the next page
   public qparams = {
     page: 1
@@ -42,7 +44,7 @@ export class StandupService {
     // toggle fetching to true to prevent multiple
     // similar request to overload the server.
     this.fetching = true;
-
+    this.resultsLoaded = false;
     // set string date format
     let weekStart = `${this.dateData.dateStart.getFullYear()}-${(this.dateData.dateStart.getMonth() + 1)}-${this.dateData.dateStart.getDate()}`
     let weekEnd = `${this.dateData.dateEnd.getFullYear()}-${(this.dateData.dateEnd.getMonth() + 1)}-${this.dateData.dateEnd.getDate()}`
@@ -58,6 +60,7 @@ export class StandupService {
 
           // reset the fetching to false.
           this.fetching = false;
+          this.resultsLoaded = true;
           // check if this request is the last request. by
           // checking if there is no value for the `next` attribute,
           // we will know that all the data are loaded.

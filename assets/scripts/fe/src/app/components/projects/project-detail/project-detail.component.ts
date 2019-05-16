@@ -90,23 +90,27 @@ export class ProjectDetailComponent implements OnInit {
   previousWeek($event){
     // prevent default action of href to redirect
     $event.preventDefault();
-    // deduct 1 day to week start date to get previous week
-    this.standupservice.dateData.dateStart.setDate(this.standupservice.dateData.dateStart.getDate() - 1)
-    // apply computations to set new start and end week
-    this.standupservice.dateData = DateRange(this.standupservice.dateData.dateStart)
+    if(this.standupservice.resultsLoaded){
+      // deduct 1 day to week start date to get previous week
+      this.standupservice.dateData.dateStart.setDate(this.standupservice.dateData.dateStart.getDate() - 1)
+      // apply computations to set new start and end week
+      this.standupservice.dateData = DateRange(this.standupservice.dateData.dateStart)
 
-    this.updateWeeklyReport()
+      this.updateWeeklyReport()
+    }
   }
 
   nextWeek($event){
     // prevent default action of href to redirect
     $event.preventDefault()
-    // add 1 day to week end date to get next week
-    this.standupservice.dateData.dateEnd.setDate(this.standupservice.dateData.dateEnd.getDate() + 1)
-    // apply computations to set new start and end week
-    this.standupservice.dateData = DateRange(this.standupservice.dateData.dateEnd)
+    if(this.standupservice.resultsLoaded){
+      // add 1 day to week end date to get next week
+      this.standupservice.dateData.dateEnd.setDate(this.standupservice.dateData.dateEnd.getDate() + 1)
+      // apply computations to set new start and end week
+      this.standupservice.dateData = DateRange(this.standupservice.dateData.dateEnd)
 
-    this.updateWeeklyReport()
+      this.updateWeeklyReport()
+    }
   }
 
   onDateSelection(date: NgbDate) {
@@ -146,9 +150,11 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   ApplyDateFilter($event){
-    this.standupservice.setDateData(this.fromDate, this.toDate)
-    // re-initialize Weekly Report data and query parameters
-    this.updateWeeklyReport()
+    if(this.standupservice.resultsLoaded){
+      this.standupservice.setDateData(this.fromDate, this.toDate)
+      // re-initialize Weekly Report data and query parameters
+      this.updateWeeklyReport()
+    }
   }
 
   FilterByDays($event, interval){
