@@ -152,7 +152,6 @@ class TimeLog(models.Model):
 
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     time_in = models.DateTimeField(auto_now_add=True)
-
     date_updated = models.DateField(auto_now=True)
 
     def __str__(self):

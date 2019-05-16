@@ -49,8 +49,13 @@ class UserAdmin(UserAdmin):
         }),
     )
 
+class TimeLogAdmin(admin.ModelAdmin):
+    """ salary log
+    """
+    model = TimeLog
+    list_display = ('user', 'time_in')
 
 admin.site.register(User, UserAdmin)
 admin.site.register(SalaryLog, SalaryLogAdmin)
 admin.site.register(SlackToken)
-admin.site.register(TimeLog)
+admin.site.register(TimeLog, TimeLogAdmin)
