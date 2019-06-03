@@ -51,6 +51,7 @@ class User(ImageDownload, AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
+    work_time = models.TimeField(null=True, default=datetime.time(9, 00))
     date_joined = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
