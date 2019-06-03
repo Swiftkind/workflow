@@ -30,7 +30,7 @@ class UserAdmin(UserAdmin):
     readonly_fields = ('date_joined',)
     ordering = ('email',)
     filter_horizontal = ('deductions', 'groups', 'user_permissions')
-    list_display = ('email', 'first_name', 'last_name', 'position', 'date_started')
+    list_display = ('email', 'first_name', 'last_name', 'position', 'date_started', 'work_time', 'is_late')
     inlines = (SalaryLogInline, PlanInline,)
 
     fieldsets = (
@@ -39,7 +39,7 @@ class UserAdmin(UserAdmin):
             'image', 'position', 'position_type', 'date_started', 'deductions')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
             'groups', 'user_permissions', 'slack_id')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}), 
+        (_('Important dates'), {'fields': ('last_login', 'date_joined', 'work_time')}), 
     )
 
     add_fieldsets = (
@@ -48,6 +48,21 @@ class UserAdmin(UserAdmin):
             'fields': ('email', 'password1', 'password2'),
         }),
     )
+
+    def is_late(self, obj):
+        """ check if user is late for the day
+        """
+        check = TimeLog.objects.filter(user=obj)
+        # test = TimeLog.objects.all()
+        #import pdb; pdb.set_trace()
+        if check:
+            return True
+        return False
+
+    is_late.boolean = True
+    is_late.short_description = "is late"
+
+    
 
 class TimeLogAdmin(admin.ModelAdmin):
     """ salary log
