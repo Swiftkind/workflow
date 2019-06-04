@@ -146,18 +146,4 @@ export class StandupService {
       })
     ;
   }
-
-  // loadMoreReportList() {
-  //   // check if all the data are loaded.
-  //   if (!this.allLoaded && !this.fetching) {
-  //     // update the page number so that this will fetch
-  //     // the next batch instead of the current one.
-  //     // TODO: Add a checker if the the page_number is more than
-  //     // the maximum page count.
-  //     this.qparams.page++;
-
-  //     // fetch weekly report items.
-  //     this.getReportList();
-  //   }
-  // }
 }
