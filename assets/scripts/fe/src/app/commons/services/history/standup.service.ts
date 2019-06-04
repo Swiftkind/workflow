@@ -17,6 +17,8 @@ export class StandupService {
 
   // contains the list of weekly reports
   public q = [];
+  // contains the list of user reports
+  public userReportList :any = [];
   // boolean to check if currently getting new weekly report
   public fetching = false;
   // boolean to check if all data are loaded
@@ -70,7 +72,7 @@ export class StandupService {
     ;
   }
 
-  loadMoreWeeklyReport(id) {
+  loadMoreWeeklyReport(id = null) {
     // check if all the data are loaded.
     if (!this.allLoaded && !this.fetching) {
       // update the page number so that this will fetch
@@ -80,13 +82,20 @@ export class StandupService {
       this.qparams.page++;
 
       // fetch weekly report items.
-      this.getWeeklyReport(id);
+      if (id == null){
+        this.getReportList();
+      }
+      else{
+        this.getWeeklyReport(id);
+      }
     }
   }
 
   revertWeeklyReport(){
     // remove all saved weekly report
     this.q = []
+    // remove all saved user reports
+    this.userReportList = []
     // reset page parameter to page 1
     this.qparams.page = 1
     // reset all loaded boolean to allow user to scroll
@@ -104,10 +113,6 @@ export class StandupService {
     return this.http.get(urlsafe(HISTORY_STANDUP, id));
   }
 
-  getReportList() {
-    return this.http.get(HISTORY_STANDUP);
-  }
-
   downloadReports(id){
     let weekStart = FormatDateToString(this.dateData.dateStart)
     let weekEnd = FormatDateToString(this.dateData.dateEnd)
@@ -120,4 +125,39 @@ export class StandupService {
       }
     )
   }
+
+  getReportList() {
+    this.fetching = true;
+    this.resultsLoaded = false;
+    let url = `${urlsafe(HISTORY_STANDUP, 'user')}${queryparams(this.qparams)}`
+    
+    this.http.get(url)
+      .toPromise()
+      .then(resp => {
+          // append the new data to the current data list.
+          this.userReportList = _.concat(this.userReportList, resp['results']);
+          // reset the fetching to false.
+          this.fetching = false;
+          this.resultsLoaded = true;
+          // check if this request is the last request. by
+          // checking if there is no value for the `next` attribute,
+          // we will know that all the data are loaded.
+          if(!resp['next']) { this.allLoaded = true; }
+      })
+    ;
+  }
+
+  // loadMoreReportList() {
+  //   // check if all the data are loaded.
+  //   if (!this.allLoaded && !this.fetching) {
+  //     // update the page number so that this will fetch
+  //     // the next batch instead of the current one.
+  //     // TODO: Add a checker if the the page_number is more than
+  //     // the maximum page count.
+  //     this.qparams.page++;
+
+  //     // fetch weekly report items.
+  //     this.getReportList();
+  //   }
+  // }
 }

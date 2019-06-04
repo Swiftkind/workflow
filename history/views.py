@@ -13,7 +13,7 @@ from utils.mixins import Query, TZ, PDFHelper
 
 from .serializers import StandupSerializer, ReportSerializer, ShortStandupProjectSerializer, BlockerSerializer, SearchSerializer
 from .models import Blocker, Standup as stand_up_model
-from .paginations import WeeklyReportsPagination
+from .paginations import WeeklyReportsPagination, ProjectReportsPagination
 
 from accounting.models import Project
 
@@ -36,12 +36,18 @@ class Standups(Query, ViewSet):
         serializer.save()
 
         return Response(serializer.data, status=200)
-        
-    def get(self, *args, **kwargs):
-        serializer = ReportSerializer(stand_up_model.objects.filter(user=self.request.user)
-        , many=True)
 
-        return Response(serializer.data, status=200)
+class UserStandups(Query, ListAPIView):
+    """ feed endpoint.
+        contains scheduled events, daily report, etc.
+    """
+    queryset = None
+    serializer_class = ReportSerializer
+    pagination_class = ProjectReportsPagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return stand_up_model.objects.filter(user=self.request.user).order_by('-date_created')
 
 class Standup(Query, ViewSet):
     """ daily report endpoint
@@ -100,7 +106,6 @@ class ProjectReport(Query, PDFHelper, ViewSet):
         queryset = stand_up_model.objects.filter(date_created__range=[start_of_week, end_of_week], project=project).order_by('-date_created')
         serializer = ShortStandupProjectSerializer(queryset, many=True)
 
-        #return Response(serializer.data, status=200)
         return self.produce_project_report_pdf_as_a_response(serializer.data)
 
 class SearchAll(ListAPIView):

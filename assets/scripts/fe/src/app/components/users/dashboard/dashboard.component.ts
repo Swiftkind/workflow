@@ -49,11 +49,7 @@ export class DashboardComponent implements OnInit {
     // load the calendar events data.
     this.feed.getCalendarEvents();
 
-    this.projectservice.getProjects().subscribe(
-      data => {
-        this.projectservice.projects = data
-      }
-    )
+    this.projectservice.getProjects()
   }
 
   @HostListener('scroll', ['$event']) 

@@ -24,7 +24,11 @@ export class ProjectService {
   public projects:any = [];
 
   getProjects(){
-    return this.http.get(ACCOUNTING_PROJECT)
+    this.http.get(ACCOUNTING_PROJECT).subscribe(
+      data => {
+        this.projects = data
+      }
+    )
   }
 
   getProjectDetail(id){

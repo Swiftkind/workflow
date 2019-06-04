@@ -57,10 +57,10 @@
         <span>January 2018</span>
       </div>
 
-      <div class="report-items">
+      <div class="report-items" (scroll)="scrollReport($event)">
         <ngb-accordion #a="ngbAccordion" activeIds="ngb-panel-0" [destroyOnHide]="false">
         
-        <ngb-panel *ngFor="let report of userReportList">
+        <ngb-panel *ngFor="let report of standupservice.userReportList">
           <ng-template ngbPanelHeader let-opened="opened">
             <button class="btn" [ngClass]="{'active': opened}" ngbPanelToggle>
               <div class="d-flex align-items-center">
