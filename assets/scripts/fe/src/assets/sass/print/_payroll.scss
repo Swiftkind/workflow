@@ -1,0 +1,80 @@
+@media print {
+
+  //hides uncessary elements
+  .side-menu,
+  .center-nav,
+  .payslip-list {
+    display: none;
+
+    * {
+      display: none;
+    }
+  }
+
+  //sets full width on print
+  .full-on-print {
+    width: 100%;
+    max-width: 100%;
+    flex: 100%;
+    padding: 0;
+  }
+
+  .main-container {
+    max-width: 100%;
+  }
+
+  .center-section {
+    padding: 0;
+  }
+
+  .extend-wrapper {
+    padding: 0 !important;
+    width: 100vw;
+    margin: 0;
+  }
+
+  .payslip-preview-container {
+    max-height: 100%;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .payslip-preview {
+    width: 100% !important;
+    height: 100%;
+    zoom: 120%;
+    padding: 0 !important;
+
+    * {
+      display: block;
+    }
+
+    .title-bold {
+      font-family: $Display-Semibold;
+    }
+
+    .salary-list-item {
+      break-inside: always;
+
+      p {
+
+      }
+    }
+  }
+
+  .payslip-footer {
+    position: fixed;
+    max-width: 1440px;
+    bottom: 0;
+    width: 100%;
+    p {
+      max-width: 30rem;
+    }
+  }
+
+  @page {
+    margin: 1in;
+  }
+}
+
+@media print and (width: 5.83in) and (height: 8.27in) {}

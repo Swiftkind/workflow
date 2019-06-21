@@ -9821,4 +9821,59 @@ form input:not([type='radio']) {
       margin-bottom: 0.3125rem;
       display: inline-block; }
 
+@media print {
+  .side-menu,
+  .center-nav,
+  .payslip-list {
+    display: none; }
+    .side-menu *,
+    .center-nav *,
+    .payslip-list * {
+      display: none; }
+
+  .full-on-print {
+    width: 100%;
+    max-width: 100%;
+    flex: 100%;
+    padding: 0; }
+
+  .main-container {
+    max-width: 100%; }
+
+  .center-section {
+    padding: 0; }
+
+  .extend-wrapper {
+    padding: 0 !important;
+    width: 100vw;
+    margin: 0; }
+
+  .payslip-preview-container {
+    max-height: 100%;
+    width: 100%;
+    padding: 0 !important; }
+
+  .payslip-preview {
+    width: 100% !important;
+    height: 100%;
+    zoom: 120%;
+    padding: 0 !important; }
+    .payslip-preview * {
+      display: block; }
+    .payslip-preview .title-bold {
+      font-family: "SF-Pro-Display-Semibold"; }
+    .payslip-preview .salary-list-item {
+      break-inside: always; }
+
+  .payslip-footer {
+    position: fixed;
+    max-width: 1440px;
+    bottom: 0;
+    width: 100%; }
+    .payslip-footer p {
+      max-width: 30rem; }
+
+  @page {
+    margin: 1in; } }
+
 /*# sourceMappingURL=style.css.map */
