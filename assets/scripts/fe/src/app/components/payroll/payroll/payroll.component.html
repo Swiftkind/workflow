@@ -1,11 +1,11 @@
 <div class="center-section">
   <div class="extend-wrapper row">
 
-    <section class="col-md-4">
+    <section class="col-md-4 d-print-none">
       <app-payroll-list></app-payroll-list>
     </section>
 
-    <section class="col-md-8">
+    <section class="col-md-8 full-on-print">
       <div class="payslip-preview-container">
         <div class="payslip-preview">
           <div class="d-flex justify-content-between mb-5">
@@ -15,24 +15,24 @@
 
             <div class="text-right">
               <p class="subtitle mb-1">Payslip</p>
-              <h5 class="title-bold">#{{ payrollservice.payroll.payroll_code }}</h5>
+              <h5 class="title-bold">#FTS31902</h5>
             </div>
           </div>
           <div class="d-flex justify-content-between mb-5">
             <div>
-              <h3 class="title-bold mb-1">{{ payrollservice.payroll.user.full_name }}</h3>
-              <h6 class="pane-title mb-1">{{ payrollservice.payroll.user.position }}</h6>
-              <p class="text-muted">{{ payrollservice.payroll.user.email }}</p>
+              <h3 class="title-bold mb-1">Jerome Rumbaoa</h3>
+              <h6 class="pane-title mb-1">Software Developer</h6>
+              <p class="text-muted">jerome@swiftkind.com</p>
             </div>
             <div class="text-right">
               <p class="text-muted mb-1 small">Pay period</p>
-              <p class="title-bold">{{ payrollservice.payroll.date_from | date: 'MMM d' }} - {{ payrollservice.payroll.date_to | date: 'd, y' }}</p>
+              <p class="title-bold">Jan 01-15,2019</p>
             </div>
           </div>
           <div class="salary-breakdown-table">
             <div class="salary-list-item">
               <p class="title-bold">Base Salary</p>
-              <p>{{ payrollservice.payroll.gross_pay }}</p>
+              <p>P30,000</p>
             </div>
             <div>
               <p class="title-bold">Other Deductions</p>
@@ -40,6 +40,7 @@
                 <li  *ngFor="let benefit of payrollservice.payroll.benefits">
                   <p class="title-bold">{{ benefit.name }}</p>
                   <p>{{ benefit.amount | number }}</p>
+
                 </li>
               </ul>
             </div>
@@ -50,6 +51,7 @@
                   <p class="title-bold"> {{ plan.name }}</p>
                   <p>{{ plan.amount | number }}</p>
                 </li>
+                <li>
               </ul>
             </div>
 
@@ -57,16 +59,16 @@
           <div class="summary">
               <div class="d-flex justify-content-between">
                 <p class="title-bold">Total Deductions</p>
-                <p>{{ payrollservice.payroll.total_deduction }}</p>
+                <p>5,455.33</p>
               </div>
               <div class="d-flex justify-content-between">
                 <p class="title-bold">Subtotal</p>
-                <p>{{ payrollservice.payroll.net_pay }}</p>
+                <p>22, 064.42</p>
               </div>
           </div>
           <div class="total">
             <p class="h6 title-bold">Total pay per Period</p>
-            <h3 class="title-bold">P{{ payrollservice.payroll.payperiod_amount }}</h3>
+            <h3 class="title-bold">P11, 032.21</h3>
           </div>
           <div class="payslip-footer d-flex align-items-end justify-content-between">
             <div class="w-50">

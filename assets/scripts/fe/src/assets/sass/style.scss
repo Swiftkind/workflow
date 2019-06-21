@@ -1,4 +1,4 @@
-//overrides
+
 
 
 
@@ -42,6 +42,7 @@
 @import 'partials/sidebar';
 @import 'partials/post-standup';
 
+
 // pages
 
 @import 'pages/dashboard';
@@ -50,4 +51,8 @@
 @import 'pages/payroll';
 @import 'pages/user-auth';
 @import 'pages/profile-settings';
+
+
+//print styling
+@import 'print/payroll';
 

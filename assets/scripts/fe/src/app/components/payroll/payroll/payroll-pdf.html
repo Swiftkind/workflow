@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <style type="text/css">
+    html, body{
+      width: 100%;
+    }
+  body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #5E6A84;
+  }
+  .container{
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .text-muted {
+    color: #afb5c1 !important;
+  }
+
+  .title-bold {
+    font-weight: 500;
+    color: #172b4d;
+  }
+
+  .mb-5,
+  .my-5 {
+    margin-bottom: 3rem !important;
+  }
+
+
+  .justify-content-between {
+    justify-content: space-between !important;
+  }
+
+  .d-flex {
+    display: flex !important;
+  }
+
+  .pane-title {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #172b4d;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: inherit;
+        margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+  }
+
+  .h3,
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .h5,
+  h5 {
+    font-size: 1.125rem;
+    font-weight: normal;
+    line-height: 1.2;
+  }
+  .xsmall{
+    font-size: 0.625rem;
+  }
+
+
+  .mb-1,
+  .my-1 {
+    margin-bottom: 0.25rem !important;
+  }
+
+  .payslip-preview-container {
+    overflow-y: auto;
+  }
+
+  .payslip-preview-container::-webkit-scrollbar {
+    margin-left: 1rem;
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+  }
+
+  .payslip-preview-container::-webkit-scrollbar-thumb {
+    background: #f0f1f4;
+    border-radius: 2px;
+    margin-left: 1rem;
+  }
+
+  .payslip-preview-container::-webkit-scrollbar-track {
+    background: white;
+    padding-left: 1rem;
+  }
+
+  .payslip-preview-container body {
+    scrollbar-face-color: #c4c7d3;
+    scrollbar-track-color: #afb5c1;
+  }
+
+  .payslip-preview-container .payslip-preview {
+    height: 100%;
+    border-radius: 6px;
+    background: #ffffff;
+    padding: 10%;
+  }
+
+  .payslip-preview-container .payslip-preview .salary-list-item {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: space-between;
+  }
+
+  .payslip-preview-container .payslip-preview ul.salary-list-item {
+    list-style: none;
+    display: block;
+  }
+
+  .payslip-preview-container .payslip-preview ul.salary-list-item li {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: space-between;
+    width: 100%;
+  }
+
+  .payslip-preview-container .payslip-preview .summary {
+    border-top: solid 1px #f0f0f0;
+    padding-top: 1.25rem;
+  }
+
+  .payslip-preview-container .payslip-preview .total {
+    padding-top: 1.25rem;
+    margin-bottom: 3rem;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: space-between;
+  }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="payslip-preview-container">
+      <div class="payslip-preview">
+        <div class="d-flex justify-content-between mb-5">
+          <div>
+            <img src="/static/images/logo-2.png" data-rjs="3">
+          </div>
+          <div class="text-right">
+            <p class="subtitle mb-1">Payslip</p>
+            <h5 class="title-bold">#FTS31902</h5>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between mb-5">
+          <div>
+            <h3 class="title-bold mb-1">Jerome Rumbaoa</h3>
+            <h6 class="pane-title mb-1">Software Developer</h6>
+            <p class="text-muted">jerome@swiftkind.com</p>
+          </div>
+          <div class="text-right">
+            <p class="text-muted mb-1 small">Pay period</p>
+            <p class="title-bold">Jan 01-15,2019</p>
+          </div>
+        </div>
+        <div class="salary-breakdown-table">
+          <div class="salary-list-item">
+            <p class="title-bold">Base Salary</p>
+            <p>P30,000</p>
+          </div>
+          <div>
+            <p class="title-bold">Other Deductions</p>
+            <ul class="salary-list-item">
+              <li>
+                <p class="title-bold">SSS</p>
+                <p>436.00</p>
+              </li>
+              <li>
+                <p class="title-bold">Phic</p>
+                <p>00.00</p>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="title-bold">Benefits</p>
+            <ul class="salary-list-item">
+              <li>
+                <p class="title-bold"> MacBook Pro</p>
+                <p>436.00</p>
+              </li>
+              <li>
+                <p class="title-bold"> Vehicle</p>
+                <p>4,583.33</p>
+              </li>
+              <li>
+            </ul>
+          </div>
+        </div>
+        <div class="summary">
+          <div class="d-flex justify-content-between">
+            <p class="title-bold">Total Deductions</p>
+            <p>5,455.33</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="title-bold">Subtotal</p>
+            <p>22, 064.42</p>
+          </div>
+        </div>
+        <div class="total">
+          <p class="h6 title-bold">Total pay per Period</p>
+          <h3 class="title-bold">P11, 032.21</h3>
+        </div>
+        <div class="payslip-footer d-flex align-items-end justify-content-between">
+          <div class="w-50">
+            <p class="xsmall">
+              Door 1, 3rd Floor, Consuelo Building, J.P. Laurel Avenue, Lanang, Davao City, Philippines, 8000
+            </p>
+            <p class="xsmall">
+              (082) 225 - 1050
+            </p>
+          </div>
+          <p class="xsmall">
+            http://swiftkind.com/
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
